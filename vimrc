@@ -61,7 +61,7 @@ set colorcolumn=80
 set t_ti= t_te=
 
 " 关闭鼠标
-set mouse-=a
+set mouse=n
 
 " 改变终端标题
 set title
@@ -72,7 +72,7 @@ set t_vb=
 set tm=500
 
 " 关闭时记住打开Buffer的信息
-" set viminfo^=%
+set viminfo^=%
 
 " 正则表达式打开magic
 set magic
@@ -96,8 +96,31 @@ set showmode
 " 在上下移动光标时，光标的上方或下方至少会保留显示的行数
 set scrolloff=7
 
-" 命令行（在状态行下）的高度，默认为1，这里是2
-set statusline=%<%f\ %h%m%r%=%k[%{(&fenc==\"\")?&enc:&fenc}%{(&bomb?\",BOM\":\"\")}]\ %-14.(%l,%c%V%)\ %P
+" 状态栏信息
+" statusline说明
+"
+" %<: 如果内容被截断，前面用<填充
+" %f: buffer中的文件路径
+" \ : 空格
+" %m: 修改标记[+]，如果'modifiable'选项关闭的话是[-]
+" %r: 只读标记[RO]
+" %w: 预览窗口标记[Preview]
+" %h: 帮助Buffer的标记[help]
+" %y: Buffer中文件的类型，例如[vim]
+" %n: Buffer序号
+" %B: 光标下字符的十六进制编码值
+" %=: 左右对齐项目的分割点
+" %{}: {}中可以存放一个表达式
+"  (&fenc==\"\")?&enc:&fenc: fileencoding表示Buffer中打开的文件编码，encoding表
+" 示vim使用的文件编码，默认显示fileencoding
+"  (&bomb?\",BOM\":\"\"): 检查当前文件中是否含有BOM标记
+"  > BOM标记是一个二进制标记符，用来表示字节流的编码标号或字节序,参考
+"  > https://zh.wikipedia.org/wiki/%E4%BD%8D%E5%85%83%E7%B5%84%E9%A0%86%E5%BA%8F%E8%A8%98%E8%99%9F
+" %l: 当前行号
+" %c: 当前列号，特殊字符算作一列，中文算作三列
+" %P: 文档阅读百分比
+" %L: 文档总行数
+set statusline=%<%f\ %m%r%w%h%y\ \<%n\>\ %B%=[%{(&fenc==\"\")?&enc:&fenc}%{(&bomb?\",BOM\":\"\")}]\ %-14.(%l,%c%)\ %P-%L
 " 使用两行的状态栏
 set laststatus=2
 
@@ -217,7 +240,7 @@ nnoremap gj j
 
 " F1到F9的键位映射[[[2
 " ====================
- 
+
 " F1 废弃这个键,防止调出系统帮助
 noremap <F1> <Esc>"
 
