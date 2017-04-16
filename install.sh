@@ -1,7 +1,4 @@
 #!/bin/bash
-#
-# Author: bwangel<bwangel.me@gmail.com>
-# Date:  4,16,2017 16:07
 
 # refer  spf13-vim bootstrap.sh`
 PYTHON=`which python3`
