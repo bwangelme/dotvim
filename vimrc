@@ -99,6 +99,7 @@ set scrolloff=7
 " 状态栏信息
 " statusline说明
 "
+" %{}: {}中可以存放一个表达式
 " %<: 如果内容被截断，前面用<填充
 " %f: buffer中的文件路径
 " \ : 空格
@@ -107,10 +108,10 @@ set scrolloff=7
 " %w: 预览窗口标记[Preview]
 " %h: 帮助Buffer的标记[help]
 " %y: Buffer中文件的类型，例如[vim]
+" %{fugitive#statusline()}: 利用tpope/vim-fugitive插件获取当前Git分支
 " %n: Buffer序号
 " %B: 光标下字符的十六进制编码值
 " %=: 左右对齐项目的分割点
-" %{}: {}中可以存放一个表达式
 "  (&fenc==\"\")?&enc:&fenc: fileencoding表示Buffer中打开的文件编码，encoding表
 " 示vim使用的文件编码，默认显示fileencoding
 "  (&bomb?\",BOM\":\"\"): 检查当前文件中是否含有BOM标记
@@ -120,7 +121,7 @@ set scrolloff=7
 " %c: 当前列号，特殊字符算作一列，中文算作三列
 " %P: 文档阅读百分比
 " %L: 文档总行数
-set statusline=%<%f\ %m%r%w%h%y\ \<%n\>\ %B%=[%{(&fenc==\"\")?&enc:&fenc}%{(&bomb?\",BOM\":\"\")}]\ %-14.(%l,%c%)\ %P-%L
+set statusline=%<%f\ %m%r%w%h%y%{fugitive#statusline()}\ \<%n\>\ %B\ %=[%{(&fenc==\"\")?&enc:&fenc}%{(&bomb?\",BOM\":\"\")}]\ %-8(%l,%c%)\ %P-%L
 " 使用两行的状态栏
 set laststatus=2
 
