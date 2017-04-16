@@ -1,0 +1,10 @@
+:insert
+#!/bin/bash
+#
+# Author: bwangel<bwangel.me@gmail.com>
+
+
+
+
+.
+call setline(4, "# Date:" . strftime("%b,%d,%Y %H:%M"))

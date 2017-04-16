@@ -179,9 +179,6 @@ set formatoptions+=B
 " others 其它设置[[[1
 " ===================
 
-" vimrc文件修改之后自动加载, linux
-autocmd! bufwritepost .vimrc source %
-
 " 自动补全配置
 " 让Vim的补全菜单行为与一般IDE一致(参考VimTip1228)
 set completeopt=longest,menu
@@ -211,7 +208,6 @@ endif
 " ]]]
 
 " HotKey Settings  自定义快捷键设置[[[1
-
 "Treat long lines as break lines (useful when moving around in them)
 "se swap之后，同物理行上线直接跳
 nnoremap k gk
@@ -219,6 +215,9 @@ nnoremap gk k
 nnoremap j gj
 nnoremap gj j
 
+" F1到F9的键位映射[[[2
+" ====================
+ 
 " F1 废弃这个键,防止调出系统帮助
 noremap <F1> <Esc>"
 
@@ -249,6 +248,7 @@ nnoremap <F7> :!dot -Tpng -o %<.png % && eog %<.png<CR>
 " F9 显示可打印字符开关
 set listchars=tab:›-,trail:•,extends:#,nbsp:f,eol:$
 nnoremap <F9> :set list! list?<CR>
+" ]]]
 
 " 分屏窗口移动, Smart way to move between windows
 map <C-j> <C-W>j
@@ -378,65 +378,11 @@ autocmd BufRead,BufNewFile *.md,*.mkd,*.markdown set filetype=markdown.mkd wrap
 autocmd BufRead,BufNewFile *.part set filetype=html
 
 " 定义函数AutoSetFileHead，自动插入文件头
-autocmd BufNewFile *.sh,*.py,*.rb,*.c,*.cpp exec ":call AutoSetFileHead()"
-function! AutoSetFileHead()
-    "如果文件类型为.sh文件
-    if &filetype == 'sh'
-        call setline(1,"#!/bin/bash")
-        call setline(2,"#")
-        call setline(3,"# Author: bwangel<bwangel.me@gmail.com>")
-        call setline(4,"# Date: ".strftime("%b,%d,%Y %H:%M"))
-    endif
-
-    "如果文件类型为python
-    if &filetype == 'python'
-        call setline(1, "\#!/usr/bin/env python3")
-        call append(1, "\# -*- coding: utf-8 -*-")
-        call append(2, "")
-    endif
-
-    "如果文件类型为Ruby
-    if &filetype == 'ruby'
-        call setline(1, "\#!/usr/bin/env ruby")
-        call append(1, "\# -*- coding: utf-8 -*-")
-        call append(2, "")
-    endif
-
-    "如果文件类型为c
-    if &filetype == "c"
-        call setline(1,"#include<stdio.h>")
-        call append(line("."), "#include<string.h>")
-        call append(line(".")+1, "#include<stdlib.h>")
-        call append(line(".")+2, "#include<errno.h>")
-        call append(line(".")+3, "")
-        call append(line(".")+4, "int main(int argc, char *argv[])")
-        call append(line(".")+5, "{")
-        call append(line(".")+6, "	return 0;")
-        call append(line(".")+7, "}")
-    endif
-
-    "如果文件类型为c++
-    if &filetype == "cpp"
-        call setline(1,"#include<iostream>")
-        call append(line("."),"using namespace std;")
-        call append(line(".")+1,"int main()")
-        call append(line(".")+2,"{")
-        call append(line(".")+3,"	return 0;")
-        call append(line(".")+4,"}")
-    endif
-
-    " 自动设置文件的位置
-    if &filetype == 'python' || &filetype == 'sh' || &filetype == 'ruby'
-        normal G
-        normal o
-        normal o
-    elseif &filetype == 'c' || &filetype == 'cpp'
-        normal G
-        normal k
-        normal O
-    endif
-
-endfunc
+autocmd bufnewfile *.c so ~/.vim/templates/c.template
+autocmd bufnewfile *.py so ~/.vim/templates/python.template
+autocmd bufnewfile *.ruby so ~/.vim/templates/ruby.template
+autocmd bufnewfile *.cpp so ~/.vim/templates/cpp.template
+autocmd bufnewfile *.sh so ~/.vim/templates/sh.template
 
 " 设置可以高亮的关键字
 if has("autocmd")
@@ -451,7 +397,7 @@ endif
 " ]]]
 
 " Theme Settings  主题设置[[[1
-"==========================================
+"=============================
 
 " theme主题
 set background=dark
@@ -477,4 +423,4 @@ highlight SpellLocal term=underline cterm=underline
 
 
 " vim:fdm=marker:fmr=[[[,]]]
-" vim:foldlevel=0
+" vim:foldlevel=1

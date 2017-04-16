@@ -447,4 +447,4 @@ call plug#end()
 
 
 " vim:fdm=marker:fmr=[[[,]]]
-" vim:foldlevel=0
+" vim:foldlevel=1
