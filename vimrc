@@ -21,7 +21,7 @@ let g:mapleader = ' '
 syntax on
 
 " 加载插件
-if filereadable(expand("./vimrc.bundles"))
+if filereadable(expand("~/.vimrc.bundles"))
     source ~/.vimrc.bundles
 endif
 
@@ -369,6 +369,112 @@ nmap <silent> <leader>sv :so $MYVIMRC<CR>
 nmap - zc
 nmap + zo
 " ]]]
+
+" FileType Settings  文件类型设置[[[1
+"====================================
+
+" 具体编辑文件类型的一般设置，比如不要 tab 等
+autocmd BufRead,BufNewFile *.md,*.mkd,*.markdown set filetype=markdown.mkd wrap
+autocmd BufRead,BufNewFile *.part set filetype=html
+
+" 定义函数AutoSetFileHead，自动插入文件头
+autocmd BufNewFile *.sh,*.py,*.rb,*.c,*.cpp exec ":call AutoSetFileHead()"
+function! AutoSetFileHead()
+    "如果文件类型为.sh文件
+    if &filetype == 'sh'
+        call setline(1,"#!/bin/bash")
+        call setline(2,"#")
+        call setline(3,"# Author: bwangel<bwangel.me@gmail.com>")
+        call setline(4,"# Date: ".strftime("%b,%d,%Y %H:%M"))
+    endif
+
+    "如果文件类型为python
+    if &filetype == 'python'
+        call setline(1, "\#!/usr/bin/env python3")
+        call append(1, "\# -*- coding: utf-8 -*-")
+        call append(2, "")
+    endif
+
+    "如果文件类型为Ruby
+    if &filetype == 'ruby'
+        call setline(1, "\#!/usr/bin/env ruby")
+        call append(1, "\# -*- coding: utf-8 -*-")
+        call append(2, "")
+    endif
+
+    "如果文件类型为c
+    if &filetype == "c"
+        call setline(1,"#include<stdio.h>")
+        call append(line("."), "#include<string.h>")
+        call append(line(".")+1, "#include<stdlib.h>")
+        call append(line(".")+2, "#include<errno.h>")
+        call append(line(".")+3, "")
+        call append(line(".")+4, "int main(int argc, char *argv[])")
+        call append(line(".")+5, "{")
+        call append(line(".")+6, "	return 0;")
+        call append(line(".")+7, "}")
+    endif
+
+    "如果文件类型为c++
+    if &filetype == "cpp"
+        call setline(1,"#include<iostream>")
+        call append(line("."),"using namespace std;")
+        call append(line(".")+1,"int main()")
+        call append(line(".")+2,"{")
+        call append(line(".")+3,"	return 0;")
+        call append(line(".")+4,"}")
+    endif
+
+    " 自动设置文件的位置
+    if &filetype == 'python' || &filetype == 'sh' || &filetype == 'ruby'
+        normal G
+        normal o
+        normal o
+    elseif &filetype == 'c' || &filetype == 'cpp'
+        normal G
+        normal k
+        normal O
+    endif
+
+endfunc
+
+" 设置可以高亮的关键字
+if has("autocmd")
+  " Highlight TODO, FIXME, NOTE, etc.
+  if v:version > 701
+    autocmd Syntax * call matchadd('Todo',  '\W\zs\(TODO\|FIXME\|CHANGED\|DONE\|XXX\|BUG\|HACK\)')
+    autocmd Syntax * call matchadd('Debug', '\W\zs\(INFO\|IDEA\|NOTICE\)')
+    " 这里TIPS表示做的笔记, DESC表示代码的描述
+    autocmd Syntax * call matchadd('pandocLinkLabel', '\W\zs\(TIPS\|DESC\)')
+  endif
+endif
+" ]]]
+
+" Theme Settings  主题设置[[[1
+"==========================================
+
+" theme主题
+set background=dark
+set t_Co=256
+
+colorscheme solarized
+
+" 设置标记一列的背景颜色和数字一行颜色一致
+hi! link SignColumn   LineNr
+hi! link ShowMarksHLl DiffAdd
+hi! link ShowMarksHLu DiffChange
+
+" for error highlight，防止错误整行标红导致看不清
+highlight clear SpellBad
+highlight SpellBad term=standout ctermfg=1 term=underline cterm=underline
+highlight clear SpellCap
+highlight SpellCap term=underline cterm=underline
+highlight clear SpellRare
+highlight SpellRare term=underline cterm=underline
+highlight clear SpellLocal
+highlight SpellLocal term=underline cterm=underline
+" ]]]
+
 
 " vim:fdm=marker:fmr=[[[,]]]
 " vim:foldlevel=0
