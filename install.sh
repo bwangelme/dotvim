@@ -1,10 +1,13 @@
 #!/bin/bash
 
 # refer  spf13-vim bootstrap.sh`
-PYTHON=`which python3`
 BASEDIR=$(dirname $0)
 cd $BASEDIR
 CURRENT_DIR=`pwd`
+
+if [[ ! -n "$PYTHON" ]];then
+    PYTHON=`which python3`
+fi
 
 lnif() {
     if [ -e "$1" ]; then
