@@ -128,11 +128,13 @@ endif
 if count(g:bundle_groups, 'html')
     " ###### emmet HTML complete #########
     Plug 'mattn/emmet-vim'
+    Plug 'othree/html5.vim'
 endif
 " ]]]
 " JavaScript[[[3
 if count(g:bundle_groups, 'javascript')
-    Plug 'tao12345666333/vim-vue'
+    " Plug 'tao12345666333/vim-vue'
+    Plug 'posva/vim-vue'
 endif
 " ]]]
 " Nginx[[[3
