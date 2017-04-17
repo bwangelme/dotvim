@@ -157,10 +157,8 @@ call plug#end()
 " 自动补全插件[[[2
 " YouCompleteMe [[[3
     "youcompleteme  默认tab  s-tab 和自动补全冲突
-    "let g:ycm_key_list_select_completion=['<c-n>']
-    let g:ycm_key_list_select_completion = ['<Down>']
-    "let g:ycm_key_list_previous_completion=['<c-p>']
-    let g:ycm_key_list_previous_completion = ['<Up>']
+    let g:ycm_key_list_select_completion=['<c-n>']
+    let g:ycm_key_list_previous_completion=['<c-p>']
     let g:ycm_complete_in_comments = 1  "在注释输入中也能补全
     let g:ycm_complete_in_strings = 1   "在字符串输入中也能补全
     let g:ycm_use_ultisnips_completer = 1 "提示UltiSnips
@@ -175,7 +173,6 @@ call plug#end()
 
     " 跳转到定义处, 分屏打开
     let g:ycm_goto_buffer_command = 'horizontal-split'
-    " nnoremap <leader>jd :YcmCompleter GoToDefinition<CR>
     nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>
     nnoremap <leader>gd :YcmCompleter GoToDeclaration<CR>
 
@@ -195,6 +192,12 @@ call plug#end()
     let g:ycm_filetype_blacklist = {
         \ 'tagbar' : 1,
         \ 'gitcommit' : 1,
+        \}
+
+    " CSS&HTML补全的语义触发方式
+    let g:ycm_semantic_triggers = {
+        \ 'css': [ 're!^\s{4}', 're!:\s+'],
+        \ 'html': [ '</' ],
         \}
 " ]]]
 " ultisnips [[[3

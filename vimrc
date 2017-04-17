@@ -275,10 +275,10 @@ nnoremap <F9> :set list! list?<CR>
 " ]]]
 
 " 分屏窗口移动, Smart way to move between windows
-map <C-j> <C-W>j
-map <C-k> <C-W>k
-map <C-h> <C-W>h
-map <C-l> <C-W>l
+nnoremap <C-j> <C-W>j
+nnoremap <C-k> <C-W>k
+nnoremap <C-h> <C-W>h
+nnoremap <C-l> <C-W>l
 
 " 屏幕左右滑动的快捷键
 " 需要考虑Mac下zl和zh的映射
@@ -298,8 +298,6 @@ noremap H ^
 noremap L $
 
 " 命令行模式增强，ctrl - a到行首， -e 到行尾，ctrl - b表示左移
-cnoremap <C-j> <t_kd>
-cnoremap <C-k> <t_ku>
 cnoremap <C-a> <Home>
 cnoremap <C-e> <End>
 cnoremap <C-b> <Left>
@@ -371,10 +369,6 @@ nnoremap <leader>v V`}
 
 " w!! to sudo & write a file
 cmap w!! w !sudo tee >/dev/null %
-
-" 滚动Speed up scrolling of the viewport slightly
-nnoremap <C-e> 2<C-e>
-nnoremap <C-y> 2<C-y>
 
 " Quickly save the current file
 nnoremap <leader>w :w<CR>
