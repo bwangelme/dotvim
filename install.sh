@@ -7,6 +7,10 @@ CURRENT_DIR=`pwd`
 
 if [[ ! -n "$PYTHON" ]];then
     PYTHON=`which python3`
+    [[ $PYTHON == "" ]] && {
+        echo "Please install the python3"
+        exit 1
+    }
 fi
 
 lnif() {
@@ -18,13 +22,12 @@ lnif() {
 
 echo "Step1: backing up current vim config"
 today=`date +%Y%m%d`
-for i in $HOME/.vim $HOME/.vimrc $HOME/.gvimrc $HOME/.vimrc.bundles;
-do
-    [ -e $i ] && [ ! -L $i ] && mv $i $i.$today;
-done
-
-for i in $HOME/.vim $HOME/.vimrc $HOME/.gvimrc $HOME/.vimrc.bundles;
-    do [ -L $i ] && unlink $i ;
+for i in $HOME/.vim $HOME/.vimrc $HOME/.gvimrc $HOME/.vimrc.bundles; do
+    if [[ -L $i ]];then
+        unlink $i ;
+    else
+        [ -e $i ] && mv $i $i.$today;
+    fi
 done
 
 echo "Step2: setting up symlinks"
@@ -35,7 +38,7 @@ lnif "$CURRENT_DIR/" "$HOME/.vim"
 echo "Step3: update/install plugins using Vim-plug"
 system_shell=$SHELL
 export SHELL="/bin/sh"
-vim -u $HOME/.vimrc.bundles +PlugInstall! +PlugClean! +qall
+vim -u $HOME/.vimrc +PlugInstall! +PlugClean! +qall
 export SHELL=$system_shell
 
 
