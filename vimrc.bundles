@@ -8,6 +8,7 @@
 " inspired by spf13, 自定义需要的插件集合
 if !exists('g:bundle_groups')
     " \'golang',
+    " \'latex',
     let g:bundle_groups=[
         \'python',
         \'beta',
@@ -16,7 +17,6 @@ if !exists('g:bundle_groups')
         \'nginx',
         \'html',
         \'javascript',
-        \'latex',
         \]
 endif
 
@@ -142,6 +142,7 @@ endif
 " ]]]
 " Latex[[[3
 if count(g:bundle_groups, 'latex')
+    " BUG: vim-latex 重新映射了<C-j>按键，和现有的按键映射冲突了
     Plug 'vim-latex/vim-latex'
     Plug 'xuhdev/vim-latex-live-preview'
 endif
