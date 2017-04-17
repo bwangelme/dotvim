@@ -121,7 +121,7 @@ set scrolloff=7
 " %c: 当前列号，特殊字符算作一列，中文算作三列
 " %P: 文档阅读百分比
 " %L: 文档总行数
-set statusline=%<%f\ %m%r%w%h%y%{fugitive#statusline()}\ \<%n\>\ %B\ %=[%{(&fenc==\"\")?&enc:&fenc}%{(&bomb?\",BOM\":\"\")}]\ %-8(%l,%c%)\ %P-%L
+set statusline=%<%f\ %m%r%w%h%y\ %{fugitive#statusline()}\ \<%n\>\ %B\ %=[%{(&fenc==\"\")?&enc:&fenc}%{(&bomb?\",BOM\":\"\")}]\ %-8(%l,%c%)\ %P-%L
 " 使用两行的状态栏
 set laststatus=2
 
@@ -331,7 +331,7 @@ nnoremap ]b :bnext<cr>
 noremap <left> :bp<CR>
 noremap <right> :bn<CR>
 
-" tab操作
+" tab操作[[[2
 " http://vim.wikia.com/wiki/Alternative_tab_navigation
 " http://stackoverflow.com/questions/2005214/switching-to-a-particular-tab-in-vim
 
@@ -351,6 +351,7 @@ noremap <leader>0 :tablast<cr>
 " 新建tab  Ctrl+t
 nnoremap <C-t>     :tabnew<CR>
 inoremap <C-t>     <Esc>:tabnew<CR>
+" ]]]
 
 " 调整缩进后自动选中，方便再次操作
 vnoremap < <gv
@@ -386,8 +387,8 @@ nnoremap ` '
 nnoremap U <C-r>
 
 " Quickly edit/reload the vimrc file
-nmap <silent> <leader>ev :e $MYVIMRC<CR>
-nmap <silent> <leader>sv :so $MYVIMRC<CR>
+nmap <silent> <leader>e :e $MYVIMRC<cr>
+nmap <silent> <leader>s :so $MYVIMRC<CR>
 
 " 文件折叠
 nmap - zc
@@ -447,4 +448,4 @@ highlight SpellLocal term=underline cterm=underline
 
 
 " vim:fdm=marker:fmr=[[[,]]]
-" vim:foldlevel=1
+" vim:foldlevel=0
