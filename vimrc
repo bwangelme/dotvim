@@ -389,6 +389,7 @@ nnoremap U <C-r>
 " Quickly edit/reload the vimrc file
 nmap <silent> <leader>e :e $MYVIMRC<cr>
 nmap <silent> <leader>s :so $MYVIMRC<CR>
+nmap <silent> <leader>u :e ~/.vimrc.bundles<CR>
 
 " 文件折叠
 nmap - zc
