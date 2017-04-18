@@ -25,7 +25,6 @@ if filereadable(expand("~/.vimrc.bundles"))
     source ~/.vimrc.bundles
 endif
 
-" ensure ftdetect et al work by including this after the bundle stuff
 filetype plugin indent on
 "]]]
 

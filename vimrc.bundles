@@ -64,91 +64,98 @@ Plug 'dyng/ctrlsf.vim'
 " ]]]
 
 " 功能插件[[[2
-" git
-" fugitive
-Plug 'tpope/vim-fugitive'
+    " fugitive
+    Plug 'tpope/vim-fugitive'
+    " vimwiki
+    Plug 'vimwiki/vimwiki'
 " ]]]
 
 " 显示插件[[[2
-" 括号显示增强
-Plug 'kien/rainbow_parentheses.vim'
-" 主题 solarized
-Plug 'altercation/vim-colors-solarized'
+    " 括号显示增强
+    Plug 'kien/rainbow_parentheses.vim'
+    " 主题 solarized
+    Plug 'altercation/vim-colors-solarized'
 " ]]]
 
 " 导航插件[[[2
-" nerdtree nerdtreetabs
-Plug 'scrooloose/nerdtree' | Plug 'jistr/vim-nerdtree-tabs'
-" tagbar
-Plug 'majutsushi/tagbar'
+    " nerdtree nerdtreetabs
+    Plug 'scrooloose/nerdtree' | Plug 'jistr/vim-nerdtree-tabs'
+    " tagbar
+    Plug 'majutsushi/tagbar'
 " ]]]
 
 " 语言相关[[[2
+    " markdown[[[3
+    if count(g:bundle_groups, 'markdown')
+        Plug 'plasticboy/vim-markdown', {'for': 'md'}
+        " https://github.com/suan/vim-instant-markdown
+        " npm -g install instant-markdown-d
+        Plug 'suan/vim-instant-markdown'
+        let g:instant_markdown_slow = 1
+        let g:instant_markdown_autostart = 0
+        map <F12> :InstantMarkdownPreview<CR>
+    endif
+    " ]]]
 
-" markdown[[[3
-if count(g:bundle_groups, 'markdown')
-    Plug 'plasticboy/vim-markdown', {'for': 'md'}
-    " https://github.com/suan/vim-instant-markdown
-    " npm -g install instant-markdown-d
-    Plug 'suan/vim-instant-markdown'
-    let g:instant_markdown_slow = 1
-    let g:instant_markdown_autostart = 0
-    map <F12> :InstantMarkdownPreview<CR>
-endif
-" ]]]
-" golang[[[3
-if count(g:bundle_groups, 'golang')
-    " 1. vim a.go
-    " 2. :GoInstallBinaries
-    " vimgo  https://github.com/fatih/vim-go
-    Plug 'fatih/vim-go', {'for': 'go'}
-endif
-" ]]]
-" Python[[[3
-if count(g:bundle_groups, 'python')
-    " for python.vim syntax highlight
-    " pythonsyntax
-    Plug 'hdima/python-syntax'
-    Plug 'hynek/vim-python-pep8-indent'
+    " golang[[[3
+    if count(g:bundle_groups, 'golang')
+        " 1. vim a.go
+        " 2. :GoInstallBinaries
+        " vimgo  https://github.com/fatih/vim-go
+        Plug 'fatih/vim-go', {'for': 'go'}
+    endif
+    " ]]]
 
-    " isort  https://github.com/timothycrosley/isort#readme + https://github.com/fisadev/vim-isort#installation
-    " pip install isort
-    Plug 'fisadev/vim-isort'
-    " Shift-V 上下选中, ctrl + i 规范化
-    let g:vim_isort_map = '<C-i>'
-endif
-" ]]]
-" JSON[[[3
-if count(g:bundle_groups, 'json')
-    " json
-    Plug 'elzr/vim-json', {'for': 'json'}
-endif
-" ]]]
-" html[[[3
-if count(g:bundle_groups, 'html')
-    " ###### emmet HTML complete #########
-    Plug 'mattn/emmet-vim'
-    Plug 'othree/html5.vim'
-endif
-" ]]]
-" JavaScript[[[3
-if count(g:bundle_groups, 'javascript')
-    " Plug 'tao12345666333/vim-vue'
-    Plug 'posva/vim-vue'
-endif
-" ]]]
-" Nginx[[[3
-if count(g:bundle_groups, 'nginx')
-    Plug 'bwangel23/nginx-vim-syntax'
-endif
-" ]]]
-" Latex[[[3
-if count(g:bundle_groups, 'latex')
-    " BUG: vim-latex 重新映射了<C-j>按键，和现有的按键映射冲突了
-    Plug 'vim-latex/vim-latex'
-    Plug 'xuhdev/vim-latex-live-preview'
-endif
-" ]]]
+    " Python[[[3
+    if count(g:bundle_groups, 'python')
+        " for python.vim syntax highlight
+        " pythonsyntax
+        Plug 'hdima/python-syntax'
+        Plug 'hynek/vim-python-pep8-indent'
+
+        " isort  https://github.com/timothycrosley/isort#readme + https://github.com/fisadev/vim-isort#installation
+        " pip install isort
+        Plug 'fisadev/vim-isort'
+        " Shift-V 上下选中, ctrl + i 规范化
+        let g:vim_isort_map = '<C-i>'
+    endif
+    " ]]]
+
+    " JSON[[[3
+    if count(g:bundle_groups, 'json')
+        " json
+        Plug 'elzr/vim-json', {'for': 'json'}
+    endif
+    " ]]]
+
+    " html[[[3
+    if count(g:bundle_groups, 'html')
+        " ###### emmet HTML complete #########
+        Plug 'mattn/emmet-vim'
+        Plug 'othree/html5.vim'
+    endif
+    " ]]]
+
+    " JavaScript[[[3
+    if count(g:bundle_groups, 'javascript')
+        " Plug 'tao12345666333/vim-vue'
+        Plug 'posva/vim-vue'
+    endif
+    " ]]]
+
+    " Nginx[[[3
+    if count(g:bundle_groups, 'nginx')
+        Plug 'bwangel23/nginx-vim-syntax'
+    endif
+    " ]]]
+
+    " Latex[[[3
+    if count(g:bundle_groups, 'latex')
+        " BUG: vim-latex 重新映射了<C-j>按键，和现有的按键映射冲突了
+        Plug 'vim-latex/vim-latex'
+        Plug 'xuhdev/vim-latex-live-preview'
+    endif
+    " ]]]
 " ]]]
 call plug#end()
 " ]]]
@@ -175,7 +182,8 @@ call plug#end()
     " 跳转到定义处, 分屏打开
     let g:ycm_goto_buffer_command = 'horizontal-split'
     nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>
-    nnoremap <leader>gd :YcmCompleter GoToDeclaration<CR>
+    " 和fugitive的快捷键冲突
+    " nnoremap <leader>gd :YcmCompleter GoToDeclaration<CR>
 
     " 引入，可以补全系统，以及python的第三方包 针对新老版本YCM做了兼容
     " old version
@@ -293,15 +301,12 @@ call plug#end()
 " 功能插件[[[2
 
 " fugitive [[[3
-    " :Gdiff  :Gstatus :Gvsplit
-    nnoremap <leader>ge :Gdiff<CR>
-    " not ready to open
-    " <leader>gb maps to :Gblame<CR>
-    " <leader>gs maps to :Gstatus<CR>
-    " <leader>gd maps to :Gdiff<CR>  和现有冲突
-    " <leader>gl maps to :Glog<CR>
-    " <leader>gc maps to :Gcommit<CR>
-    " <leader>gp maps to :Git push<CR>
+    nnoremap <leader>gb :Gblame<CR>
+    nnoremap <leader>gs :Gstatus<CR>
+    nnoremap <leader>gd :Gdiff<CR>
+    nnoremap <leader>gl :Glog<CR>
+    nnoremap <leader>gc :Gcommit<CR>
+    nnoremap <leader>gp :Git push<CR>
 " ]]]
 
 " ]]]
