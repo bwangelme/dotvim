@@ -443,4 +443,4 @@ highlight SpellLocal term=underline cterm=underline
 
 
 " vim:fdm=marker:fmr=[[[,]]]
-" vim:foldlevel=0
+" vim:foldlevel=99

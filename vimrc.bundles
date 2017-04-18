@@ -2,11 +2,13 @@
 " vim-plug插件配置与安装
 " ======================
 
+" =============== 依赖说明 ===============[[[1
 " NodeJS依赖: instant-markdown
 " pip install isort
+" ]]]
 
-" inspired by spf13, 自定义需要的插件集合
-if !exists('g:bundle_groups')
+" ================= 插件管理 =====================[[[1
+if !exists('g:bundle_groups')  " inspired by spf13, 自定义需要的插件集合
     " \'golang',
     " \'latex',
     let g:bundle_groups=[
@@ -20,8 +22,6 @@ if !exists('g:bundle_groups')
         \]
 endif
 
-" ################### 插件管理 ###################
-" ============================================[[[1
 call plug#begin('~/.vim/bundle')
 " 自动补全插件[[[2
 
@@ -153,9 +153,7 @@ endif
 call plug#end()
 " ]]]
 
-
-" ################### 插件配置 ###################
-" ============================================[[[1
+" ==================== 插件配置 ========================[[[1
 
 " 自动补全插件[[[2
 " YouCompleteMe [[[3
@@ -458,4 +456,4 @@ call plug#end()
 
 
 " vim:fdm=marker:fmr=[[[,]]]
-" vim:foldlevel=1
+" vim:foldlevel=99
