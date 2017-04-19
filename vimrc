@@ -110,6 +110,7 @@ set scrolloff=7
 " %{fugitive#statusline()}: 利用tpope/vim-fugitive插件获取当前Git分支
 " %n: Buffer序号
 " %B: 光标下字符的十六进制编码值
+" %{ALEGetStatusLine()}: ALE代码检查状态
 " %=: 左右对齐项目的分割点
 "  (&fenc==\"\")?&enc:&fenc: fileencoding表示Buffer中打开的文件编码，encoding表
 " 示vim使用的文件编码，默认显示fileencoding
@@ -120,7 +121,7 @@ set scrolloff=7
 " %c: 当前列号，特殊字符算作一列，中文算作三列
 " %P: 文档阅读百分比
 " %L: 文档总行数
-set statusline=%<%f\ %m%r%w%h%y\ %{fugitive#statusline()}\ \<%n\>\ %B\ %=[%{(&fenc==\"\")?&enc:&fenc}%{(&bomb?\",BOM\":\"\")}]\ %-8(%l,%c%)\ %P-%L
+set statusline=%<%f\ %m%r%w%h%y\ %{fugitive#statusline()}\ \<%n\>\ %B\ %{ALEGetStatusLine()}\ %=[%{(&fenc==\"\")?&enc:&fenc}%{(&bomb?\",BOM\":\"\")}]\ %-8(%l,%c%)\ %P-%L
 " 使用两行的状态栏
 set laststatus=2
 
@@ -263,7 +264,7 @@ set pastetoggle=<F5>            "    when in insert mode, press <F5> to go to
 nnoremap <F6> :exec exists('syntax_on') ? 'syn off' : 'syn on'<CR>
 
 " F7 快速运行dot生成png文件
-nnoremap <F7> :!dot -Tpng -o %<.png % && eog %<.png<CR>
+nnoremap <F7> :!dot -Tpng -o %<.png % && open %<.png<CR>
 
 " F8 为tagbar显示导航栏的快捷键
 " 见vimrc.bundles:691
@@ -408,7 +409,7 @@ if has("autocmd")
   " Highlight TODO, FIXME, NOTE, etc.
   if v:version > 701
     autocmd Syntax * call matchadd('Todo',  '\W\zs\(TODO\|FIXME\|CHANGED\|DONE\|XXX\|BUG\|HACK\)')
-    autocmd Syntax * call matchadd('Debug', '\W\zs\(INFO\|IDEA\|NOTICE\)')
+    autocmd Syntax * call matchadd('Debug', '\W\zs\(INFO\|NOTE\|IDEA\|NOTICE\)')
     " 这里TIPS表示做的笔记, DESC表示代码的描述
     autocmd Syntax * call matchadd('pandocLinkLabel', '\W\zs\(TIPS\|DESC\)')
   endif

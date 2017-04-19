@@ -3,8 +3,8 @@
 " ======================
 
 " =============== 依赖说明 ===============[[[1
-" NodeJS依赖: instant-markdown
-" pip install isort
+" NodeJS依赖: instant-markdown eslint
+" Python依赖: pip install flake8 pep8-naming isort
 " ]]]
 
 " ================= 插件管理 =====================[[[1
@@ -68,6 +68,8 @@ Plug 'dyng/ctrlsf.vim'
     Plug 'tpope/vim-fugitive'
     " vimwiki
     Plug 'vimwiki/vimwiki'
+    " ale 代码监测插件
+    Plug 'w0rp/ale'
 " ]]]
 
 " 显示插件[[[2
@@ -307,6 +309,27 @@ call plug#end()
     nnoremap <leader>gl :Glog<CR>
     nnoremap <leader>gc :Gcommit<CR>
     nnoremap <leader>gp :Git push<CR>
+" ]]]
+" ale [[[3
+
+    " 改变状态栏信息格式
+    let g:ale_statusline_format = ['⨉ %d', '⚠ %d', '⬥ ok']
+    " 保持侧边栏可见
+    let g:ale_sign_column_always = 1
+    " 改变错误和警告标识符
+    let g:ale_sign_error = '>>'
+    let g:ale_sign_warning = '--'
+
+    let g:ale_linters = {
+    \   'javascript': ['eslint'],
+    \   'python': ['flake8'],
+    \}
+    " 需要安装pep8-naming
+    let g:ale_python_flake8_executable = '/Users/michaeltsui/.pyenv/versions/3.6.0/bin/flake8'
+
+    " FIXME: pylint 的检查先注释掉，还有一些问题
+    " let g:ale_python_pylint_executable = '/Users/michaeltsui/.pyenv/versions/3.6.0/bin/pylint'
+    " let g:ale_python_pylint_options = '--rcfile ~/.pylint.rc'
 " ]]]
 
 " ]]]
