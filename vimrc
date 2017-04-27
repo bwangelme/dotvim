@@ -364,9 +364,6 @@ else
     map Y y$
 endif
 
-" select block
-nnoremap <leader>v V`}
-
 " w!! to sudo & write a file
 cmap w!! w !sudo tee >/dev/null %
 
@@ -388,6 +385,9 @@ nmap <silent> <leader>u :e ~/.vimrc.bundles<CR>
 " 文件折叠
 nmap - zc
 nmap + zo
+
+" 文件重新载入
+nnoremap <leader>r :e <CR>
 " ]]]
 
 " FileType Settings  文件类型设置[[[1
@@ -408,7 +408,7 @@ autocmd bufnewfile *.sh so ~/.vim/templates/sh.template
 if has("autocmd")
   " Highlight TODO, FIXME, NOTE, etc.
   if v:version > 701
-    autocmd Syntax * call matchadd('Todo',  '\W\zs\(TODO\|FIXME\|CHANGED\|DONE\|XXX\|BUG\|HACK\)')
+    autocmd Syntax * call matchadd('Todo',  '\W\zs\(TODO\|FIXME\|CHANGED\|DONE\||BUG\|HACK\)')
     autocmd Syntax * call matchadd('Debug', '\W\zs\(INFO\|NOTE\|IDEA\|NOTICE\)')
     " 这里TIPS表示做的笔记, DESC表示代码的描述
     autocmd Syntax * call matchadd('pandocLinkLabel', '\W\zs\(TIPS\|DESC\)')

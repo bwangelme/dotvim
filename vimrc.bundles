@@ -310,8 +310,14 @@ call plug#end()
     nnoremap <leader>gc :Gcommit<CR>
     nnoremap <leader>gp :Git push<CR>
 " ]]]
+" vimwiki [[[3
+  nmap <leader>v <Plug>VimwikiIndex
+  nmap <Leader>y <Plug>VimwikiDiaryIndex
+" ]]]
 " ale [[[3
 
+    " 检查的时间
+    let g:ale_lint_delay = 1000
     " 改变状态栏信息格式
     let g:ale_statusline_format = ['⨉ %d', '⚠ %d', '⬥ ok']
     " 保持侧边栏可见
@@ -323,13 +329,20 @@ call plug#end()
     let g:ale_linters = {
     \   'javascript': ['eslint'],
     \   'python': ['flake8'],
+    \   'html': ['htmlhint'],
     \}
+
+    " ## Python 语法检查
+    " =================
     " 需要安装pep8-naming
     let g:ale_python_flake8_executable = '/Users/michaeltsui/.pyenv/versions/3.6.0/bin/flake8'
-
     " FIXME: pylint 的检查先注释掉，还有一些问题
     " let g:ale_python_pylint_executable = '/Users/michaeltsui/.pyenv/versions/3.6.0/bin/pylint'
     " let g:ale_python_pylint_options = '--rcfile ~/.pylint.rc'
+
+    " ## HTML 语法检查
+    " ================
+    let g:ale_html_htmlhint_executable = '/Users/michaeltsui/.nvm/versions/node/v6.10.1/bin/htmlhint'
 " ]]]
 
 " ]]]
@@ -395,6 +408,7 @@ call plug#end()
 " ]]]
 " tagbar [[[3
     nmap <F8> :TagbarToggle<CR>
+    let g:tagbar_width = 34
     let g:tagbar_autofocus = 1
     " let g:tagbar_autoshowtag = 1
     " let g:tagbar_show_visibility = 1
