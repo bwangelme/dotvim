@@ -180,6 +180,9 @@ set ttyfast
 
 " 00x增减数字时使用十进制
 set nrformats=
+
+" 设置MacVim的字体
+set guifont=Monaco:h18
 " ]]]
 
 " FileEncode Settings 文件编码,格式[[[1
@@ -250,7 +253,7 @@ noremap <F1> <Esc>"
 nnoremap <F2> :set number! number?<CR>
 
 " F3 is used to Open or Close NERDTree
-noremap <F3> :NERDTreeToggle<CR>
+" 见vimrc.bundles:389
 
 " F4 换行开关
 nnoremap <F4> :set wrap! wrap?<CR>
@@ -420,15 +423,23 @@ endif
 "=============================
 
 " theme主题
-set background=dark
+if has("gui_running")
+    set background=light
+else
+    set background=dark
+endif
 set t_Co=256
-
 colorscheme solarized
 
 " 设置标记一列的背景颜色和数字一行颜色一致
 hi! link SignColumn   LineNr
 hi! link ShowMarksHLl DiffAdd
 hi! link ShowMarksHLu DiffChange
+
+" 设置vim-better-whitespace高亮的颜色
+if has("gui_running")
+    highlight ExtraWhitespace ctermbg=12 guibg=#FFB7B8
+endif
 
 " for error highlight，防止错误整行标红导致看不清
 highlight clear SpellBad
