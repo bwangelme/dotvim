@@ -213,7 +213,7 @@ set completeopt=longest,menu
 " 增强模式中的命令行自动完成操作
 set wildmenu
 " Ignore compiled files
-set wildignore=*.swp,*.bak,*.pyc,*.class,.svn,*~,*.o
+set wildignore=*.swp,*.bak,*.pyc,*.class,.svn,.git,node_modules,*~,*.o
 
 " 离开插入模式后自动关闭预览窗口
 autocmd InsertLeave * if pumvisible() == 0|pclose|endif

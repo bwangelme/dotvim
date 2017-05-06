@@ -48,9 +48,9 @@ Plug 'terryma/vim-multiple-cursors'
 
 " 快速定位插件 [[[2
 
-" 使用fzf替代ctrlp
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'junegunn/fzf.vim'
+" ctrlp
+Plug 'kien/ctrlp.vim'
+
 " ctrlsf
 " 类似sublimetext的搜索
 " In CtrlSF window:
@@ -291,13 +291,13 @@ call plug#end()
         \ "pquit" : "q",
         \ }
 " ]]]
-" fzf [[[3
-  nmap <leader>p :FZF<CR>
-  let g:fzf_launcher = "~/bin/MacVim_fzf %s"
+" ctrlp [[[3
+    let g:ctrlp_map = '<leader>p'
+    let g:ctrlp_cmd = 'CtrlP .'
+    nnoremap <leader>l :CtrlPBuffer<CR>
+    " 参见wildignore
+    let g:ctrlp_custom_ignore = '\v[\/]\.(git|svn|hg)$'
 " ]]]
-" fzf.vim[[[3
-  " 显示所有Buffer
-  nnoremap <leader>l :Buffers<CR>
 " ]]]
 " ]]]
 
@@ -388,14 +388,14 @@ call plug#end()
 " 导航插件[[[2
 " nerdtree nerdtreetabs [[[3
     noremap <F3> :NERDTreeToggle<CR>
+    noremap <leader>o :NERDTreeCWD<CR>
     let NERDTreeHighlightCursorline=1
-    let NERDTreeIgnore=[ '\.pyc$', '\.pyo$', '\.obj$', '\.o$', '\.so$', '\.egg$', '^\.git$', '^\.svn$', '^\.hg$' ]
+    let NERDTreeIgnore=[ 'node_modules', '\.pyc$', '\.pyo$', '\.obj$', '\.o$', '\.so$', '\.egg$', '^\.git$', '^\.svn$', '^\.hg$' ]
     "close vim if the only window left open is a NERDTree
     autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | end
     " s/v 分屏打开文件
     let g:NERDTreeMapOpenSplit = 's'
     let g:NERDTreeMapOpenVSplit = 'v'
-
 
     " nerdtreetabs
     map <Leader>n <plug>NERDTreeTabsToggle<CR>
