@@ -243,15 +243,22 @@ nnoremap gk k
 nnoremap j gj
 nnoremap gj j
 
-" F1到F9的键位映射[[[2
+"功能键的键位映射[[[2
 " ====================
 
 " F1 废弃这个键,防止调出系统帮助
 noremap <F1> <Esc>"
 
-" F2 行号开关，用于鼠标复制代码用
-" 为方便复制，用<F2>开启/关闭行号显示:
-nnoremap <F2> :set number! number?<CR>
+" F2 折叠开关
+function! ToggleFold()
+    if(&foldlevel == '0')
+        exec "normal! zR"
+    else
+        exec "normal! zM"
+    endif
+    echo "foldlevel:" &foldlevel
+endfunction
+nnoremap <F2> :call ToggleFold()<CR>
 
 " F3 is used to Open or Close NERDTree
 " 见vimrc.bundles:389
@@ -264,17 +271,8 @@ set pastetoggle=<F5>            "    when in insert mode, press <F5> to go to
                                 "    paste mode, where you can paste mass data
                                 "    that won't be autoindented
 
-" F6 折叠开关
-function ToggleFold()
-    if(&foldlevel == '0')
-        exec "normal! zR"
-    else
-        exec "normal! zM"
-    endif
-    echo &foldlevel
-endfunction
-
-nnoremap <F6> :call ToggleFold()<CR>
+" F6 语法开关，关闭语法可以加快大文件的展示
+nnoremap <F6> :exec exists('syntax_on') ? 'syn off' : 'syn on'<CR>
 
 " F7 快速运行dot生成png文件
 nnoremap <F7> :!dot -Tpng -o %<.png % && open %<.png<CR>
@@ -285,9 +283,6 @@ nnoremap <F7> :!dot -Tpng -o %<.png % && open %<.png<CR>
 " F9 显示可打印字符开关
 set listchars=tab:›-,trail:•,extends:#,nbsp:f,eol:$
 nnoremap <F9> :set list! list?<CR>
-
-" F10 语法开关，关闭语法可以加快大文件的展示
-nnoremap <F10> :exec exists('syntax_on') ? 'syn off' : 'syn on'<CR>
 " ]]]
 
 " 分屏窗口移动, Smart way to move between windows
@@ -443,9 +438,10 @@ endif
 
 " theme主题
 if has('gui_running')
-    colorscheme zenburn
+    " colorscheme zenburn
+    colorscheme solarized
     " 设置背景透明度
-    set transparency=15
+    set transparency=10
 else
     set background=dark
     set t_Co=256
