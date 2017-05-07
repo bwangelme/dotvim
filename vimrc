@@ -83,7 +83,7 @@ set whichwrap+=<,>
 " ]]]
 
 " Display Settings 展示/排版等界面格式设置[[[1
-" ========================================
+" ============================================
 
 " 显示当前行号列号
 set ruler
@@ -127,6 +127,7 @@ set laststatus=2
 
 " 显示行号
 set number
+set relativenumber
 " 取消换行
 set nowrap
 
@@ -235,8 +236,8 @@ endif
 " ]]]
 
 " HotKey Settings  自定义快捷键设置[[[1
+" =====================================
 "Treat long lines as break lines (useful when moving around in them)
-"se swap之后，同物理行上线直接跳
 nnoremap k gk
 nnoremap gk k
 nnoremap j gj
@@ -283,12 +284,18 @@ nnoremap <C-k> <C-W>k
 nnoremap <C-h> <C-W>h
 nnoremap <C-l> <C-W>l
 
+" 屏幕上下滑动的快捷键
+nnoremap <C-f> 10<C-e>
+nnoremap <C-b> 10<C-y>
+
 " 屏幕左右滑动的快捷键
 " 需要考虑Mac下zl和zh的映射
 " nnoremap <M-Right> zl
 " nnoremap <M-Left> zh
 nnoremap <S-Right> zL
 nnoremap <S-Left> zH
+
+" 屏幕上下滑动
 
 " 插入模式下将小写字母转换成大写字母, I love this very much
 inoremap <C-y> <esc>gUiwea
@@ -304,6 +311,8 @@ noremap L $
 cnoremap <C-a> <Home>
 cnoremap <C-e> <End>
 cnoremap <C-b> <Left>
+cunmap  <C-f>
+cnoremap <C-f> <Right>
 " TODO
 " 映射:<C-f>
 
