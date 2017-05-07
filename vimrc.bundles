@@ -294,7 +294,18 @@ call plug#end()
 " ctrlp [[[3
     let g:ctrlp_map = '<leader>p'
     let g:ctrlp_cmd = 'CtrlP .'
+    let g:ctrlp_prompt_mappings = {
+        \ 'PrtSelectMove("j")':   ['<c-n>', '<down>'],
+        \ 'PrtSelectMove("k")':   ['<c-p>', '<up>'],
+        \ 'PrtHistory(-1)':       ['<c-k>'],
+        \ 'PrtHistory(1)':        ['<c-j>'],
+        \ 'ToggleType(1)':        ['<c-h>', '<c-up>'],
+        \ 'ToggleType(-1)':       ['<c-l>', '<c-down>'],
+        \ 'PrtCurLeft()':         ['<c-f>', '<left>', '<c-^>'],
+        \ 'PrtCurRight()':        ['<c-b>', '<right>'],
+        \ }
     nnoremap <leader>l :CtrlPBuffer<CR>
+    nnoremap <leader>k :CtrlPMRU<CR>
     " 参见wildignore
     let g:ctrlp_custom_ignore = '\v[\/]\.(git|svn|hg)$'
 " ]]]

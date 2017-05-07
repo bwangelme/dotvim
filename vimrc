@@ -406,6 +406,7 @@ autocmd bufnewfile *.py so ~/.vim/templates/python.template
 autocmd bufnewfile *.ruby so ~/.vim/templates/ruby.template
 autocmd bufnewfile *.cpp so ~/.vim/templates/cpp.template
 autocmd bufnewfile *.sh so ~/.vim/templates/sh.template
+autocmd bufnewfile *.vim so ~/.vim/templates/vim.template
 
 " 设置可以高亮的关键字
 if has("autocmd")
