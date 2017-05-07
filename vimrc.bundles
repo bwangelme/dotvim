@@ -78,6 +78,8 @@ Plug 'dyng/ctrlsf.vim'
     " 主题 solarized
     Plug 'altercation/vim-colors-solarized'
     Plug 'jnurmine/Zenburn'
+    " 状态行增强
+    Plug 'vim-airline/vim-airline'
 " ]]]
 
 " 导航插件[[[2
@@ -400,6 +402,19 @@ call plug#end()
     let g:solarized_contrast="normal"
     let g:solarized_visibility="normal"
     let g:solarized_termcolors=256
+" ]]]
+" vim-airline [[[3
+    if !exists('g:airline_symbols')
+        let g:airline_symbols = {}
+    endif
+    let g:airline_left_sep = '▶'
+    let g:airline_left_alt_sep = '❯'
+    let g:airline_right_sep = '◀'
+    let g:airline_right_alt_sep = '❮'
+    let g:airline_symbols.linenr = '¶'
+    let g:airline_symbols.branch = '⎇'
+    let g:airline_section_z = '[%n] %P %L :%c'
+    let g:airline_section_y = '%{airline#util#wrap(airline#parts#ffenc(),0)} %B'
 " ]]]
 " ]]]
 
