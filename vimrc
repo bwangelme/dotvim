@@ -311,10 +311,7 @@ noremap L $
 cnoremap <C-a> <Home>
 cnoremap <C-e> <End>
 cnoremap <C-b> <Left>
-cunmap  <C-f>
 cnoremap <C-f> <Right>
-" TODO
-" 映射:<C-f>
 
 " 进入搜索Use sane regexes"
 nnoremap / /\v
