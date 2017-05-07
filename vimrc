@@ -264,8 +264,17 @@ set pastetoggle=<F5>            "    when in insert mode, press <F5> to go to
                                 "    paste mode, where you can paste mass data
                                 "    that won't be autoindented
 
-" F6 语法开关，关闭语法可以加快大文件的展示
-nnoremap <F6> :exec exists('syntax_on') ? 'syn off' : 'syn on'<CR>
+" F6 折叠开关
+function ToggleFold()
+    if(&foldlevel == '0')
+        exec "normal! zR"
+    else
+        exec "normal! zM"
+    endif
+    echo &foldlevel
+endfunction
+
+nnoremap <F6> :call ToggleFold()<CR>
 
 " F7 快速运行dot生成png文件
 nnoremap <F7> :!dot -Tpng -o %<.png % && open %<.png<CR>
@@ -276,6 +285,9 @@ nnoremap <F7> :!dot -Tpng -o %<.png % && open %<.png<CR>
 " F9 显示可打印字符开关
 set listchars=tab:›-,trail:•,extends:#,nbsp:f,eol:$
 nnoremap <F9> :set list! list?<CR>
+
+" F10 语法开关，关闭语法可以加快大文件的展示
+nnoremap <F10> :exec exists('syntax_on') ? 'syn off' : 'syn on'<CR>
 " ]]]
 
 " 分屏窗口移动, Smart way to move between windows
@@ -421,7 +433,7 @@ if has("autocmd")
     autocmd Syntax * call matchadd('Todo',  '\W\zs\(TODO\|FIXME\|CHANGED\|DONE\||BUG\|HACK\)')
     autocmd Syntax * call matchadd('Debug', '\W\zs\(INFO\|NOTE\|IDEA\|NOTICE\)')
     " 这里TIPS表示做的笔记, DESC表示代码的描述
-    autocmd Syntax * call matchadd('pandocLinkLabel', '\W\zs\(TIPS\|DESC\)')
+    autocmd Syntax * call matchadd('level1c', '\W\zs\(TIPS\|DESC\)')
   endif
 endif
 " ]]]
@@ -430,13 +442,16 @@ endif
 "=============================
 
 " theme主题
-if has("gui_running")
-    set background=light
+if has('gui_running')
+    colorscheme zenburn
+    " 设置背景透明度
+    set transparency=15
 else
     set background=dark
+    set t_Co=256
+    colorscheme solarized
 endif
-set t_Co=256
-colorscheme solarized
+
 
 " 设置标记一列的背景颜色和数字一行颜色一致
 hi! link SignColumn   LineNr

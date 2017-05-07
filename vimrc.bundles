@@ -77,6 +77,7 @@ Plug 'dyng/ctrlsf.vim'
     Plug 'kien/rainbow_parentheses.vim'
     " 主题 solarized
     Plug 'altercation/vim-colors-solarized'
+    Plug 'jnurmine/Zenburn'
 " ]]]
 
 " 导航插件[[[2
@@ -219,7 +220,7 @@ call plug#end()
     let g:UltiSnipsSnippetsDir = '~/.vim/UltiSnips'
     " 定义存放代码片段的文件夹 .vim/UltiSnips下，使用自定义和默认的，将会的到全局，有冲突的会提示
     " 进入对应filetype的snippets进行编辑
-    map <leader>us :UltiSnipsEdit<CR>
+    map <leader>n :UltiSnipsEdit<CR>
 
     " ctrl+j/k 进行选择
     func! g:JInYCM()
@@ -326,6 +327,8 @@ call plug#end()
 " vimwiki [[[3
   nmap <leader>v <Plug>VimwikiIndex
   nmap <Leader>y <Plug>VimwikiDiaryIndex
+  let g:vimwiki_list = [{'path': '~/vimwiki/',
+                       \ 'syntax': 'markdown', 'ext': '.md'}]
 " ]]]
 " ale [[[3
 
@@ -396,7 +399,7 @@ call plug#end()
     let g:solarized_termtrans=1
     let g:solarized_contrast="normal"
     let g:solarized_visibility="normal"
-    " let g:solarized_termcolors=256
+    let g:solarized_termcolors=256
 " ]]]
 " ]]]
 
@@ -413,7 +416,6 @@ call plug#end()
     let g:NERDTreeMapOpenVSplit = 'v'
 
     " nerdtreetabs
-    map <Leader>n <plug>NERDTreeTabsToggle<CR>
     " 关闭同步
     " let g:nerdtree_tabs_synchronize_view=0
     " let g:nerdtree_tabs_synchronize_focus=0
