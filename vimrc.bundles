@@ -35,32 +35,32 @@ Plug 'Raimondi/delimitMate'
 " ]]]
 
 " 编辑插件[[[2
-
-" 快速注释
-Plug 'tpope/vim-commentary'
-" 快速加入修改环绕字符
-Plug 'tpope/vim-surround'
-" 快速去行尾空格
-Plug 'ntpeters/vim-better-whitespace'
-" 多光标选中编辑
-Plug 'terryma/vim-multiple-cursors'
+    " 快速注释
+    Plug 'tpope/vim-commentary'
+    " 快速加入修改环绕字符
+    Plug 'tpope/vim-surround'
+    " 快速去行尾空格
+    Plug 'ntpeters/vim-better-whitespace'
+    " 多光标选中编辑
+    Plug 'terryma/vim-multiple-cursors'
 " ]]]
 
 " 快速定位插件 [[[2
+    " ctrlp
+    Plug 'kien/ctrlp.vim'
 
-" ctrlp
-Plug 'kien/ctrlp.vim'
+    " ctrlsf
+    " 类似sublimetext的搜索
+    " In CtrlSF window:
+    " O - 在当前窗口打开
+    " p - 在预览窗口中打开，按Q退出预览窗口
+    " t       在tab中打开(建议)
+    " T - Lkie t but focus CtrlSF window instead of opened new tab.
+    " q - Quit CtrlSF window.
+    Plug 'dyng/ctrlsf.vim'
 
-" ctrlsf
-" 类似sublimetext的搜索
-" In CtrlSF window:
-" O - 在当前窗口打开
-" p - 在预览窗口中打开，按Q退出预览窗口
-" t       在tab中打开(建议)
-" T - Lkie t but focus CtrlSF window instead of opened new tab.
-" q - Quit CtrlSF window.
-Plug 'dyng/ctrlsf.vim'
-
+    " 文件内快速定位
+    Plug 'easymotion/vim-easymotion'
 " ]]]
 
 " 功能插件[[[2
@@ -80,6 +80,9 @@ Plug 'dyng/ctrlsf.vim'
     Plug 'jnurmine/Zenburn'
     " 状态行增强
     Plug 'vim-airline/vim-airline'
+
+    " 显示Mark
+    Plug 'kshenoy/vim-signature'
 " ]]]
 
 " 导航插件[[[2
@@ -181,14 +184,6 @@ call plug#end()
     let g:ycm_seed_identifiers_with_syntax=1
     " 设置Python解释器的路径
     let g:ycm_server_python_interpreter = '/usr/bin/python'
-
-    "let g:ycm_seed_identifiers_with_syntax=1   "语言关键字补全, 不过python关键字都很短，所以，需要的自己打开
-
-    " 跳转到定义处, 分屏打开
-    let g:ycm_goto_buffer_command = 'horizontal-split'
-    nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>
-    " 和fugitive的快捷键冲突
-    " nnoremap <leader>gd :YcmCompleter GoToDeclaration<CR>
 
     " 引入，可以补全系统，以及python的第三方包 针对新老版本YCM做了兼容
     " old version
@@ -308,10 +303,17 @@ call plug#end()
         \ 'PrtCurRight()':        ['<c-b>', '<right>'],
         \ }
     nnoremap <leader>l :CtrlPBuffer<CR>
-    nnoremap <leader>k :CtrlPMRU<CR>
+    nnoremap <leader>r :CtrlPMRU<CR>
     nnoremap <leader>h :CtrlPBufTag<CR>
     " 参见wildignore
     let g:ctrlp_custom_ignore = '\v[\/]\.(git|svn|hg)$'
+" ]]]
+" vim-easymotion [[[3
+    let g:EasyMotion_smartcase = 1
+    map <leader>j <Plug>(easymotion-j)
+    map <leader>k <Plug>(easymotion-k)
+    " 重复上一次操作, 类似repeat插件, 很强大
+    map <leader>. <Plug>(easymotion-repeat)
 " ]]]
 " ]]]
 " ]]]
@@ -327,10 +329,11 @@ call plug#end()
     nnoremap <leader>gp :Git push<CR>
 " ]]]
 " vimwiki [[[3
-  nmap <leader>v <Plug>VimwikiIndex
-  nmap <Leader>y <Plug>VimwikiDiaryIndex
-  let g:vimwiki_list = [{'path': '~/vimwiki/',
-                       \ 'syntax': 'markdown', 'ext': '.md'}]
+    nmap <leader>v <Plug>VimwikiIndex
+    nmap <Leader>y <Plug>VimwikiDiaryIndex
+    let g:vimwiki_dir_link = 'README'
+    let g:vimwiki_list = [{'path': '~/vimwiki/',
+                        \ 'syntax': 'markdown', 'ext': '.md'}]
 " ]]]
 " ale [[[3
 
@@ -413,15 +416,21 @@ call plug#end()
     let g:airline_right_alt_sep = '❮'
     let g:airline_symbols.linenr = '¶'
     let g:airline_symbols.branch = '⎇'
-    let g:airline_section_z = '[%n] %P %L :%c'
-    let g:airline_section_y = '%{airline#util#wrap(airline#parts#ffenc(),0)} %B'
+    let g:airline_section_x = '%{airline#util#wrap(airline#parts#filetype(),0)}'
+    let g:airline_section_z = 'B%n-%L %P C%c %B'
+    let g:airline_section_y = '%{airline#util#wrap(airline#parts#ffenc(),0)}'
 " ]]]
 " ]]]
 
 " 导航插件[[[2
 " nerdtree nerdtreetabs [[[3
+    function! ChangeDirIntoCurrentBuffer()
+        cd %:p:h
+        NERDTreeCWD
+    endfunction
+
     noremap <F3> :NERDTreeToggle<CR>
-    noremap <leader>o :NERDTreeCWD<CR>
+    noremap <leader>o :call ChangeDirIntoCurrentBuffer()<CR>
     let NERDTreeHighlightCursorline=1
     let NERDTreeIgnore=[ 'node_modules', '\.pyc$', '\.pyo$', '\.obj$', '\.o$', '\.so$', '\.egg$', '^\.git$', '^\.svn$', '^\.hg$' ]
     "close vim if the only window left open is a NERDTree

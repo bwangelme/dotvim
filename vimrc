@@ -59,9 +59,6 @@ set colorcolumn=80
 " 设置退出VIM后，内容显示在屏幕
 set t_ti= t_te=
 
-" 关闭鼠标
-set mouse=n
-
 " 改变终端标题
 set title
 " 去掉输入错误的提示音
@@ -403,7 +400,7 @@ nmap - zc
 nmap + zo
 
 " 文件重新载入
-nnoremap <leader>r :e <CR>
+nnoremap R :e <CR>
 " ]]]
 
 " FileType Settings  文件类型设置[[[1

@@ -1,10 +1,10 @@
 :insert
-#!/usr/bin/env vim -S
-#
-# Author: bwangel<bwangel.me@gmail.com>
+"!/usr/bin/env vim -S
+"
+" Author: bwangel<bwangel.me@gmail.com>
 
 
 
 
 .
-call setline(4, "# Date:" . strftime("%b,%d,%Y %H:%M"))
+call setline(4, "\" Date:" . strftime("%b,%d,%Y %H:%M"))
