@@ -427,7 +427,7 @@ hi! CursorLine term=reverse ctermbg=0
 hi! clear CursorColumn
 hi! CursorColumn term=reverse ctermbg=0
 
-hi! clear ColorColumn 
+hi! clear ColorColumn
 hi! ColorColumn term=reverse ctermbg=0
 
 " 设置关键字的高亮颜色

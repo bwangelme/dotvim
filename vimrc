@@ -77,6 +77,13 @@ set magic
 set backspace=eol,start,indent
 " 转折换行的配置
 set whichwrap+=<,>
+
+" 离开当前Buffer,或者失去焦点的时候，就保存所有的buffer
+au BufLeave,FocusLost * wa
+
+" 自动重新载入vimrc文件
+" FIXME: 目前存在BUG，会导致编辑vimrc时，在插入模式下会自动删除输入的内容
+" autocmd! bufwritepost .vimrc source ~/.vimrc
 " ]]]
 
 " Display Settings 展示/排版等界面格式设置[[[1
@@ -469,3 +476,4 @@ highlight SpellLocal term=underline cterm=underline
 
 " vim:fdm=marker:fmr=[[[,]]]
 " vim:foldlevel=99
+" 自动更新vimrc文件
