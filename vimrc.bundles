@@ -78,6 +78,7 @@ Plug 'Raimondi/delimitMate'
     " 主题 solarized
     Plug 'altercation/vim-colors-solarized'
     Plug 'jnurmine/Zenburn'
+    Plug 'joshdick/onedark.vim'
     " 状态行增强
     Plug 'vim-airline/vim-airline'
 

@@ -439,12 +439,16 @@ endif
 " Theme Settings  主题设置[[[1
 "=============================
 
-" theme主题
+" theme主题和背景透明度
 if has('gui_running')
     " colorscheme zenburn
+
+    set background=light
     colorscheme solarized
-    " 设置背景透明度
     set transparency=10
+
+    " colorscheme onedark
+    " set transparency=5
 else
     set background=dark
     set t_Co=256
