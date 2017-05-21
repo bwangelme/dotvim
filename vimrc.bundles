@@ -266,7 +266,6 @@ call plug#end()
         " ctrlsf [[[3
             nmap <leader>q <Plug>CtrlSFPrompt
             vmap <leader>q <Plug>CtrlSFVwordPath
-            nmap \ <Plug>CtrlSFCwordPath
             " let g:ctrlsf_position = 'below'
             " let g:ctrlsf_winsize = '30%'
             let g:ctrlsf_auto_close = 0
@@ -280,8 +279,8 @@ call plug#end()
                 \ "tabb"  : "T",
                 \ "prevw" : "p",
                 \ "quit"  : "q",
-                \ "next"  : "<C-J>",
-                \ "prev"  : "<C-K>",
+                \ "next"  : "<C-N>",
+                \ "prev"  : "<C-P>",
                 \ "pquit" : "q",
                 \ }
         " ]]]

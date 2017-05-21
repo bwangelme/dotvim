@@ -288,6 +288,27 @@ set listchars=tab:›-,trail:•,extends:#,nbsp:f,eol:$
 nnoremap <F9> :set list! list?<CR>
 " ]]]
 
+
+" c-x c-x => git grep the word under cursor
+let g:gitgrepprg="git\\ grep\\ -n"
+let g:gitroot="`git rev-parse --show-cdup`"
+
+function! GitGrep(args)
+    let grepprg_bak=&grepprg
+    exec "set grepprg=" . g:gitgrepprg
+    execute 'silent! grep "\<' . a:args . '\>" ' . g:gitroot
+    botright copen
+    let &grepprg=grepprg_bak
+    exec "redraw!"
+endfunction
+
+func GitGrepWord()
+    normal! "zyiw
+    call GitGrep(getreg('z'))
+endf
+
+nmap \ :call GitGrepWord()<CR>
+
 " 分屏窗口移动, Smart way to move between windows
 nnoremap <C-j> <C-W>j
 nnoremap <C-k> <C-W>k
@@ -328,9 +349,28 @@ nnoremap <silent> * *zz
 nnoremap <silent> # #zz
 nnoremap <silent> g* g*zz
 
-" switch # *
-nnoremap # *
-nnoremap * #
+" In visual mode when you press * or # to search for the current selection
+vnoremap <silent> * :call VisualSearch('f')<CR>
+vnoremap <silent> # :call VisualSearch('b')<CR>
+
+function! VisualSearch(direction) range
+    let l:saved_reg = @"
+    execute "normal! vgvy"
+
+    let l:pattern = escape(@", '\\/.*$^~[]')
+    let l:pattern = substitute(l:pattern, "\n$", "", "")
+
+    if a:direction == 'b'
+        execute "normal ?" . l:pattern . "^M"
+    elseif a:direction == 'gv'
+        call CmdLine("vimgrep " . '/'. l:pattern . '/' . ' **/*.')
+    elseif a:direction == 'f'
+        execute "normal /" . l:pattern . "^M"
+    endif
+
+    let @/ = l:pattern
+    let @" = l:saved_reg
+endfunction
 
 " for # indent, python文件中输入新行时#号注释不切回行首
 autocmd BufNewFile,BufRead *.py inoremap # X<c-h>#
