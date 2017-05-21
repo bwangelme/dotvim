@@ -440,20 +440,8 @@ endif
 "=============================
 
 " theme主题和背景透明度
-if has('gui_running')
-    " colorscheme zenburn
-
-    set background=light
-    colorscheme solarized
-    set transparency=10
-
-    " colorscheme onedark
-    " set transparency=5
-else
-    set background=dark
-    set t_Co=256
-    colorscheme solarized
-endif
+set background=dark
+colorscheme solarized
 
 
 " 设置标记一列的背景颜色和数字一行颜色一致

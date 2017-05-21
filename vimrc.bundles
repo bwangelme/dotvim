@@ -24,14 +24,12 @@ endif
 
 call plug#begin('~/.vim/bundle')
 " 自动补全插件[[[2
-
-" 代码片段快速插入 (snippets中,是代码片段资源,需要学习)
-Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
-" YouCompleteMe
-Plug 'Valloric/YouCompleteMe'
-" 自动补全单引号，双引号等
-Plug 'Raimondi/delimitMate'
-
+    " 代码片段快速插入 (snippets中,是代码片段资源,需要学习)
+    Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
+    " YouCompleteMe
+    Plug 'Valloric/YouCompleteMe'
+    " 自动补全单引号，双引号等
+    Plug 'Raimondi/delimitMate'
 " ]]]
 
 " 编辑插件[[[2
@@ -46,9 +44,6 @@ Plug 'Raimondi/delimitMate'
 " ]]]
 
 " 快速定位插件 [[[2
-    " ctrlp
-    Plug 'kien/ctrlp.vim'
-
     " ctrlsf
     " 类似sublimetext的搜索
     " In CtrlSF window:
@@ -289,25 +284,6 @@ call plug#end()
         \ "prev"  : "<C-K>",
         \ "pquit" : "q",
         \ }
-" ]]]
-" ctrlp [[[3
-    let g:ctrlp_map = '<leader>p'
-    let g:ctrlp_cmd = 'CtrlPCurWD'
-    let g:ctrlp_prompt_mappings = {
-        \ 'PrtSelectMove("j")':   ['<c-n>', '<down>'],
-        \ 'PrtSelectMove("k")':   ['<c-p>', '<up>'],
-        \ 'PrtHistory(-1)':       ['<c-k>'],
-        \ 'PrtHistory(1)':        ['<c-j>'],
-        \ 'ToggleType(1)':        ['<c-h>', '<c-up>'],
-        \ 'ToggleType(-1)':       ['<c-l>', '<c-down>'],
-        \ 'PrtCurLeft()':         ['<c-f>', '<left>', '<c-^>'],
-        \ 'PrtCurRight()':        ['<c-b>', '<right>'],
-        \ }
-    nnoremap <leader>l :CtrlPBuffer<CR>
-    nnoremap <leader>r :CtrlPMRU<CR>
-    nnoremap <leader>h :CtrlPBufTag<CR>
-    " 参见wildignore
-    let g:ctrlp_custom_ignore = '\v[\/]\.(git|svn|hg)$'
 " ]]]
 " vim-easymotion [[[3
     let g:EasyMotion_smartcase = 1
