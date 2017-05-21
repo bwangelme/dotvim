@@ -10,6 +10,7 @@ scriptencoding utf-8
 " Initial Plugin 加载插件[[[1
 " ===========================
 
+" 加载插件
 " 非兼容Vi模式
 set nocompatible
 
@@ -17,13 +18,15 @@ set nocompatible
 let mapleader = ' '
 let g:mapleader = ' '
 
+set shell=bash
+
 " 开启语法高亮
 syntax on
 
-" 加载插件
 if filereadable(expand("~/.vimrc.bundles"))
     source ~/.vimrc.bundles
 endif
+
 
 filetype plugin indent on
 "]]]
@@ -125,7 +128,7 @@ set scrolloff=7
 " %c: 当前列号，特殊字符算作一列，中文算作三列
 " %P: 文档阅读百分比
 " %L: 文档总行数
-set statusline=%<%f\ %m%r%w%h%y\ %{fugitive#statusline()}\ \<%n\>\ %B\ %{ALEGetStatusLine()}\ %=[%{(&fenc==\"\")?&enc:&fenc}%{(&bomb?\",BOM\":\"\")}]\ %-8(%l,%c%)\ %P-%L
+set statusline=%<%f\ %m%r%w%h%y\ %P-%L\ %{fugitive#statusline()}\ \<%n\>\ %B\ %{ALEGetStatusLine()}\ %=[%{(&fenc==\"\")?&enc:&fenc}%{(&bomb?\",BOM\":\"\")}]\ %-8(%l,%c%)
 " 使用两行的状态栏
 set laststatus=2
 
@@ -184,9 +187,6 @@ set ttyfast
 
 " 00x增减数字时使用十进制
 set nrformats=
-
-" 设置MacVim的字体
-set guifont=Monaco:h18
 " ]]]
 
 " FileEncode Settings 文件编码,格式[[[1
@@ -294,18 +294,12 @@ nnoremap <C-k> <C-W>k
 nnoremap <C-h> <C-W>h
 nnoremap <C-l> <C-W>l
 
-" 屏幕上下滑动的快捷键
-nnoremap <C-f> 10<C-e>
-nnoremap <C-b> 10<C-y>
-
 " 屏幕左右滑动的快捷键
 " 需要考虑Mac下zl和zh的映射
-" nnoremap <M-Right> zl
-" nnoremap <M-Left> zh
+nnoremap <M-Right> zl
+nnoremap <M-Left> zh
 nnoremap <S-Right> zL
 nnoremap <S-Left> zH
-
-" 屏幕上下滑动
 
 " 插入模式下将小写字母转换成大写字母, I love this very much
 inoremap <C-y> <esc>gUiwea
@@ -347,28 +341,6 @@ nnoremap ]b :bnext<cr>
 " 使用方向键切换buffer
 noremap <left> :bp<CR>
 noremap <right> :bn<CR>
-
-" tab操作[[[2
-" http://vim.wikia.com/wiki/Alternative_tab_navigation
-" http://stackoverflow.com/questions/2005214/switching-to-a-particular-tab-in-vim
-
-" tab切换
-" normal模式下切换到确切的tab
-noremap <leader>1 1gt
-noremap <leader>2 2gt
-noremap <leader>3 3gt
-noremap <leader>4 4gt
-noremap <leader>5 5gt
-noremap <leader>6 6gt
-noremap <leader>7 7gt
-noremap <leader>8 8gt
-noremap <leader>9 9gt
-noremap <leader>0 :tablast<cr>
-
-" 新建tab  Ctrl+t
-nnoremap <C-t>     :tabnew<CR>
-inoremap <C-t>     <Esc>:tabnew<CR>
-" ]]]
 
 " 调整缩进后自动选中，方便再次操作
 vnoremap < <gv
@@ -431,7 +403,7 @@ if has("autocmd")
     autocmd Syntax * call matchadd('Todo',  '\W\zs\(TODO\|FIXME\|CHANGED\|DONE\||BUG\|HACK\)')
     autocmd Syntax * call matchadd('Debug', '\W\zs\(INFO\|NOTE\|IDEA\|NOTICE\)')
     " 这里TIPS表示做的笔记, DESC表示代码的描述
-    autocmd Syntax * call matchadd('level1c', '\W\zs\(TIPS\|DESC\)')
+    " autocmd Syntax * call matchadd('level1c', '\W\zs\(TIPS\|DESC\)')
   endif
 endif
 " ]]]
@@ -440,19 +412,19 @@ endif
 "=============================
 
 " theme主题和背景透明度
-set background=dark
-colorscheme solarized
+if &diff
+    colorscheme industry
+else
+    set background=dark
+    set t_Co=256
+    colorscheme solarized
+endif
 
 
 " 设置标记一列的背景颜色和数字一行颜色一致
 hi! link SignColumn   LineNr
 hi! link ShowMarksHLl DiffAdd
 hi! link ShowMarksHLu DiffChange
-
-" 设置vim-better-whitespace高亮的颜色
-if has("gui_running")
-    highlight ExtraWhitespace ctermbg=12 guibg=#FFB7B8
-endif
 
 " for error highlight，防止错误整行标红导致看不清
 highlight clear SpellBad
