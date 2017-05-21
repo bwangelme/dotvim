@@ -278,7 +278,23 @@ set pastetoggle=<F5>            "    when in insert mode, press <F5> to go to
 nnoremap <F6> :exec exists('syntax_on') ? 'syn off' : 'syn on'<CR>
 
 " F7 快速运行dot生成png文件
-nnoremap <F7> :!dot -Tpng -o %<.png % && open %<.png<CR>
+" nnoremap <F7> :!dot -Tpng -o %<.png % && open %<.png<CR>
+map <F7> :call RunSrc()<CR>
+func! RunSrc()
+    exec "w"
+    if &filetype == 'py'||&filetype == 'python'
+        exec "!PYTHONPATH="." python %"
+    elseif &filetype == 'java'
+        exec "!astyle --style=java --suffix=none %"
+    elseif &filetype == 'go'
+        exec "!go build -o /tmp/go_built .;/tmp/go_built"
+    elseif &filetype == 'ruby'
+        exec "!ruby %"
+    elseif &filetype == 'markdown'
+        exec "!markdown_py %>md_exported.html;google-chrome md_exported.html"
+    endif
+    exec "e! %"
+endfunc
 
 " F8 为tagbar显示导航栏的快捷键
 " 见vimrc.bundles:691
@@ -286,6 +302,24 @@ nnoremap <F7> :!dot -Tpng -o %<.png % && open %<.png<CR>
 " F9 显示可打印字符开关
 set listchars=tab:›-,trail:•,extends:#,nbsp:f,eol:$
 nnoremap <F9> :set list! list?<CR>
+
+" F10 自动格式化当前代码
+map <F10> :call FormartSrc()<CR>
+func! FormartSrc()
+    exec "w"
+    if &filetype == 'c'
+        exec "!astyle --style=ansi --one-line=keep-statements -a --suffix=none %"
+    elseif &filetype == 'cpp' || &filetype == 'hpp'
+        exec "r !astyle --style=ansi --one-line=keep-statements -a --suffix=none %> /dev/null 2>&1"
+    elseif &filetype == 'perl'
+        exec "!astyle --style=gnu --suffix=none %"
+    elseif &filetype == 'py'||&filetype == 'python'
+        exec "r !autopep8 -i % > /dev/null 2>&1"
+    elseif &filetype == 'xml'
+        exec "!astyle --style=gnu --suffix=none %"
+    endif
+    exec "e! %"
+endfunc
 " ]]]
 
 
@@ -302,7 +336,7 @@ function! GitGrep(args)
     exec "redraw!"
 endfunction
 
-func GitGrepWord()
+func! GitGrepWord()
     normal! "zyiw
     call GitGrep(getreg('z'))
 endf
@@ -400,6 +434,7 @@ cmap w!! w !sudo tee >/dev/null %
 
 " Quickly save the current file
 nnoremap <leader>w :w<CR>
+nnoremap <leader>r :e<CR>
 
 " 交换 ' `, 使得可以快速使用'跳到marked位置
 nnoremap ' `
