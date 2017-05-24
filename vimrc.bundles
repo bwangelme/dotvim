@@ -400,7 +400,7 @@ call plug#end()
             " 自动删除掉通过NERDTree删除的文件的Buffer
             let NERDTreeAutoDeleteBuffer=1
             " 设置NERDTree要忽略的文件
-            let NERDTreeIgnore=[ '__pycache__$[[dir]]', 'node_modules$', '\.pyc$', '\.pyo$', '\.obj$', '\.o$', '\.so$', '\.egg$', '^\.git$', '^\.svn$', '^\.hg$' ]
+            let NERDTreeIgnore=[ '__pycache__$[[dir]]', 'node_modules$', '\.pyc$', '\.pyo$', '\.obj$', '\.o$', '\.so$', '\.egg$', '^\.git$', '^\.svn$', '^\.hg$', '^venv$' ]
             "close vim if the only window left open is a NERDTree
             autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | end
             " s/v 分屏打开文件

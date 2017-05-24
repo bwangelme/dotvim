@@ -84,6 +84,9 @@ set whichwrap+=<,>
 " 离开当前Buffer,或者失去焦点的时候，就保存所有的buffer
 au BufLeave,FocusLost * wa
 
+" 开启鼠标
+set mouse=a
+
 " 自动重新载入vimrc文件
 " FIXME: 目前存在BUG，会导致编辑vimrc时，在插入模式下会自动删除输入的内容
 " autocmd! bufwritepost .vimrc source ~/.vimrc
