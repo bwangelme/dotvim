@@ -340,7 +340,7 @@ call plug#end()
             " ## Python 语法检查
             " =================
             " 需要安装pep8-naming
-            let g:ale_python_flake8_executable = '/Users/michaeltsui/.pyenv/versions/3.6.0/bin/flake8'
+            let g:ale_python_flake8_executable = '/usr/local/bin/flake8 --max-line-length=119'
             " FIXME: pylint 的检查先注释掉，还有一些问题
             " let g:ale_python_pylint_executable = '/Users/michaeltsui/.pyenv/versions/3.6.0/bin/pylint'
             " let g:ale_python_pylint_options = '--rcfile ~/.pylint.rc'
