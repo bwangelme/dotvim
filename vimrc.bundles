@@ -24,7 +24,7 @@ endif
 
 call plug#begin('~/.vim/bundle')
     " 自动补全插件[[[2
-        " 代码片段快速插入 (snippets中,是代码片段资源,需要学习)
+        " 代码片段快速插入
         Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
         " YouCompleteMe
         Plug 'Valloric/YouCompleteMe'
@@ -202,9 +202,6 @@ call plug#end()
                 \}
         " ]]]
         " ultisnips [[[3
-            let g:UltiSnipsExpandTrigger       = "<tab>"
-            let g:UltiSnipsJumpForwardTrigger  = "<tab>"
-            let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
             let g:UltiSnipsSnippetDirectories  = ['UltiSnips']
             let g:UltiSnipsSnippetsDir = '~/.vim/UltiSnips'
             " 定义存放代码片段的文件夹 .vim/UltiSnips下，使用自定义和默认的，将会的到全局，有冲突的会提示
