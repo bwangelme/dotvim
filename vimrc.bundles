@@ -167,7 +167,6 @@ call plug#end()
 " ==================== 插件配置 ========================[[[1
     " 自动补全插件[[[2
         " YouCompleteMe [[[3
-            "youcompleteme  默认tab  s-tab 和自动补全冲突
             let g:ycm_key_list_select_completion=['<c-n>']
             let g:ycm_key_list_previous_completion=['<c-p>']
             let g:ycm_complete_in_comments = 1  "在注释输入中也能补全
@@ -179,6 +178,8 @@ call plug#end()
             let g:ycm_seed_identifiers_with_syntax=1
             " 设置Python解释器的路径
             let g:ycm_server_python_interpreter = '/usr/bin/python'
+            " 设置补全时用到的Python解释器的路径
+            let g:ycm_python_binary_path = 'python'
 
             " 引入，可以补全系统，以及python的第三方包 针对新老版本YCM做了兼容
             " old version
@@ -190,18 +191,14 @@ call plug#end()
                 let g:ycm_global_ycm_extra_conf = "~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py"
             endif
 
-            " 直接触发自动补全 insert模式下
-            " let g:ycm_key_invoke_completion = '<C-Space>'
+            " 跳转到定义处, 水平分屏打开
+            let g:ycm_goto_buffer_command = 'horizontal-split'
+            nnoremap <leader>d :YcmCompleter GoToDefinition<CR>
+
             " 黑名单,不启用
             let g:ycm_filetype_blacklist = {
                 \ 'tagbar' : 1,
                 \ 'gitcommit' : 1,
-                \}
-
-            " CSS&HTML补全的语义触发方式
-            let g:ycm_semantic_triggers = {
-                \ 'css': [ 're!^\s{4}', 're!:\s+'],
-                \ 'html': [ '</' ],
                 \}
         " ]]]
         " ultisnips [[[3
@@ -340,7 +337,7 @@ call plug#end()
             " ## Python 语法检查
             " =================
             " 需要安装pep8-naming
-            let g:ale_python_flake8_executable = '/usr/local/bin/flake8 --max-line-length=119'
+            let g:ale_python_flake8_executable = '/usr/local/bin/flake8'
             " FIXME: pylint 的检查先注释掉，还有一些问题
             " let g:ale_python_pylint_executable = '/Users/michaeltsui/.pyenv/versions/3.6.0/bin/pylint'
             " let g:ale_python_pylint_options = '--rcfile ~/.pylint.rc'
