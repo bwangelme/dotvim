@@ -17,15 +17,15 @@ if !exists('g:bundle_groups')  " inspired by spf13, 自定义需要的插件集�
         \'markdown',
         \'json',
         \'nginx',
-        \'html',
-        \'javascript',
         \]
 endif
 
 call plug#begin('~/.vim/bundle')
     " 自动补全插件[[[2
         " 代码片段快速插入
-        Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
+        " Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
+        " Python-mode
+        Plug 'python-mode/python-mode'
         " 自动补全单引号，双引号等
         Plug 'Raimondi/delimitMate'
     " ]]]
@@ -130,20 +130,7 @@ call plug#begin('~/.vim/bundle')
         endif
         " ]]]
 
-        " html[[[3
-        if count(g:bundle_groups, 'html')
-            " ###### emmet HTML complete #########
-            Plug 'mattn/emmet-vim'
-            Plug 'othree/html5.vim'
-        endif
-        " ]]]
-
-        " JavaScript[[[3
-        if count(g:bundle_groups, 'javascript')
-            " Plug 'tao12345666333/vim-vue'
-            Plug 'posva/vim-vue'
-        endif
-        " ]]]
+    " ]]]
 
         " Nginx[[[3
         if count(g:bundle_groups, 'nginx')
@@ -226,6 +213,9 @@ call plug#end()
             au BufEnter,BufRead * exec "inoremap <silent> " . g:UltiSnipsJumpBackwordTrigger . " <C-R>=g:KInYCM()<cr>"
             let g:UltiSnipsJumpBackwordTrigger = "<c-k>"
         " ]]]
+        " python-mode [[[3
+            let g:pymode_python = 'python3'
+        " ]]]
         " delimitMate [[[3
             " for python docstring ",优化输入
             au FileType python let b:delimitMate_nesting_quotes = ['"']
@@ -242,7 +232,7 @@ call plug#end()
         " ]]]
         " trailingwhitespace [[[
             map <leader>t :StripWhitespace<CR>
-            autocmd FileType c,cpp,java,go,php,javascript,puppet,python,rust,twig,xml,yml,perl autocmd BufEnter <buffer> EnableStripWhitespaceOnSave
+            autocmd FileType c,cpp,java,go,puppet,python,rust,twig,xml,yml,perl autocmd BufEnter <buffer> EnableStripWhitespaceOnSave
         " ]]]
         " multiplecursors [[[3
             let g:multi_cursor_use_default_mapping=0
@@ -324,9 +314,7 @@ call plug#end()
             nmap <silent> <C-n> <Plug>(ale_next)
 
             let g:ale_linters = {
-            \   'javascript': ['eslint'],
             \   'python': ['flake8'],
-            \   'html': ['htmlhint'],
             \}
 
             " ## Python 语法检查
@@ -337,9 +325,6 @@ call plug#end()
             " let g:ale_python_pylint_executable = '/Users/michaeltsui/.pyenv/versions/3.6.0/bin/pylint'
             " let g:ale_python_pylint_options = '--rcfile ~/.pylint.rc'
 
-            " ## HTML 语法检查
-            " ================
-            let g:ale_html_htmlhint_executable = '/Users/michaeltsui/.nvm/versions/node/v6.10.1/bin/htmlhint'
         " ]]]
     " ]]]
 
@@ -484,12 +469,6 @@ call plug#end()
         " ]]]
         " vim-json [[[3
             let g:vim_json_syntax_conceal = 0
-        " ]]]
-        " vim-emment [[[3
-            let g:user_emment_install_global = 0
-            let g:emmet_html5 = 1
-            let g:user_emmet_expandabbr_key = '<C-E>'
-            autocmd FileType html,css,javascript,vue EmmetInstall
         " ]]]
         " vim-latex-live-preview [[[3
             " autocmd FileType tex setl updatetime=1
