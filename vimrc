@@ -457,6 +457,14 @@ nmap + zo
 
 " 文件重新载入
 nnoremap R :e <CR>
+
+" 获取当前位置作为断点
+function! GetBreakPoint()
+    let @* = expand("%:p").":".line(".")
+    echo @*
+endfunction
+
+nmap <leader>b :call GetBreakPoint()<CR>
 " ]]]
 
 " FileType Settings  文件类型设置[[[1
