@@ -267,11 +267,11 @@ call plug#end()
         " ]]]
         " ale [[[3
             " 检查的时间
-            let g:ale_lint_delay = 1000
+            let g:ale_lint_delay = 500
             " 改变状态栏信息格式
             let g:ale_statusline_format = ['⨉ %d', '⚠ %d', '⬥ ok']
             " 保持侧边栏可见
-            let g:ale_sign_column_always = 1
+            let g:ale_sign_column_always = 0
             " 改变错误和警告标识符
             let g:ale_sign_error = '>>'
             let g:ale_sign_warning = '--'
@@ -280,16 +280,16 @@ call plug#end()
             nmap <silent> <C-n> <Plug>(ale_next)
 
             let g:ale_linters = {
-            \   'python': ['flake8'],
+            \   'python': ['flake8', 'pylint'],
             \}
 
             " ## Python 语法检查
             " =================
             " 需要安装pep8-naming
             let g:ale_python_flake8_executable = '/usr/local/bin/flake8'
-            " FIXME: pylint 的检查先注释掉，还有一些问题
-            " let g:ale_python_pylint_executable = '/Users/michaeltsui/.pyenv/versions/3.6.0/bin/pylint'
-            " let g:ale_python_pylint_options = '--rcfile ~/.pylint.rc'
+            " add support for virtualenv
+            let g:ale_python_pylint_executable = 'python /usr/local/bin/pylint'
+            let g:ale_python_pylint_options = '--rcfile ~/.pylint.rc'
 
         " ]]]
     " ]]]
