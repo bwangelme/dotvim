@@ -188,6 +188,7 @@ call plug#end()
         " ]]]
         " completor [[[3
             let g:completor_python_binary = '/usr/local/bin/python3'
+            let g:completor_whitelist = ['python', 'markdown', 'c', 'cpp']
         " ]]]
     " ]]]
 
@@ -287,6 +288,7 @@ call plug#end()
             " =================
             " 需要安装pep8-naming
             let g:ale_python_flake8_executable = '/usr/local/bin/flake8'
+            let g:ale_python_flake8_options = '--ignore=E501'
             " add support for virtualenv
             let g:ale_python_pylint_executable = 'python /usr/local/bin/pylint'
             let g:ale_python_pylint_options = '--rcfile ~/.pylint.rc'
