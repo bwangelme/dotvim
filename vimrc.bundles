@@ -23,8 +23,8 @@ call plug#begin('~/.vim/bundle')
     " 自动补全插件[[[2
         " 代码片段快速插入
         Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
-        " Completer
-        Plug 'maralla/completor.vim'
+        " nvim-completion-manager
+        Plug 'roxma/nvim-completion-manager'
         " 自动补全单引号，双引号等
         Plug 'Raimondi/delimitMate'
     " ]]]
@@ -186,9 +186,15 @@ call plug#end()
             " 关闭某些类型文件的自动补全
             "au FileType mail let b:delimitMate_autoclose = 0
         " ]]]
-        " completor [[[3
-            let g:completor_python_binary = '/usr/local/bin/python3'
-            let g:completor_whitelist = ['python', 'markdown', 'c', 'cpp']
+        " nvim-completion-manager [[[3
+            " for python completions
+            let g:python_support_python3_requirements = add(get(g:,'python_support_python3_requirements',[]),'jedi')
+            " language specific completions on markdown file
+            let g:python_support_python3_requirements = add(get(g:,'python_support_python3_requirements',[]),'mistune')
+
+            " utils, optional
+            let g:python_support_python3_requirements = add(get(g:,'python_support_python3_requirements',[]),'psutil')
+            let g:python_support_python3_requirements = add(get(g:,'python_support_python3_requirements',[]),'setproctitle')
         " ]]]
     " ]]]
 
