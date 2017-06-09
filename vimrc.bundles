@@ -14,15 +14,12 @@ if !exists('g:bundle_groups')  " inspired by spf13, 自定义需要的插件集�
         \'python',
         \'beta',
         \'markdown',
-        \'json',
         \'nginx',
         \]
 endif
 
 call plug#begin('~/.vim/bundle')
     " 自动补全插件[[[2
-        " 代码片段快速插入
-        Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
         " nvim-completion-manager
         Plug 'roxma/nvim-completion-manager'
         " 自动补全单引号，双引号等
@@ -123,12 +120,6 @@ call plug#begin('~/.vim/bundle')
             let g:vim_isort_map = '<C-i>'
         endif
         " ]]]
-
-        " JSON[[[3
-        if count(g:bundle_groups, 'json')
-            " json
-            Plug 'elzr/vim-json', {'for': 'json'}
-        endif
         " ]]]
 
     " ]]]
@@ -138,13 +129,6 @@ call plug#begin('~/.vim/bundle')
             Plug 'bwangel23/nginx-vim-syntax'
         endif
         " ]]]
-
-        " Latex[[[3
-        if count(g:bundle_groups, 'latex')
-            " BUG: vim-latex 重新映射了<C-j>按键，和现有的按键映射冲突了
-            Plug 'vim-latex/vim-latex'
-            Plug 'xuhdev/vim-latex-live-preview'
-        endif
         " ]]]
     " ]]]
 call plug#end()
@@ -152,33 +136,6 @@ call plug#end()
 
 " ==================== 插件配置 ========================[[[1
     " 自动补全插件[[[2
-        " ultisnips [[[3
-            let g:UltiSnipsSnippetDirectories  = ['UltiSnips']
-            let g:UltiSnipsSnippetsDir = '~/.vim/UltiSnips'
-            " 定义存放代码片段的文件夹 .vim/UltiSnips下，使用自定义和默认的，将会的到全局，有冲突的会提示
-            " 进入对应filetype的snippets进行编辑
-            map <leader>n :UltiSnipsEdit<CR>
-
-            " ctrl+j/k 进行选择
-            func! g:JInYCM()
-                if pumvisible()
-                    return "\<C-n>"
-                else
-                    return "\<c-j>"
-                endif
-            endfunction
-
-            func! g:KInYCM()
-                if pumvisible()
-                    return "\<C-p>"
-                else
-                    return "\<c-k>"
-                endif
-            endfunction
-            inoremap <c-j> <c-r>=g:JInYCM()<cr>
-            au BufEnter,BufRead * exec "inoremap <silent> " . g:UltiSnipsJumpBackwordTrigger . " <C-R>=g:KInYCM()<cr>"
-            let g:UltiSnipsJumpBackwordTrigger = "<c-k>"
-        " ]]]
         " delimitMate [[[3
             " for python docstring ",优化输入
             au FileType python let b:delimitMate_nesting_quotes = ['"']
@@ -253,6 +210,8 @@ call plug#end()
         " fzf.vim[[[3
             " 显示所有Buffer
             nnoremap <leader>l :Buffers<CR>
+            let g:fzf_layout = { 'window': 'enew' }
+            let g:fzf_layout = { 'window': '-tabnew' }
         " ]]]
     " ]]]
     " 功能插件[[[2
@@ -296,7 +255,7 @@ call plug#end()
             let g:ale_python_flake8_executable = '/usr/local/bin/flake8'
             let g:ale_python_flake8_options = '--ignore=E501'
             " add support for virtualenv
-            let g:ale_python_pylint_executable = 'python /usr/local/bin/pylint'
+            let g:ale_python_pylint_executable = 'python3 /usr/local/bin/pylint'
             let g:ale_python_pylint_options = '--rcfile ~/.pylint.rc'
 
         " ]]]
@@ -454,13 +413,6 @@ call plug#end()
         " ]]]
         " vim-markdown [[[3
             let g:vim_markdown_folding_disabled=1
-        " ]]]
-        " vim-json [[[3
-            let g:vim_json_syntax_conceal = 0
-        " ]]]
-        " vim-latex-live-preview [[[3
-            " autocmd FileType tex setl updatetime=1
-            let g:livepreview_previewer = 'open -a Preview'
         " ]]]
     " ]]]
 " ]]]
