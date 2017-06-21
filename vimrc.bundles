@@ -20,8 +20,10 @@ endif
 
 call plug#begin('~/.vim/bundle')
     " 自动补全插件[[[2
-        " nvim-completion-manager
-        Plug 'roxma/nvim-completion-manager'
+        " 代码片段快速插入
+        Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
+        " 自动补全
+        Plug 'Valloric/YouCompleteMe'
         " 自动补全单引号，双引号等
         Plug 'Raimondi/delimitMate'
     " ]]]
@@ -120,15 +122,11 @@ call plug#begin('~/.vim/bundle')
             let g:vim_isort_map = '<C-i>'
         endif
         " ]]]
-        " ]]]
-
-    " ]]]
 
         " Nginx[[[3
         if count(g:bundle_groups, 'nginx')
             Plug 'bwangel23/nginx-vim-syntax'
         endif
-        " ]]]
         " ]]]
     " ]]]
 call plug#end()
@@ -136,22 +134,70 @@ call plug#end()
 
 " ==================== 插件配置 ========================[[[1
     " 自动补全插件[[[2
+        " ultisnips [[[3
+            let g:UltiSnipsExpandTrigger       = "<tab>"
+            " 定义存放代码片段的文件夹 .vim/UltiSnips下，使用自定义和默认的，将会的到全局，有冲突的会提示
+            let g:UltiSnipsSnippetsDir = '~/.vim/UltiSnips'
+            " 进入对应filetype的snippets进行编辑
+            map <leader>n :UltiSnipsEdit<CR>
+
+            " ctrl+j/k 进行选择
+            func! g:JInYCM()
+                if pumvisible()
+                    return "\<C-n>"
+                else
+                    return "\<c-j>"
+                endif
+            endfunction
+
+            func! g:KInYCM()
+                if pumvisible()
+                    return "\<C-p>"
+                else
+                    return "\<c-k>"
+                endif
+            endfunction
+            inoremap <c-j> <c-r>=g:JInYCM()<cr>
+            au BufEnter,BufRead * exec "inoremap <silent> " . g:UltiSnipsJumpBackwordTrigger . " <C-R>=g:KInYCM()<cr>"
+            let g:UltiSnipsJumpBackwordTrigger = "<c-k>"
+        " ]]]
+        " YouCompleteMe [[[3
+            let g:ycm_key_list_select_completion=['<c-n>']
+            let g:ycm_key_list_previous_completion=['<c-p>']
+            let g:ycm_complete_in_comments = 1  "在注释输入中也能补全
+            let g:ycm_complete_in_strings = 1   "在字符串输入中也能补全
+            let g:ycm_use_ultisnips_completer = 1 "提示UltiSnips
+            let g:ycm_collect_identifiers_from_comments_and_strings = 1   "注释和字符串中的文字也会被收入补全
+            let g:ycm_collect_identifiers_from_tags_files = 1
+            " 开启语法关键字补全
+            let g:ycm_seed_identifiers_with_syntax=1
+            " 设置Python解释器的路径
+            let g:ycm_server_python_interpreter = '/usr/bin/python'
+            " 设置补全时用到的Python解释器的路径
+            let g:ycm_python_binary_path = 'python3'
+
+            if !empty(glob("~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py"))
+                let g:ycm_global_ycm_extra_conf = "~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py"
+            endif
+
+            " 跳转到定义处, 水平分屏打开
+            let g:ycm_goto_buffer_command = 'horizontal-split'
+            nnoremap <leader>d :YcmCompleter GoToDefinition<CR>
+
+            " 黑名单,不启用
+            let g:ycm_filetype_blacklist = {
+                \ 'tagbar' : 1,
+                \ 'gitcommit' : 1,
+                \ 'nerdtree': 1,
+                \ 'zsh': 1,
+                \}
+        " ]]]
         " delimitMate [[[3
             " for python docstring ",优化输入
             au FileType python let b:delimitMate_nesting_quotes = ['"']
             au FileType php let delimitMate_matchpairs = "(:),[:],{:}"
             " 关闭某些类型文件的自动补全
             "au FileType mail let b:delimitMate_autoclose = 0
-        " ]]]
-        " nvim-completion-manager [[[3
-            " for python completions
-            let g:python_support_python3_requirements = add(get(g:,'python_support_python3_requirements',[]),'jedi')
-            " language specific completions on markdown file
-            let g:python_support_python3_requirements = add(get(g:,'python_support_python3_requirements',[]),'mistune')
-
-            " utils, optional
-            let g:python_support_python3_requirements = add(get(g:,'python_support_python3_requirements',[]),'psutil')
-            let g:python_support_python3_requirements = add(get(g:,'python_support_python3_requirements',[]),'setproctitle')
         " ]]]
     " ]]]
 
@@ -257,7 +303,6 @@ call plug#end()
             " add support for virtualenv
             let g:ale_python_pylint_executable = 'python3 /usr/local/bin/pylint'
             let g:ale_python_pylint_options = '--rcfile ~/.pylint.rc'
-
         " ]]]
     " ]]]
 
@@ -336,7 +381,6 @@ call plug#end()
             " let g:nerdtree_tabs_synchronize_view=0
             " let g:nerdtree_tabs_synchronize_focus=0
             " 是否自动开启nerdtree
-            " thank to @ListenerRi, see https://github.com/wklken/k-vim/issues/165
             let g:nerdtree_tabs_open_on_console_startup=0
             let g:nerdtree_tabs_open_on_gui_startup=0
         " ]]]
