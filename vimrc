@@ -87,9 +87,6 @@ au BufLeave,FocusLost * wa
 " 开启鼠标
 set mouse=a
 
-" 自动重新载入vimrc文件
-" FIXME: 目前存在BUG，会导致编辑vimrc时，在插入模式下会自动删除输入的内容
-" autocmd! bufwritepost .vimrc source ~/.vimrc
 " ]]]
 
 " Display Settings 展示/排版等界面格式设置[[[1
