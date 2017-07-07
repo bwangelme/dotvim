@@ -54,8 +54,10 @@ call plug#begin('~/.vim/bundle')
         Plug 'easymotion/vim-easymotion'
 
         " fzf
-        Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-        Plug 'junegunn/fzf.vim'
+        if !has('gui')
+            Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+            Plug 'junegunn/fzf.vim'
+        endif
     " ]]]
 
     " 功能插件[[[2
@@ -252,6 +254,7 @@ call plug#end()
             " 重复上一次操作, 类似repeat插件, 很强大
             map <leader>. <Plug>(easymotion-repeat)
         " ]]]
+        if !has('gui')
         " fzf [[[3
             nmap <leader>p :FZF<CR>
             let g:fzf_launcher = "~/bin/MacVim_fzf %s"
@@ -262,6 +265,7 @@ call plug#end()
             let g:fzf_layout = { 'window': 'enew' }
             let g:fzf_layout = { 'window': '-tabnew' }
         " ]]]
+        endif
     " ]]]
     " 功能插件[[[2
         " fugitive [[[3
@@ -397,16 +401,20 @@ call plug#end()
             let g:tagbar_compact = 1
             let g:tagbar_silent = 1
             let g:tagbar_iconchars = ['▸', '▾']
-            " for ruby
-            let g:tagbar_type_ruby = {
+            " for markdown
+            let g:tagbar_type_markdown = {
+                \ 'ctagstype': 'markdown',
+                \ 'ctagsbin' : '/Users/michaeltsui/bin/markdown2ctags.py',
+                \ 'ctagsargs' : '-f - --sort=yes',
                 \ 'kinds' : [
-                    \ 'm:modules',
-                    \ 'c:classes',
-                    \ 'd:describes',
-                    \ 'C:contexts',
-                    \ 'f:methods',
-                    \ 'F:singleton methods'
-                \ ]
+                    \ 's:sections',
+                    \ 'i:images'
+                \ ],
+                \ 'sro' : '|',
+                \ 'kind2scope' : {
+                    \ 's' : 'section',
+                \ },
+                \ 'sort': 0,
             \ }
 
             " go语言的tagbar配置
