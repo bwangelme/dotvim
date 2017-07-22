@@ -279,7 +279,7 @@ nnoremap <F6> :exec exists('syntax_on') ? 'syn off' : 'syn on'<CR>
 
 " F7 快速运行dot生成png文件
 " nnoremap <F7> :!dot -Tpng -o %<.png % && open %<.png<CR>
-map <F7> :call RunSrc()<CR>
+map <F7> :call RunSrc()<CR><CR>
 func! RunSrc()
     exec "w"
     if &filetype == 'py'||&filetype == 'python'
@@ -292,6 +292,8 @@ func! RunSrc()
         exec "!ruby %"
     elseif &filetype == 'markdown'
         exec "!markdown_py %>md_exported.html;google-chrome md_exported.html"
+    elseif &filetype == 'dot'
+        exec "!dot -Tpng -o %<.png %"
     endif
     exec "e! %"
 endfunc

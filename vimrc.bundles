@@ -54,10 +54,8 @@ call plug#begin('~/.vim/bundle')
         Plug 'easymotion/vim-easymotion'
 
         " fzf
-        if !has('gui')
-            Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-            Plug 'junegunn/fzf.vim'
-        endif
+        Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+        Plug 'junegunn/fzf.vim'
     " ]]]
 
     " 功能插件[[[2
@@ -67,6 +65,7 @@ call plug#begin('~/.vim/bundle')
         Plug 'vimwiki/vimwiki'
         " ale 代码监测插件
         Plug 'w0rp/ale'
+        Plug 'skywind3000/asyncrun.vim'
     " ]]]
 
     " 显示插件[[[2
@@ -177,7 +176,7 @@ call plug#end()
             " 开启语法关键字补全
             let g:ycm_seed_identifiers_with_syntax=1
             " 设置Python解释器的路径
-            let g:ycm_server_python_interpreter = '/usr/bin/python'
+            let g:ycm_server_python_interpreter = '/usr/local/bin/python3'
             " 设置补全时用到的Python解释器的路径
             let g:ycm_python_binary_path = 'python3'
 
@@ -254,21 +253,18 @@ call plug#end()
             " 重复上一次操作, 类似repeat插件, 很强大
             map <leader>. <Plug>(easymotion-repeat)
         " ]]]
-        if !has('gui')
         " fzf [[[3
             nmap <leader>p :FZF<CR>
-            let g:fzf_launcher = "~/bin/MacVim_fzf %s"
         " ]]]
         " fzf.vim[[[3
             " 显示所有Buffer
-            nnoremap <leader>p :GFiles<CR>
+            nnoremap <leader>p :Files<CR>
             nnoremap <leader>l :Buffers<CR>
             nnoremap <leader>m :Maps<CR>
             nnoremap <leader>c :Commits<CR>
             nnoremap <leader>h :BTags<CR>
             let g:fzf_layout = { 'window': '-tabnew', 'down': '~40%' }
         " ]]]
-        endif
     " ]]]
     " 功能插件[[[2
         " fugitive [[[3
