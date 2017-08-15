@@ -18,7 +18,7 @@ if !exists('g:bundle_groups')  " inspired by spf13, 自定义需要的插件集�
         \]
 endif
 
-call plug#begin('~/.vim/bundle')
+call plug#begin('~/.config/nvim/bundle')
     " 自动补全插件[[[2
         " 代码片段快速插入
         Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
@@ -284,7 +284,7 @@ call plug#end()
                                 \ 'syntax': 'markdown', 'ext': '.md'}]
         " ]]]
         " ale [[[3
-            let g:ale_enabled = 0
+            let g:ale_enabled = 1
             " 检查的时间
             let g:ale_lint_delay = 500
             " 改变状态栏信息格式

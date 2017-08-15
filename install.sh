@@ -19,25 +19,10 @@ lnif() {
     fi
 }
 
-install-server () {
+install-vim () {
     echo "Step1: backing up current vim config"
     today=`date +%Y%m%d`
-    for i in $HOME/.vimrc-server; do
-        if [[ -L $i ]];then
-            unlink $i ;
-        else
-            [ -e $i ] && mv $i $i.$today;
-        fi
-    done
-
-    echo "Step2: setting up symlinks"
-    lnif $CURRENT_DIR/vimrc-server $HOME/.vimrc-server
-}
-
-install () {
-    echo "Step1: backing up current vim config"
-    today=`date +%Y%m%d`
-    for i in $HOME/.vim $HOME/.vimrc $HOME/.gvimrc $HOME/.vimrc.bundles; do
+    for i in $HOME/.vimrc; do
         if [[ -L $i ]];then
             unlink $i ;
         else
@@ -47,15 +32,27 @@ install () {
 
     echo "Step2: setting up symlinks"
     lnif $CURRENT_DIR/vimrc $HOME/.vimrc
-    lnif $CURRENT_DIR/vimrc.bundles $HOME/.vimrc.bundles
-    lnif "$CURRENT_DIR/" "$HOME/.vim"
+}
+
+install-nvim () {
+    echo "Step1: backing up current vim config"
+    today=`date +%Y%m%d`
+    for i in $HOME/.config/nvim; do
+        if [[ -L $i ]];then
+            unlink $i ;
+        else
+            [ -e $i ] && mv $i $i.$today;
+        fi
+    done
+
+    echo "Step2: setting up symlinks"
+    lnif "$CURRENT_DIR/" "$HOME/.config/nvim"
 
     echo "Step3: update/install plugins using Vim-plug"
     system_shell=$SHELL
     export SHELL="/bin/sh"
-    vim -u $HOME/.vimrc +PlugInstall! +PlugClean! +qall
+    nvim -u $HOME/.config/nvim/init.vim +PlugInstall! +PlugClean! +qall
     export SHELL=$system_shell
-
 
     echo "Step4: compile YouCompleteMe"
     echo "It will take a long time, just be patient!"
@@ -72,13 +69,13 @@ install () {
 }
 
 case "$1" in
-    server)
-        install-server || exit 1
+    nvim)
+        install-nvim || exit 1
         ;;
-    pc)
-        install || exit 1
+    vim)
+        install-vim || exit 1
         ;;
     *)
-        echo "Usage: $0 {server|pc}"
+        echo "Usage: $0 {vim|nvim}"
         ;;
 esac

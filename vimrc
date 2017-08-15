@@ -6,11 +6,8 @@ scriptencoding utf-8
 " 许可：GPLv3
 " ========================================================================
 
-
-" Initial Plugin 加载插件[[[1
-" ===========================
-
-" 加载插件
+" General Settings 基础设置[[[1
+" =============================
 " 非兼容Vi模式
 set nocompatible
 
@@ -23,16 +20,7 @@ set shell=bash
 " 开启语法高亮
 syntax on
 
-if filereadable(expand("~/.vimrc.bundles"))
-    source ~/.vimrc.bundles
-endif
-
-
 filetype plugin indent on
-"]]]
-
-" General Settings 基础设置[[[1
-" =============================
 
 " history存储容量
 set history=2000
@@ -53,11 +41,7 @@ set autoread
 set nobackup
 
 " 突出显示当前列
-set cursorcolumn
-" 突出显示当前行
-set cursorline
-" 设置80行提示线
-set colorcolumn=80
+" set cursorcolumn
 
 " 设置退出VIM后，内容显示在屏幕
 set t_ti= t_te=
@@ -87,6 +71,9 @@ au BufLeave,FocusLost * wa
 " 开启鼠标
 set mouse=a
 
+" 自动重新载入vimrc文件
+" FIXME: 目前存在BUG，会导致编辑vimrc时，在插入模式下会自动删除输入的内容
+" autocmd! bufwritepost .vimrc source ~/.vimrc
 " ]]]
 
 " Display Settings 展示/排版等界面格式设置[[[1
@@ -128,7 +115,7 @@ set scrolloff=7
 " %c: 当前列号，特殊字符算作一列，中文算作三列
 " %P: 文档阅读百分比
 " %L: 文档总行数
-set statusline=%<%f\ %m%r%w%h%y\ %P-%L\ %{fugitive#statusline()}\ \<%n\>\ %B\ %{ALEGetStatusLine()}\ %=[%{(&fenc==\"\")?&enc:&fenc}%{(&bomb?\",BOM\":\"\")}]\ %-8(%l,%c%)
+set statusline=%<%f\ %m%r%w%h%y\ %P-%L\ \<%n\>\ %B\ %=[%{(&fenc==\"\")?&enc:&fenc}%{(&bomb?\",BOM\":\"\")}]\ %-8(%l,%c%)
 " 使用两行的状态栏
 set laststatus=2
 
@@ -279,7 +266,7 @@ nnoremap <F6> :exec exists('syntax_on') ? 'syn off' : 'syn on'<CR>
 
 " F7 快速运行dot生成png文件
 " nnoremap <F7> :!dot -Tpng -o %<.png % && open %<.png<CR>
-map <F7> :call RunSrc()<CR><CR>
+map <F7> :call RunSrc()<CR>
 func! RunSrc()
     exec "w"
     if &filetype == 'py'||&filetype == 'python'
@@ -292,8 +279,6 @@ func! RunSrc()
         exec "!ruby %"
     elseif &filetype == 'markdown'
         exec "!markdown_py %>md_exported.html;google-chrome md_exported.html"
-    elseif &filetype == 'dot'
-        exec "!dot -Tpng -o %<.png %"
     endif
     exec "e! %"
 endfunc
@@ -500,26 +485,10 @@ endif
 if &diff
     colorscheme industry
 else
-    set background=dark
-    set t_Co=256
-    colorscheme solarized
+    colorscheme desert
 endif
 
 
-" 设置标记一列的背景颜色和数字一行颜色一致
-hi! link SignColumn   LineNr
-hi! link ShowMarksHLl DiffAdd
-hi! link ShowMarksHLu DiffChange
-
-" for error highlight，防止错误整行标红导致看不清
-highlight clear SpellBad
-highlight SpellBad term=standout ctermfg=1 term=underline cterm=underline
-highlight clear SpellCap
-highlight SpellCap term=underline cterm=underline
-highlight clear SpellRare
-highlight SpellRare term=underline cterm=underline
-highlight clear SpellLocal
-highlight SpellLocal term=underline cterm=underline
 " ]]]
 
 
