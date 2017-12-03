@@ -63,9 +63,6 @@ call plug#begin('~/.config/nvim/bundle')
         Plug 'tpope/vim-fugitive'
         " vimwiki
         Plug 'vimwiki/vimwiki'
-        " ale 代码监测插件
-        Plug 'w0rp/ale'
-        Plug 'skywind3000/asyncrun.vim'
     " ]]]
 
     " 显示插件[[[2
@@ -76,8 +73,6 @@ call plug#begin('~/.config/nvim/bundle')
 
         " 显示Mark
         Plug 'kshenoy/vim-signature'
-        " 状态栏增强
-        Plug 'vim-airline/vim-airline'
     " ]]]
 
     " 导航插件[[[2
@@ -90,13 +85,10 @@ call plug#begin('~/.config/nvim/bundle')
     " 语言相关[[[2
         " markdown[[[3
         if count(g:bundle_groups, 'markdown')
+            Plug 'iamcco/markdown-preview.vim'
             Plug 'plasticboy/vim-markdown', {'for': 'md'}
-            " https://github.com/suan/vim-instant-markdown
-            " npm -g install instant-markdown-d
-            Plug 'suan/vim-instant-markdown'
-            let g:instant_markdown_slow = 1
-            let g:instant_markdown_autostart = 0
-            map <F12> :InstantMarkdownPreview<CR>
+            nmap <silent> <F12> <Plug>MarkdownPreview        " for normal mode
+            imap <silent> <F11> <Plug>MarkdownPreview        " for insert m
         endif
         " ]]]
 
@@ -115,12 +107,6 @@ call plug#begin('~/.config/nvim/bundle')
             " pythonsyntax
             Plug 'hdima/python-syntax'
             Plug 'hynek/vim-python-pep8-indent'
-
-            " isort  https://github.com/timothycrosley/isort#readme + https://github.com/fisadev/vim-isort#installation
-            " pip install isort
-            Plug 'fisadev/vim-isort'
-            " Shift-V 上下选中, ctrl + i 规范化
-            let g:vim_isort_map = '<C-i>'
         endif
         " ]]]
 
@@ -131,7 +117,6 @@ call plug#begin('~/.config/nvim/bundle')
         " ]]]
     " ]]]
     if count(g:bundle_groups, 'beta')
-        Plug 'johngrib/vim-game-code-break'
     endif
 call plug#end()
 " ]]]
@@ -283,34 +268,6 @@ call plug#end()
             let g:vimwiki_list = [{'path': '~/vimwiki/',
                                 \ 'syntax': 'markdown', 'ext': '.md'}]
         " ]]]
-        " ale [[[3
-            let g:ale_enabled = 1
-            " 检查的时间
-            let g:ale_lint_delay = 500
-            " 改变状态栏信息格式
-            let g:ale_statusline_format = ['⨉ %d', '⚠ %d', '⬥ ok']
-            " 保持侧边栏可见
-            let g:ale_sign_column_always = 0
-            " 改变错误和警告标识符
-            let g:ale_sign_error = '>>'
-            let g:ale_sign_warning = '--'
-
-            nmap <silent> <C-p> <Plug>(ale_previous)
-            nmap <silent> <C-n> <Plug>(ale_next)
-
-            let g:ale_linters = {
-            \   'python': ['flake8', 'pylint'],
-            \}
-
-            " ## Python 语法检查
-            " =================
-            " 需要安装pep8-naming
-            let g:ale_python_flake8_executable = '/usr/local/bin/flake8'
-            let g:ale_python_flake8_options = '--ignore=E501'
-            " add support for virtualenv
-            let g:ale_python_pylint_executable = 'python3 /usr/local/bin/pylint'
-            let g:ale_python_pylint_options = '--rcfile ~/.pylint.rc'
-        " ]]]
     " ]]]
 
     " 显示插件[[[2
@@ -347,21 +304,6 @@ call plug#end()
             let g:solarized_contrast="normal"
             let g:solarized_visibility="normal"
         " ]]]
-        " vim-airline [[[3
-            let g:loaded_airline = 1
-            if !exists('g:airline_symbols')
-                let g:airline_symbols = {}
-            endif
-            let g:airline_left_sep = '▶'
-            let g:airline_left_alt_sep = '❯'
-            let g:airline_right_sep = '◀'
-            let g:airline_right_alt_sep = '❮'
-            let g:airline_symbols.linenr = '¶'
-            let g:airline_symbols.branch = '⎇'
-            let g:airline_section_x = '%{airline#util#wrap(airline#parts#filetype(),0)}'
-            let g:airline_section_z = 'B%n-%L %P C%c %B'
-            let g:airline_section_y = '%{airline#util#wrap(airline#parts#ffenc(),0)}'
-        " ]]]
     " ]]]
 
     " 导航插件[[[2
@@ -394,7 +336,7 @@ call plug#end()
         " ]]]
         " tagbar [[[3
             nmap <F8> :TagbarToggle<CR>
-            let g:tagbar_width = 34
+            let g:tagbar_width = 54
             let g:tagbar_sort = 0
             let g:tagbar_indent = 1
             let g:tagbar_compact = 1
@@ -455,81 +397,19 @@ call plug#end()
             let python_highlight_all = 1
         " ]]]
         " vim-go [[[3
-            " format with goimports instead of gofmt
             let g:go_fmt_command = "goimports"
-            let g:go_autodetect_gopath = 1
-            let g:go_list_type = "quickfix"
+            let g:go_fmt_autosave = 0
+            let g:go_template_autocreate = 0
 
-            let g:go_highlight_build_constraints = 1
-            let g:go_highlight_types = 1
-            let g:go_highlight_fields = 1
-            let g:go_highlight_functions = 1
-            let g:go_highlight_methods = 1
-            let g:go_highlight_extra_types = 1
-            let g:go_highlight_generate_tags = 1
-            let g:go_highlight_operators = 1
-            let g:go_highlight_structs = 1
+            " :GoFmt
+            autocmd FileType go nmap <leader>f :GoFmt<CR>
 
-            let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
-            let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go', 'java'] }
+            " :GoRun
+            let g:go_term_mode = "split"
+            autocmd FileType go nmap <leader>r  :GoRun! %<CR>
 
-            " Open :GoDeclsDir with ctrl-g
-            nmap <C-g> :GoDeclsDir<cr>
-            imap <C-g> <esc>:<C-u>GoDeclsDir<cr>
-
-            augroup go
-                autocmd!
-
-                " Show by default 4 spaces for a tab
-                autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4
-
-                " :GoBuild and :GoTestCompile
-                autocmd FileType go nmap <leader>b :<C-u>call <SID>build_go_files()<CR>
-
-                " :GoTest
-                autocmd FileType go nmap <leader>t  <Plug>(go-test)
-
-                " :GoRun
-                autocmd FileType go nmap <leader>r  <Plug>(go-run)
-
-                " :GoDoc
-                autocmd FileType go nmap <Leader>d <Plug>(go-doc)
-
-                " :GoCoverageToggle
-                autocmd FileType go nmap <Leader>c <Plug>(go-coverage-toggle)
-
-                " :GoInfo
-                autocmd FileType go nmap <Leader>i <Plug>(go-info)
-
-                " :GoMetaLinter
-                autocmd FileType go nmap <Leader>l <Plug>(go-metalinter)
-
-                autocmd Filetype go map <C-n> :cnext<CR>
-                autocmd Filetype go map <C-p> :cprevious<CR>
-                autocmd Filetype go nnoremap <leader>a :cclose<CR>
-
-                " :GoDef but opens in a vertical split
-                autocmd FileType go nmap <Leader>v <Plug>(go-def-vertical)
-                " :GoDef but opens in a horizontal split
-                autocmd FileType go nmap <Leader>s <Plug>(go-def-split)
-
-                " :GoAlternate  commands :A, :AV, :AS and :AT
-                autocmd Filetype go command! -bang A call go#alternate#Switch(<bang>0, 'edit')
-                autocmd Filetype go command! -bang AV call go#alternate#Switch(<bang>0, 'vsplit')
-                autocmd Filetype go command! -bang AS call go#alternate#Switch(<bang>0, 'split')
-                autocmd Filetype go command! -bang AT call go#alternate#Switch(<bang>0, 'tabe')
-            augroup END
-
-            " build_go_files is a custom function that builds or compiles the test file.
-            " It calls :GoBuild if its a Go file, or :GoTestCompile if it's a test file
-            function! s:build_go_files()
-                let l:file = expand('%')
-                if l:file =~# '^\f\+_test\.go$'
-                    call go#cmd#Test(0, 1)
-                elseif l:file =~# '^\f\+\.go$'
-                    call go#cmd#Build(0)
-                endif
-            endfunction
+            " :GoDef
+            autocmd FileType go nmap <leader>d :GoDef<CR>
         " ]]]
         " vim-markdown [[[3
             let g:vim_markdown_folding_disabled=1

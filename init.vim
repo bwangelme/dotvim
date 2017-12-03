@@ -87,6 +87,8 @@ au BufLeave,FocusLost * wa
 " 开启鼠标
 set mouse=a
 
+let g:python3_host_prog = '/usr/local/bin/python3'
+
 " ]]]
 
 " Display Settings 展示/排版等界面格式设置[[[1
@@ -128,7 +130,7 @@ set scrolloff=7
 " %c: 当前列号，特殊字符算作一列，中文算作三列
 " %P: 文档阅读百分比
 " %L: 文档总行数
-set statusline=%<%f\ %m%r%w%h%y\ %P-%L\ %{fugitive#statusline()}\ \<%n\>\ %B\ %{ALEGetStatusLine()}\ %=[%{(&fenc==\"\")?&enc:&fenc}%{(&bomb?\",BOM\":\"\")}]\ %-8(%l,%c%)
+set statusline=%<%f\ %m%r%w%h%y\ %P-%L\ %{fugitive#statusline()}\ \<%n\>\ %B\ %=[%{(&fenc==\"\")?&enc:&fenc}%{(&bomb?\",BOM\":\"\")}]\ %-8(%l,%c%)
 " 使用两行的状态栏
 set laststatus=2
 
@@ -345,6 +347,9 @@ endf
 
 nmap \ :call GitGrepWord()<CR>
 
+" golang 格式化
+let g:gofmt=""
+
 " 分屏窗口移动, Smart way to move between windows
 nnoremap <C-j> <C-W>j
 nnoremap <C-k> <C-W>k
@@ -448,7 +453,7 @@ nnoremap U <C-r>
 " Quickly edit/reload the vimrc file
 nmap <silent> <leader>e :e $MYVIMRC<cr>
 nmap <silent> <leader>s :so $MYVIMRC<CR>
-nmap <silent> <leader>u :e ~/.vimrc.bundles<CR>
+nmap <silent> <leader>u :e ~/.config/nvim/vimrc.bundles<CR>
 
 " 文件折叠
 nmap - zc
@@ -474,13 +479,13 @@ autocmd BufRead,BufNewFile *.md,*.mkd,*.markdown set filetype=markdown.mkd wrap
 autocmd BufRead,BufNewFile *.part set filetype=html
 
 " 定义函数AutoSetFileHead，自动插入文件头
-autocmd bufnewfile *.c so ~/.vim/templates/c.template
-autocmd bufnewfile *.py so ~/.vim/templates/python.template
-autocmd bufnewfile *.ruby so ~/.vim/templates/ruby.template
-autocmd bufnewfile *.cpp so ~/.vim/templates/cpp.template
-autocmd bufnewfile *.sh so ~/.vim/templates/sh.template
-autocmd bufnewfile *.vim so ~/.vim/templates/vim.template
-
+autocmd bufnewfile *.c so ~/.config/nvim/templates/c.template
+autocmd bufnewfile *.py so ~/.config/nvim/templates/python.template
+autocmd bufnewfile *.ruby so ~/.config/nvim/templates/ruby.template
+autocmd bufnewfile *.cpp so ~/.config/nvim/templates/cpp.template
+autocmd bufnewfile *.sh so ~/.config/nvim/templates/sh.template
+autocmd bufnewfile *.vim so ~/.config/nvim/templates/vim.template
+autocmd bufnewfile *.go so ~/.config/nvim/templates/go.template
 " 设置可以高亮的关键字
 if has("autocmd")
   " Highlight TODO, FIXME, NOTE, etc.
