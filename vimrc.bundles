@@ -14,7 +14,6 @@ if !exists('g:bundle_groups')  " inspired by spf13, 自定义需要的插件集�
         \'beta',
         \'markdown',
         \'nginx',
-        \'golang',
         \]
 endif
 
@@ -59,8 +58,6 @@ call plug#begin('~/.config/nvim/bundle')
     " ]]]
 
     " 功能插件[[[2
-        " fugitive
-        Plug 'tpope/vim-fugitive'
         " vimwiki
         Plug 'vimwiki/vimwiki'
     " ]]]
@@ -85,19 +82,7 @@ call plug#begin('~/.config/nvim/bundle')
     " 语言相关[[[2
         " markdown[[[3
         if count(g:bundle_groups, 'markdown')
-            Plug 'iamcco/markdown-preview.vim'
             Plug 'plasticboy/vim-markdown', {'for': 'md'}
-            nmap <silent> <F12> <Plug>MarkdownPreview        " for normal mode
-            imap <silent> <F11> <Plug>MarkdownPreview        " for insert m
-        endif
-        " ]]]
-
-        " golang[[[3
-        if count(g:bundle_groups, 'golang')
-            " 1. vim a.go
-            " 2. :GoInstallBinaries
-            " vimgo  https://github.com/fatih/vim-go
-            Plug 'fatih/vim-go', {'for': 'go'}
         endif
         " ]]]
 
@@ -106,7 +91,6 @@ call plug#begin('~/.config/nvim/bundle')
             " for python.vim syntax highlight
             " pythonsyntax
             Plug 'hdima/python-syntax'
-            Plug 'hynek/vim-python-pep8-indent'
         endif
         " ]]]
 
@@ -161,13 +145,15 @@ call plug#end()
             " 开启语法关键字补全
             let g:ycm_seed_identifiers_with_syntax=1
             " 设置Python解释器的路径
-            let g:ycm_server_python_interpreter = '/usr/local/bin/python3'
+            let g:ycm_server_python_interpreter = '/usr/bin/python3'
             " 设置补全时用到的Python解释器的路径
             let g:ycm_python_binary_path = 'python3'
 
             if !empty(glob("~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py"))
                 let g:ycm_global_ycm_extra_conf = "~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py"
             endif
+
+	    let g:ycm_show_diagnostics_ui = 0
 
             " 跳转到定义处, 水平分屏打开
             let g:ycm_goto_buffer_command = 'horizontal-split'
@@ -252,14 +238,6 @@ call plug#end()
         " ]]]
     " ]]]
     " 功能插件[[[2
-        " fugitive [[[3
-            nnoremap <leader>gb :Gblame<CR>
-            nnoremap <leader>gs :Gstatus<CR>
-            nnoremap <leader>gd :Gdiff<CR>
-            nnoremap <leader>gl :Glog<CR>
-            nnoremap <leader>gc :Gcommit<CR>
-            nnoremap <leader>gp :Git push<CR>
-        " ]]]
         " vimwiki [[[3
             nmap <leader>v <Plug>VimwikiIndex
             nmap <Leader>y <Plug>VimwikiDiaryIndex
@@ -395,24 +373,6 @@ call plug#end()
     " 语言相关[[[2
         " pythonsyntax [[[3
             let python_highlight_all = 1
-        " ]]]
-        " vim-go [[[3
-            let g:go_fmt_command = "goimports"
-            let g:go_fmt_autosave = 0
-            let g:go_template_autocreate = 0
-
-            " :GoFmt
-            autocmd FileType go nmap <leader>f :GoFmt<CR>
-
-            " :GoRun
-            let g:go_term_mode = "split"
-            autocmd FileType go nmap <leader>r  :GoRun! %<CR>
-
-            " :GoDef
-            autocmd FileType go nmap <leader>d :GoDef<CR>
-        " ]]]
-        " vim-markdown [[[3
-            let g:vim_markdown_folding_disabled=1
         " ]]]
     " ]]]
 " ]]]

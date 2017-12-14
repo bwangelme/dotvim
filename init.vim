@@ -87,7 +87,7 @@ au BufLeave,FocusLost * wa
 " 开启鼠标
 set mouse=a
 
-let g:python3_host_prog = '/usr/local/bin/python3'
+let g:python3_host_prog = '/usr/bin/python3'
 
 " ]]]
 
@@ -130,7 +130,7 @@ set scrolloff=7
 " %c: 当前列号，特殊字符算作一列，中文算作三列
 " %P: 文档阅读百分比
 " %L: 文档总行数
-set statusline=%<%f\ %m%r%w%h%y\ %P-%L\ %{fugitive#statusline()}\ \<%n\>\ %B\ %=[%{(&fenc==\"\")?&enc:&fenc}%{(&bomb?\",BOM\":\"\")}]\ %-8(%l,%c%)
+set statusline=%<%f\ %m%r%w%h%y\ %P-%L\ \<%n\>\ %B\ %=[%{(&fenc==\"\")?&enc:&fenc}%{(&bomb?\",BOM\":\"\")}]\ %-8(%l,%c%)
 " 使用两行的状态栏
 set laststatus=2
 
