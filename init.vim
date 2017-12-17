@@ -414,8 +414,8 @@ cnoremap <C-b> <Left>
 cnoremap <C-f> <Right>
 
 " 进入搜索Use sane regexes"
-nnoremap / /\v
-vnoremap / /\v
+nnoremap / /\m
+vnoremap / /\m
 
 " Keep search pattern at the center of the screen.
 nnoremap <silent> n nzz

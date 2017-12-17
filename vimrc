@@ -23,8 +23,8 @@ set shell=bash
 " 开启语法高亮
 syntax on
 
-if filereadable(expand("~/.config/nvim/vimrc.bundles"))
-    source ~/.config/nvim/vimrc.bundles
+if filereadable(expand("~/.vimrc.bundles"))
+    source ~/.vimrc.bundles
 endif
 
 
