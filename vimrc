@@ -6,8 +6,11 @@ scriptencoding utf-8
 " 许可：GPLv3
 " ========================================================================
 
-" General Settings 基础设置[[[1
-" =============================
+
+" Initial Plugin 加载插件[[[1
+" ===========================
+
+" 加载插件
 " 非兼容Vi模式
 set nocompatible
 
@@ -20,7 +23,16 @@ set shell=bash
 " 开启语法高亮
 syntax on
 
+if filereadable(expand("~/.config/nvim/vimrc.bundles"))
+    source ~/.config/nvim/vimrc.bundles
+endif
+
+
 filetype plugin indent on
+"]]]
+
+" General Settings 基础设置[[[1
+" =============================
 
 " history存储容量
 set history=2000
@@ -41,7 +53,11 @@ set autoread
 set nobackup
 
 " 突出显示当前列
-" set cursorcolumn
+set cursorcolumn
+" 突出显示当前行
+set cursorline
+" 设置80行提示线
+set colorcolumn=80
 
 " 设置退出VIM后，内容显示在屏幕
 set t_ti= t_te=
@@ -71,9 +87,8 @@ au BufLeave,FocusLost * wa
 " 开启鼠标
 set mouse=a
 
-" 自动重新载入vimrc文件
-" FIXME: 目前存在BUG，会导致编辑vimrc时，在插入模式下会自动删除输入的内容
-" autocmd! bufwritepost .vimrc source ~/.vimrc
+let g:python3_host_prog = '/usr/bin/python3'
+
 " ]]]
 
 " Display Settings 展示/排版等界面格式设置[[[1
@@ -121,6 +136,14 @@ set laststatus=2
 
 " 显示行号
 set number
+set relativenumber
+nmap <C-N><C-N> :set relativenumber!<CR>
+augroup numbertoggle
+  autocmd!
+  autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
+  autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
+augroup END
+
 " 取消换行
 set nowrap
 
@@ -233,7 +256,7 @@ nnoremap gk k
 nnoremap j gj
 nnoremap gj j
 
-"功能键的键位映射[[[2
+" 功能键的键位映射[[[2
 " ====================
 
 " F1 废弃这个键,防止调出系统帮助
@@ -266,7 +289,7 @@ nnoremap <F6> :exec exists('syntax_on') ? 'syn off' : 'syn on'<CR>
 
 " F7 快速运行dot生成png文件
 " nnoremap <F7> :!dot -Tpng -o %<.png % && open %<.png<CR>
-map <F7> :call RunSrc()<CR>
+map <F7> :call RunSrc()<CR><CR>
 func! RunSrc()
     exec "w"
     if &filetype == 'py'||&filetype == 'python'
@@ -279,6 +302,8 @@ func! RunSrc()
         exec "!ruby %"
     elseif &filetype == 'markdown'
         exec "!markdown_py %>md_exported.html;google-chrome md_exported.html"
+    elseif &filetype == 'dot'
+        exec "!dot -Tpng -o %<.png %"
     endif
     exec "e! %"
 endfunc
@@ -309,6 +334,35 @@ func! FormartSrc()
 endfunc
 " ]]]
 
+" Tab 按键设置[[[2
+" ================
+
+" tab 操作
+" http://vim.wikia.com/wiki/Alternative_tab_navigation
+" http://stackoverflow.com/questions/2005214/switching-to-a-particular-tab-in-vim
+
+" normal模式下切换到确切的tab
+noremap <leader>1 1gt
+noremap <leader>2 2gt
+noremap <leader>3 3gt
+noremap <leader>4 4gt
+noremap <leader>5 5gt
+noremap <leader>6 6gt
+noremap <leader>7 7gt
+noremap <leader>8 8gt
+noremap <leader>9 9gt
+noremap <leader>0 :tablast<cr>
+
+" Toggles between the active and last active tab "
+" The first tab is always 1 "
+let g:last_active_tab = 1
+nnoremap <silent> <leader>tt :execute 'tabnext ' . g:last_active_tab<cr>
+autocmd TabLeave * let g:last_active_tab = tabpagenr()
+
+" 新建tab  Ctrl+t
+nnoremap <C-t>     :tabnew<CR>
+inoremap <C-t>     <Esc>:tabnew<CR>
+" ]]]
 
 " c-x c-x => git grep the word under cursor
 let g:gitgrepprg="git\\ grep\\ -n"
@@ -458,6 +512,14 @@ nmap <leader>b :call GetBreakPoint()<CR>
 autocmd BufRead,BufNewFile *.md,*.mkd,*.markdown set filetype=markdown.mkd wrap
 autocmd BufRead,BufNewFile *.part set filetype=html
 
+" 定义函数AutoSetFileHead，自动插入文件头
+autocmd bufnewfile *.c so ~/.config/nvim/templates/c.template
+autocmd bufnewfile *.py so ~/.config/nvim/templates/python.template
+autocmd bufnewfile *.ruby so ~/.config/nvim/templates/ruby.template
+autocmd bufnewfile *.cpp so ~/.config/nvim/templates/cpp.template
+autocmd bufnewfile *.sh so ~/.config/nvim/templates/sh.template
+autocmd bufnewfile *.vim so ~/.config/nvim/templates/vim.template
+autocmd bufnewfile *.go so ~/.config/nvim/templates/go.template
 " 设置可以高亮的关键字
 if has("autocmd")
   " Highlight TODO, FIXME, NOTE, etc.
@@ -477,10 +539,26 @@ endif
 if &diff
     colorscheme industry
 else
-    colorscheme desert
+    set background=dark
+    set t_Co=256
+    colorscheme solarized
 endif
 
 
+" 设置标记一列的背景颜色和数字一行颜色一致
+hi! link SignColumn   LineNr
+hi! link ShowMarksHLl DiffAdd
+hi! link ShowMarksHLu DiffChange
+
+" for error highlight，防止错误整行标红导致看不清
+highlight clear SpellBad
+highlight SpellBad term=standout ctermfg=1 term=underline cterm=underline
+highlight clear SpellCap
+highlight SpellCap term=underline cterm=underline
+highlight clear SpellRare
+highlight SpellRare term=underline cterm=underline
+highlight clear SpellLocal
+highlight SpellLocal term=underline cterm=underline
 " ]]]
 
 

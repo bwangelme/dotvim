@@ -136,6 +136,14 @@ set laststatus=2
 
 " 显示行号
 set number
+set relativenumber
+nmap <C-N><C-N> :set relativenumber!<CR>
+augroup numbertoggle
+  autocmd!
+  autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
+  autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
+augroup END
+
 " 取消换行
 set nowrap
 
@@ -248,7 +256,7 @@ nnoremap gk k
 nnoremap j gj
 nnoremap gj j
 
-"功能键的键位映射[[[2
+" 功能键的键位映射[[[2
 " ====================
 
 " F1 废弃这个键,防止调出系统帮助
@@ -326,6 +334,35 @@ func! FormartSrc()
 endfunc
 " ]]]
 
+" Tab 按键设置[[[2
+" ================
+
+" tab 操作
+" http://vim.wikia.com/wiki/Alternative_tab_navigation
+" http://stackoverflow.com/questions/2005214/switching-to-a-particular-tab-in-vim
+
+" normal模式下切换到确切的tab
+noremap <leader>1 1gt
+noremap <leader>2 2gt
+noremap <leader>3 3gt
+noremap <leader>4 4gt
+noremap <leader>5 5gt
+noremap <leader>6 6gt
+noremap <leader>7 7gt
+noremap <leader>8 8gt
+noremap <leader>9 9gt
+noremap <leader>0 :tablast<cr>
+
+" Toggles between the active and last active tab "
+" The first tab is always 1 "
+let g:last_active_tab = 1
+nnoremap <silent> <leader>tt :execute 'tabnext ' . g:last_active_tab<cr>
+autocmd TabLeave * let g:last_active_tab = tabpagenr()
+
+" 新建tab  Ctrl+t
+nnoremap <C-t>     :tabnew<CR>
+inoremap <C-t>     <Esc>:tabnew<CR>
+" ]]]
 
 " c-x c-x => git grep the word under cursor
 let g:gitgrepprg="git\\ grep\\ -n"
@@ -346,9 +383,6 @@ func! GitGrepWord()
 endf
 
 nmap \ :call GitGrepWord()<CR>
-
-" golang 格式化
-let g:gofmt=""
 
 " 分屏窗口移动, Smart way to move between windows
 nnoremap <C-j> <C-W>j
