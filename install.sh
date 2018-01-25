@@ -22,7 +22,8 @@ lnif() {
 install-vim () {
     echo "Step1: backing up current vim config"
     today=`date +%Y%m%d`
-    for i in $HOME/.vimrc; do
+    files=( "$HOME/.vimrc" "$HOME/.vimrc.bundles" "$HOME/.vim" )
+    for i in "${fiels[@]}"; do
         if [[ -L $i ]];then
             unlink $i ;
         else
@@ -32,6 +33,8 @@ install-vim () {
 
     echo "Step2: setting up symlinks"
     lnif $CURRENT_DIR/vimrc $HOME/.vimrc
+    lnif $CURRENT_DIR/vimrc.bundles $HOME/.vimrc.bundles
+    lnif $CURRENT_DIR/ $HOME/.vim
 }
 
 install-nvim () {
