@@ -137,6 +137,7 @@ call plug#end()
     " 编辑插件[[[2
         " vim-commentary [[[3
             autocmd FileType nginx setlocal commentstring=#\ %s
+            autocmd FileType sql setlocal commentstring=--\ %s
             autocmd FileType awk setlocal commentstring=#\ %s
         " ]]]
         " trailingwhitespace [[[
