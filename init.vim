@@ -507,6 +507,24 @@ function! GetBreakPoint()
 endfunction
 
 nmap <leader>b :call GetBreakPoint()<CR>
+
+function! CreateNewFile(isToday)
+    if a:isToday == "yes"
+        let filename = "~/vimwiki/diary/" . strftime("%Y-%m-%d") . ".md"
+    else
+        let date = localtime() + 86400
+        let filename = "~/vimwiki/diary/" . strftime("%Y-%m-%d", date) . ".md"
+    endif
+    execute 'edit' filename
+endfunction
+
+" 新建明天额任务列表
+nmap <leader>n :call CreateNewFile("no")<CR>
+
+" 打开今天的任务列表
+nmap <leader>y :call CreateNewFile("yes")<CR>
+
+
 " ]]]
 
 " FileType Settings  文件类型设置[[[1

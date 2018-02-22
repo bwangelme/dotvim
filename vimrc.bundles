@@ -175,7 +175,6 @@ call plug#end()
     " 功能插件[[[2
         " vimwiki [[[3
             nmap <leader>v <Plug>VimwikiIndex
-            nmap <Leader>y <Plug>VimwikiDiaryIndex
             let g:vimwiki_global_ext = 0
             let g:vimwiki_dir_link = 'README'
             let g:vimwiki_list = [{'path': '~/vimwiki/',
