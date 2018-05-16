@@ -19,6 +19,8 @@ endif
 
 call plug#begin('~/.config/nvim/bundle')
     " 自动补全插件[[[2
+        " 代码片段快速插入
+        Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
         " 自动补全单引号，双引号等
         Plug 'Raimondi/delimitMate'
     " ]]]
@@ -35,6 +37,19 @@ call plug#begin('~/.config/nvim/bundle')
     " ]]]
 
     " 快速定位插件 [[[2
+        " ctrlsf
+        " 类似sublimetext的搜索
+        " In CtrlSF window:
+        " O - 在当前窗口打开
+        " p - 在预览窗口中打开，按Q退出预览窗口
+        " t       在tab中打开(建议)
+        " T - Lkie t but focus CtrlSF window instead of opened new tab.
+        " q - Quit CtrlSF window.
+        Plug 'dyng/ctrlsf.vim'
+
+        " 文件内快速定位
+        Plug 'easymotion/vim-easymotion'
+
         " fzf
         Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
         Plug 'junegunn/fzf.vim'
@@ -90,6 +105,33 @@ call plug#end()
 
 " ==================== 插件配置 ========================[[[1
     " 自动补全插件[[[2
+        " ultisnips [[[3
+            let g:UltiSnipsExpandTrigger       = "<tab>"
+            " 定义存放代码片段的文件夹 .vim/UltiSnips下，使用自定义和默认的，将会的到全局，有冲突的会提示
+            let g:UltiSnipsSnippetsDir = '~/.vim/UltiSnips'
+            " 进入对应filetype的snippets进行编辑
+            map <leader>n :UltiSnipsEdit<CR>
+
+            " ctrl+j/k 进行选择
+            func! g:JInYCM()
+                if pumvisible()
+                    return "\<C-n>"
+                else
+                    return "\<c-j>"
+                endif
+            endfunction
+
+            func! g:KInYCM()
+                if pumvisible()
+                    return "\<C-p>"
+                else
+                    return "\<c-k>"
+                endif
+            endfunction
+            inoremap <c-j> <c-r>=g:JInYCM()<cr>
+            au BufEnter,BufRead * exec "inoremap <silent> " . g:UltiSnipsJumpBackwordTrigger . " <C-R>=g:KInYCM()<cr>"
+            let g:UltiSnipsJumpBackwordTrigger = "<c-k>"
+        " ]]]
         " delimitMate [[[3
             " for python docstring ",优化输入
             au FileType python let b:delimitMate_nesting_quotes = ['"']
@@ -118,8 +160,35 @@ call plug#end()
             let g:multi_cursor_quit_key='<Esc>'
         " ]]]
     " ]]]
-
     " 快速定位插件[[[2
+        " ctrlsf [[[3
+            nmap <leader>q <Plug>CtrlSFPrompt
+            vmap <leader>q <Plug>CtrlSFVwordPath
+            " let g:ctrlsf_position = 'below'
+            " let g:ctrlsf_winsize = '30%'
+            let g:ctrlsf_auto_close = 0
+            let g:ctrlsf_confirm_save = 0
+            " Note: cannot use <CR> or <C-m> for open
+            " Use : <sapce> or <tab>
+            let g:ctrlsf_mapping = {
+                \ "open"  : "<Space>",
+                \ "openb" : "O",
+                \ "tab"   : "t",
+                \ "tabb"  : "T",
+                \ "prevw" : "p",
+                \ "quit"  : "q",
+                \ "next"  : "<C-N>",
+                \ "prev"  : "<C-P>",
+                \ "pquit" : "q",
+                \ }
+        " ]]]
+        " vim-easymotion [[[3
+            let g:EasyMotion_smartcase = 1
+            map <leader>j <Plug>(easymotion-j)
+            map <leader>k <Plug>(easymotion-k)
+            " 重复上一次操作, 类似repeat插件, 很强大
+            map <leader>. <Plug>(easymotion-repeat)
+        " ]]]
         " fzf [[[3
             nmap <leader>p :FZF<CR>
         " ]]]
