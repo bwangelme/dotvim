@@ -56,8 +56,6 @@ call plug#begin('~/.config/nvim/bundle')
     " ]]]
 
     " 功能插件[[[2
-        " vimwiki
-        Plug 'vimwiki/vimwiki'
     " ]]]
 
     " 显示插件[[[2
@@ -203,13 +201,6 @@ call plug#end()
         " ]]]
     " ]]]
     " 功能插件[[[2
-        " vimwiki [[[3
-            nmap <leader>v <Plug>VimwikiIndex
-            let g:vimwiki_global_ext = 0
-            let g:vimwiki_dir_link = 'README'
-            let g:vimwiki_list = [{'path': '~/vimwiki/',
-                                \ 'syntax': 'markdown', 'ext': '.md'}]
-        " ]]]
     " ]]]
 
     " 显示插件[[[2

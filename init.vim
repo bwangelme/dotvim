@@ -264,7 +264,7 @@ nnoremap gj j
 " ====================
 
 " F1 废弃这个键,防止调出系统帮助
-noremap <F1> <Esc>"
+noremap <F1> :set number!<CR>"
 
 " F2 折叠开关
 function! ToggleFold()
@@ -502,28 +502,11 @@ nnoremap R :e <CR>
 
 " 获取当前位置作为断点
 function! GetBreakPoint()
-    let @* = expand("%:p").":".line(".")
-    echo @*
+    let @w = expand("%:p").":".line(".")
+    echo @w
 endfunction
 
 nmap <leader>b :call GetBreakPoint()<CR>
-
-function! CreateNewFile(isToday)
-    if a:isToday == "yes"
-        let filename = "~/vimwiki/diary/" . strftime("%Y-%m-%d") . ".md"
-    else
-        let date = localtime() + 86400
-        let filename = "~/vimwiki/diary/" . strftime("%Y-%m-%d", date) . ".md"
-    endif
-    execute 'edit' filename
-endfunction
-
-" 新建明天额任务列表
-nmap <leader>n :call CreateNewFile("no")<CR>
-
-" 打开今天的任务列表
-nmap <leader>y :call CreateNewFile("yes")<CR>
-
 
 " ]]]
 
