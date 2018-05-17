@@ -17,7 +17,7 @@ if !exists('g:bundle_groups')  " inspired by spf13, 自定义需要的插件集�
         \]
 endif
 
-call plug#begin('~/.config/nvim/bundle')
+call plug#begin('~/.vim/bundle')
     " 自动补全插件[[[2
         " 代码片段快速插入
         Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'

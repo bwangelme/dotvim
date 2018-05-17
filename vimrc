@@ -517,13 +517,13 @@ autocmd BufRead,BufNewFile *.md,*.mkd,*.markdown set filetype=markdown.mkd wrap
 autocmd BufRead,BufNewFile *.part set filetype=html
 
 " 定义函数AutoSetFileHead，自动插入文件头
-autocmd bufnewfile *.c so ~/.config/nvim/templates/c.template
-autocmd bufnewfile *.py so ~/.config/nvim/templates/python.template
-autocmd bufnewfile *.ruby so ~/.config/nvim/templates/ruby.template
-autocmd bufnewfile *.cpp so ~/.config/nvim/templates/cpp.template
-autocmd bufnewfile *.sh so ~/.config/nvim/templates/sh.template
-autocmd bufnewfile *.vim so ~/.config/nvim/templates/vim.template
-autocmd bufnewfile *.go so ~/.config/nvim/templates/go.template
+autocmd bufnewfile *.c so ~/.vim/templates/c.template
+autocmd bufnewfile *.py so ~/.vim/templates/python.template
+autocmd bufnewfile *.ruby so ~/.vim/templates/ruby.template
+autocmd bufnewfile *.cpp so ~/.vim/templates/cpp.template
+autocmd bufnewfile *.sh so ~/.vim/templates/sh.template
+autocmd bufnewfile *.vim so ~/.vim/templates/vim.template
+autocmd bufnewfile *.go so ~/.vim/templates/go.template
 " 设置可以高亮的关键字
 if has("autocmd")
   " Highlight TODO, FIXME, NOTE, etc.
