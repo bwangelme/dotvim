@@ -172,8 +172,9 @@ call plug#end()
         " fzf.vim[[[3
             " 显示所有Buffer
             nnoremap <leader>p :Files<CR>
-            nnoremap <leader>l :Buffers<CR>
+            nnoremap <silent> <Leader><Enter>  :Buffers<CR>
             nnoremap <leader>m :Maps<CR>
+            nnoremap <silent> <Leader>l        :BLines<CR>
             nnoremap <leader>c :Commits<CR>
             nnoremap <leader>h :BTags<CR>
             let g:fzf_layout = { 'window': '-tabnew', 'down': '~40%' }
