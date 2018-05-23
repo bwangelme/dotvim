@@ -49,6 +49,7 @@ call plug#begin('~/.config/nvim/bundle')
 
     " 功能插件[[[2
         Plug 'tpope/vim-fugitive'
+        Plug 'w0rp/ale'
     " ]]]
 
     " 显示插件[[[2
@@ -151,8 +152,8 @@ call plug#end()
             let g:multi_cursor_quit_key='<Esc>'
         " ]]]
         " yapf [[[3
-            autocmd FileType python nnoremap <leader>y :0,$!yapf<Cr>
-            autocmd FileType python vnoremap <leader>y :!yapf<Cr>
+            autocmd FileType python nnoremap <leader>= :0,$!yapf<Cr>
+            autocmd FileType python vnoremap <leader>= :!yapf<Cr>
         " ]]]
     " ]]]
     " 快速定位插件[[[2
@@ -198,6 +199,52 @@ call plug#end()
         " vim-fugitive [[[3
             " :Gdiff  :Gstatus :Gvsplit
             nnoremap <leader>ge :Gdiff<CR>
+        " ]]]
+        " ale [[[3
+            " pip install flake8 isort
+            let g:ale_linters = {
+            \   'python': ['flake8'],
+            \}
+
+            let g:ale_fixers = {
+            \   'python': ['isort'],
+            \}
+
+            " http://pep8.readthedocs.io/en/latest/intro.html#error-codes
+            " http://flake8.pycqa.org/en/latest/user/error-codes.html
+            let g:ale_python_flake8_args="--ignore=E114,E116,E131 --max-line-length=80"
+
+            let g:ale_sign_column_always = 1
+
+            nmap <silent> <C-p> <Plug>(ale_previous)
+            nmap <silent> <C-n> <Plug>(ale_next)
+            nmap <silent> <Leader>d <Plug>(ale_next)
+            nmap <silent> <Leader>y :ALEFix
+
+            let g:ale_sign_error = '>>'
+            let g:ale_sign_warning = '__'
+
+            let g:ale_statusline_format = ['⨉ %d', '⚠ %d', '⬥ ok']
+            let g:ale_echo_msg_error_str = 'E'
+            let g:ale_echo_msg_warning_str = 'W'
+            let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+
+            nnoremap <silent> <Leader>ec :ALEToggle<CR>
+
+            " troggle quickfix list
+            function! ToggleErrors()
+                let old_last_winnr = winnr('$')
+                lclose
+                if old_last_winnr == winnr('$')
+                    " Nothing was closed, open syntastic_error location panel
+                    lopen
+                endif
+            endfunction
+            nnoremap <Leader>s :call ToggleErrors()<cr>
+
+            let g:ale_set_highlights = 1
+            highlight clear ALEErrorSign
+            highlight clear ALEWarningSign
         " ]]]
     " ]]]
 

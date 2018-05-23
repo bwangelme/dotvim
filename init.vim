@@ -134,7 +134,8 @@ set scrolloff=7
 " %c: 当前列号，特殊字符算作一列，中文算作三列
 " %P: 文档阅读百分比
 " %L: 文档总行数
-set statusline=%<%f\ %m%r%w%h%y\ %{fugitive#statusline()}\ %P-%L\ \<%n\>\ %B\ %=[%{(&fenc==\"\")?&enc:&fenc}%{(&bomb?\",BOM\":\"\")}]\ %-8(%l,%c%)
+set statusline=%<%f\ %m%r%w%h%y\ %{fugitive#statusline()}\ %P-%L\ %{ALEGetStatusLine()}\ \<%n\>\ %B\ %=[%{(&fenc==\"\")?&enc:&fenc}%{(&bomb?\",BOM\":\"\")}]\ %-8(%l,%c%)
+
 " 使用两行的状态栏
 set laststatus=2
 
@@ -416,6 +417,9 @@ cnoremap <C-a> <Home>
 cnoremap <C-e> <End>
 cnoremap <C-b> <Left>
 cnoremap <C-f> <Right>
+" ctrl-n, ctrl-p 只能搜索历史命令
+cnoremap <c-n> <down>
+cnoremap <c-p> <up>
 
 " 进入搜索Use sane regexes"
 nnoremap / /\m
@@ -465,6 +469,11 @@ noremap <right> :bn<CR>
 vnoremap < <gv
 vnoremap > >gv
 
+" 添加 Tmux 的支持
+if $TMUX == ''
+    set clipboard+=unnamed
+endif
+
 " 复制选中区到系统剪切板中
 if has('clipboard')
     vnoremap y "+y
@@ -480,6 +489,8 @@ cmap w!! w !sudo tee >/dev/null %
 " Quickly save the current file
 nnoremap <leader>w :w<CR>
 nnoremap <leader>r :e<CR>
+" https://github.com/wsdjeg/vim-galore-zh_cn#%E6%99%BA%E8%83%BD-ctrl-l
+" nnoremap <leader>r :nohlsearch<cr>:diffupdate<cr>:syntax sync fromstart<cr><c-l>
 
 " 交换 ' `, 使得可以快速使用'跳到marked位置
 nnoremap ' `
