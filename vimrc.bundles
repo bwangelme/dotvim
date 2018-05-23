@@ -152,8 +152,8 @@ call plug#end()
             let g:multi_cursor_quit_key='<Esc>'
         " ]]]
         " yapf [[[3
-            autocmd FileType python nnoremap <leader>= :0,$!yapf<Cr>
-            autocmd FileType python vnoremap <leader>= :!yapf<Cr>
+            autocmd FileType python nnoremap <leader>= :0,$!yapf --style ~/.vim/config/style.yapf<Cr>
+            autocmd FileType python vnoremap <leader>= :!yapf --style ~/.vim/config/style.yapf<Cr>
         " ]]]
     " ]]]
     " 快速定位插件[[[2
