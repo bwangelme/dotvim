@@ -187,6 +187,10 @@ call plug#end()
             nnoremap <silent> <Leader><Enter>        :BLines<CR>
             nnoremap <leader>c :Commits<CR>
             nnoremap <leader>h :BTags<CR>
+            let g:fzf_action = {
+              \ 'ctrl-t': 'tab split',
+              \ 'ctrl-s': 'split',
+              \ 'ctrl-v': 'vsplit' }
             let g:fzf_layout = { 'window': '-tabnew', 'down': '~40%' }
             let g:fzf_colors =
             \ { 'fg':      ['fg', 'Normal'],
