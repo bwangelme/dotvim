@@ -131,8 +131,8 @@ set scrolloff=7
     " %P: 文档阅读百分比 %L: 文档总行数
     set statusline+=\ %P-%L
     " %{ALEGetStatusLine()}: ALE代码检查状态
-    " set statusline+=\ %{ALEGetStatusLine()}
-    " set statusline+=\ %{ale#engine#IsCheckingBuffer(bufnr('%'))?'[♫]':'[●]'}
+    set statusline+=\ %{ALEGetStatusLine()}
+    set statusline+=\ %{ale#engine#IsCheckingBuffer(bufnr('%'))?'[♫]':'[●]'}
     " %n: Buffer序号
     set statusline+=\ \<%n\>
     " %B: 光标下字符的十六进制编码值
@@ -575,9 +575,9 @@ endif
 if &diff
     colorscheme industry
 else
-    " set background=light
-    " set t_Co=256
-    " colorscheme solarized
+    set background=light
+    set t_Co=256
+    colorscheme solarized
 endif
 
 

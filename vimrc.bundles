@@ -34,19 +34,13 @@ call plug#begin('~/.vim/bundle')
         Plug 'ntpeters/vim-better-whitespace'
         " 多光标选中编辑
         Plug 'terryma/vim-multiple-cursors'
+        " 格式化Python
+        Plug 'google/yapf', { 'rtp': 'plugins/vim', 'for': 'python' }
+        " 查看 Vim 的 undo 历史
+        Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
     " ]]]
 
     " 快速定位插件 [[[2
-        " ctrlsf
-        " 类似sublimetext的搜索
-        " In CtrlSF window:
-        " O - 在当前窗口打开
-        " p - 在预览窗口中打开，按Q退出预览窗口
-        " t       在tab中打开(建议)
-        " T - Lkie t but focus CtrlSF window instead of opened new tab.
-        " q - Quit CtrlSF window.
-        Plug 'dyng/ctrlsf.vim'
-
         " 文件内快速定位
         Plug 'easymotion/vim-easymotion'
 
@@ -56,8 +50,9 @@ call plug#begin('~/.vim/bundle')
     " ]]]
 
     " 功能插件[[[2
-        " vimwiki
-        Plug 'vimwiki/vimwiki'
+        Plug 'tpope/vim-fugitive'
+        Plug 'w0rp/ale'
+        Plug 'tpope/vim-rhubarb'
     " ]]]
 
     " 显示插件[[[2
@@ -159,29 +154,18 @@ call plug#end()
             let g:multi_cursor_skip_key='<C-x>'
             let g:multi_cursor_quit_key='<Esc>'
         " ]]]
+        " yapf [[[3
+            autocmd FileType python nnoremap <leader>= :0,$!yapf --style ~/.vim/config/style.yapf<Cr>
+            autocmd FileType python vnoremap <leader>= :!yapf --style ~/.vim/config/style.yapf<Cr>
+        " ]]]
+        " undotree [[[3
+            if has("persistent_undo")
+                set undodir=~/.undodir/
+                set undofile
+            endif
+        " ]]]
     " ]]]
     " 快速定位插件[[[2
-        " ctrlsf [[[3
-            nmap <leader>q <Plug>CtrlSFPrompt
-            vmap <leader>q <Plug>CtrlSFVwordPath
-            " let g:ctrlsf_position = 'below'
-            " let g:ctrlsf_winsize = '30%'
-            let g:ctrlsf_auto_close = 0
-            let g:ctrlsf_confirm_save = 0
-            " Note: cannot use <CR> or <C-m> for open
-            " Use : <sapce> or <tab>
-            let g:ctrlsf_mapping = {
-                \ "open"  : "<Space>",
-                \ "openb" : "O",
-                \ "tab"   : "t",
-                \ "tabb"  : "T",
-                \ "prevw" : "p",
-                \ "quit"  : "q",
-                \ "next"  : "<C-N>",
-                \ "prev"  : "<C-P>",
-                \ "pquit" : "q",
-                \ }
-        " ]]]
         " vim-easymotion [[[3
             let g:EasyMotion_smartcase = 1
             map <leader>j <Plug>(easymotion-j)
@@ -191,24 +175,90 @@ call plug#end()
         " ]]]
         " fzf [[[3
             nmap <leader>p :FZF<CR>
+            nnoremap <Leader>q :Ag<Space>
+            xnoremap <silent> <Leader>q y:Ag <C-R>"<CR>
+            nnoremap <silent> <Leader>` :Marks<CR>
         " ]]]
         " fzf.vim[[[3
             " 显示所有Buffer
             nnoremap <leader>p :Files<CR>
-            nnoremap <leader>l :Buffers<CR>
+            nnoremap <silent> <Leader>l  :Buffers<CR>
             nnoremap <leader>m :Maps<CR>
+            nnoremap <silent> <Leader><Enter>        :BLines<CR>
             nnoremap <leader>c :Commits<CR>
             nnoremap <leader>h :BTags<CR>
             let g:fzf_layout = { 'window': '-tabnew', 'down': '~40%' }
+            let g:fzf_colors =
+            \ { 'fg':      ['fg', 'Normal'],
+                \ 'bg':      ['bg', 'Normal'],
+                \ 'hl':      ['fg', 'Comment'],
+                \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+                \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+                \ 'hl+':     ['fg', 'Statement'],
+                \ 'info':    ['fg', 'PreProc'],
+                \ 'border':  ['fg', 'Ignore'],
+                \ 'prompt':  ['fg', 'Conditional'],
+                \ 'pointer': ['fg', 'Exception'],
+                \ 'marker':  ['fg', 'Keyword'],
+                \ 'spinner': ['fg', 'Label'],
+                \ 'header':  ['fg', 'Comment'] }
         " ]]]
     " ]]]
     " 功能插件[[[2
-        " vimwiki [[[3
-            nmap <leader>v <Plug>VimwikiIndex
-            let g:vimwiki_global_ext = 0
-            let g:vimwiki_dir_link = 'README'
-            let g:vimwiki_list = [{'path': '~/vimwiki/',
-                                \ 'syntax': 'markdown', 'ext': '.md'}]
+        " vim-fugitive [[[3
+            " :Gdiff  :Gstatus :Gvsplit
+            nnoremap <leader>ge :Gdiff<CR>
+            nmap     <Leader>g :Gstatus<CR>gg<c-n>
+        " ]]]
+        " ale [[[3
+            " pip install flake8 isort
+            let g:ale_enabled = 0
+
+            let g:ale_linters = {
+            \   'python': ['flake8'],
+            \}
+
+            let g:ale_fixers = {
+            \   'python': ['isort'],
+            \}
+
+            " http://pep8.readthedocs.io/en/latest/intro.html#error-codes
+            " http://flake8.pycqa.org/en/latest/user/error-codes.html
+            let g:ale_python_flake8_args="--ignore=E114,E116,E131 --max-line-length=80"
+            let g:ale_lint_delay = 2000
+
+            let g:ale_sign_column_always = 1
+
+            nmap <silent> <C-p> <Plug>(ale_previous_wrap)
+            nmap <silent> <C-n> <Plug>(ale_next_wrap)
+            nmap <silent> <Leader>y <Plug>(ale_fix)
+
+            let g:ale_sign_error = '>>'
+            let g:ale_sign_warning = '__'
+            let g:ale_deprecation_ale_statusline_status = 1
+            let g:ale_deprecation_ale_get_status_line = 1
+
+            let g:ale_statusline_format = ['⨉ %d', '⚠ %d', '⬥ ok']
+            let g:ale_echo_msg_error_str = 'E'
+            let g:ale_echo_msg_warning_str = 'W'
+            let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+
+            nnoremap <silent> <Leader>ec :ALEToggle<CR>
+
+            " troggle quickfix list
+            function! ToggleErrors()
+                let old_last_winnr = winnr('$')
+                lclose
+                if old_last_winnr == winnr('$')
+                    " Nothing was closed, open syntastic_error location panel
+                    lopen
+                endif
+            endfunction
+            nnoremap <Leader>s :call ToggleErrors()<cr>
+
+            let g:ale_set_highlights = 1
+            highlight clear ALEErrorSign
+            highlight clear ALEWarningSign
         " ]]]
     " ]]]
 
@@ -284,21 +334,6 @@ call plug#end()
             let g:tagbar_compact = 1
             let g:tagbar_silent = 1
             let g:tagbar_iconchars = ['▸', '▾']
-            " for markdown
-            let g:tagbar_type_markdown = {
-                \ 'ctagstype': 'markdown',
-                \ 'ctagsbin' : '/Users/michaeltsui/bin/markdown2ctags.py',
-                \ 'ctagsargs' : '-f - --sort=yes',
-                \ 'kinds' : [
-                    \ 's:sections',
-                    \ 'i:images'
-                \ ],
-                \ 'sro' : '|',
-                \ 'kind2scope' : {
-                    \ 's' : 'section',
-                \ },
-                \ 'sort': 0,
-            \ }
 
             " go语言的tagbar配置
             " 1. install gotags 'go get -u github.com/jstemmer/gotags'
