@@ -36,6 +36,8 @@ call plug#begin('~/.config/nvim/bundle')
         Plug 'terryma/vim-multiple-cursors'
         " 格式化Python
         Plug 'google/yapf', { 'rtp': 'plugins/vim', 'for': 'python' }
+        " 查看 Vim 的 undo 历史
+        Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
     " ]]]
 
     " 快速定位插件 [[[2
@@ -50,6 +52,7 @@ call plug#begin('~/.config/nvim/bundle')
     " 功能插件[[[2
         Plug 'tpope/vim-fugitive'
         Plug 'w0rp/ale'
+        Plug 'tpope/vim-rhubarb'
     " ]]]
 
     " 显示插件[[[2
@@ -155,6 +158,12 @@ call plug#end()
             autocmd FileType python nnoremap <leader>= :0,$!yapf --style ~/.vim/config/style.yapf<Cr>
             autocmd FileType python vnoremap <leader>= :!yapf --style ~/.vim/config/style.yapf<Cr>
         " ]]]
+        " undotree [[[3
+            if has("persistent_undo")
+                set undodir=~/.undodir/
+                set undofile
+            endif
+        " ]]]
     " ]]]
     " 快速定位插件[[[2
         " vim-easymotion [[[3
@@ -199,9 +208,12 @@ call plug#end()
         " vim-fugitive [[[3
             " :Gdiff  :Gstatus :Gvsplit
             nnoremap <leader>ge :Gdiff<CR>
+            nmap     <Leader>g :Gstatus<CR>gg<c-n>
         " ]]]
         " ale [[[3
             " pip install flake8 isort
+            let g:ale_enabled = 0
+
             let g:ale_linters = {
             \   'python': ['flake8'],
             \}
@@ -213,16 +225,18 @@ call plug#end()
             " http://pep8.readthedocs.io/en/latest/intro.html#error-codes
             " http://flake8.pycqa.org/en/latest/user/error-codes.html
             let g:ale_python_flake8_args="--ignore=E114,E116,E131 --max-line-length=80"
+            let g:ale_lint_delay = 2000
 
             let g:ale_sign_column_always = 1
 
-            nmap <silent> <C-p> <Plug>(ale_previous)
-            nmap <silent> <C-n> <Plug>(ale_next)
-            nmap <silent> <Leader>d <Plug>(ale_next)
-            nmap <silent> <Leader>y :ALEFix
+            nmap <silent> <C-p> <Plug>(ale_previous_wrap)
+            nmap <silent> <C-n> <Plug>(ale_next_wrap)
+            nmap <silent> <Leader>y <Plug>(ale_fix)
 
             let g:ale_sign_error = '>>'
             let g:ale_sign_warning = '__'
+            let g:ale_deprecation_ale_statusline_status = 1
+            let g:ale_deprecation_ale_get_status_line = 1
 
             let g:ale_statusline_format = ['⨉ %d', '⚠ %d', '⬥ ok']
             let g:ale_echo_msg_error_str = 'E'
