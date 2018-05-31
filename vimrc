@@ -23,8 +23,8 @@ set shell=bash
 " 开启语法高亮
 syntax on
 
-if filereadable(expand("~/.vimrc.bundles"))
-    source ~/.vimrc.bundles
+if filereadable(expand("~/.vim/vimrc.bundles"))
+    source ~/.vim/vimrc.bundles
 endif
 
 
@@ -108,35 +108,50 @@ set showmode
 " 在上下移动光标时，光标的上方或下方至少会保留显示的行数
 set scrolloff=7
 
-" 状态栏信息
-" statusline说明
-"
-" %{}: {}中可以存放一个表达式
-" %<: 如果内容被截断，前面用<填充
-" %f: buffer中的文件路径
-" \ : 空格
-" %m: 修改标记[+]，如果'modifiable'选项关闭的话是[-]
-" %r: 只读标记[RO]
-" %w: 预览窗口标记[Preview]
-" %h: 帮助Buffer的标记[help]
-" %y: Buffer中文件的类型，例如[vim]
-" %{fugitive#statusline()}: 利用tpope/vim-fugitive插件获取当前Git分支
-" %n: Buffer序号
-" %B: 光标下字符的十六进制编码值
-" %{ALEGetStatusLine()}: ALE代码检查状态
-" %=: 左右对齐项目的分割点
-"  (&fenc==\"\")?&enc:&fenc: fileencoding表示Buffer中打开的文件编码，encoding表
-" 示vim使用的文件编码，默认显示fileencoding
-"  (&bomb?\",BOM\":\"\"): 检查当前文件中是否含有BOM标记
-"  > BOM标记是一个二进制标记符，用来表示字节流的编码标号或字节序,参考
-"  > https://zh.wikipedia.org/wiki/%E4%BD%8D%E5%85%83%E7%B5%84%E9%A0%86%E5%BA%8F%E8%A8%98%E8%99%9F
-" %l: 当前行号
-" %c: 当前列号，特殊字符算作一列，中文算作三列
-" %P: 文档阅读百分比
-" %L: 文档总行数
-set statusline=%<%f\ %m%r%w%h%y\ %P-%L\ \<%n\>\ %B\ %=[%{(&fenc==\"\")?&enc:&fenc}%{(&bomb?\",BOM\":\"\")}]\ %-8(%l,%c%)
-" 使用两行的状态栏
-set laststatus=2
+" 状态栏信息 [
+    set laststatus=2
+
+    " statusline说明
+    "
+    " %{}: {}中可以存放一个表达式
+    " \ : 空格
+
+    set statusline=
+    " %<: 如果内容被截断，前面用<填充
+    " %f: buffer中的文件路径
+    set statusline+=%<%f
+    " %m: 修改标记[+]，如果'modifiable'选项关闭的话是[-]
+    " %r: 只读标记[RO]
+    " %w: 预览窗口标记[Preview]
+    " %h: 帮助Buffer的标记[help]
+    " %y: Buffer中文件的类型，例如[vim]
+    set statusline+=\ %m%r%w%h%y
+    " %l: 当前行号 %c: 当前列号，特殊字符算作一列，中文算作三列
+    set statusline+=\ %(%l,%c%)
+    " %P: 文档阅读百分比 %L: 文档总行数
+    set statusline+=\ %P-%L
+    " %{ALEGetStatusLine()}: ALE代码检查状态
+    " set statusline+=\ %{ALEGetStatusLine()}
+    " set statusline+=\ %{ale#engine#IsCheckingBuffer(bufnr('%'))?'[♫]':'[●]'}
+    " %n: Buffer序号
+    set statusline+=\ \<%n\>
+    " %B: 光标下字符的十六进制编码值
+    set statusline+=\ %B
+
+    " %=: 左右对齐项目的分割点
+    set statusline+=\ %=
+
+    "  (&fenc==\"\")?&enc:&fenc: fileencoding表示Buffer中打开的文件编码，encoding表
+    " 示vim使用的文件编码，默认显示fileencoding
+    "  (&bomb?\",BOM\":\"\"): 检查当前文件中是否含有BOM标记
+    "  > BOM标记是一个二进制标记符，用来表示字节流的编码标号或字节序,参考
+    "  > https://zh.wikipedia.org/wiki/%E4%BD%8D%E5%85%83%E7%B5%84%E9%A0%86%E5%BA%8F%E8%A8%98%E8%99%9F
+    set statusline+=[%{(&fenc==\"\")?&enc:&fenc}%{(&bomb?\",BOM\":\"\")}]
+    " %{fugitive#statusline()}: 利用tpope/vim-fugitive插件获取当前Git分支
+    set statusline+=\ %{(exists('g:loaded_fugitive')?fugitive#statusline():'')}
+" ]
+
+set isfname-==
 
 " 显示行号
 set number
@@ -226,7 +241,7 @@ set formatoptions+=B
 
 " 自动补全配置
 " 让Vim的补全菜单行为与一般IDE一致(参考VimTip1228)
-set completeopt=longest,menu
+set completeopt=menuone,preview,longest,menu
 
 " 增强模式中的命令行自动完成操作
 set wildmenu
@@ -264,7 +279,7 @@ nnoremap gj j
 " ====================
 
 " F1 废弃这个键,防止调出系统帮助
-noremap <F1> <Esc>"
+noremap <F1> :set number!<CR>"
 
 " F2 折叠开关
 function! ToggleFold()
@@ -287,6 +302,8 @@ nnoremap <F4> :set wrap! wrap?<CR>
 set pastetoggle=<F5>            "    when in insert mode, press <F5> to go to
                                 "    paste mode, where you can paste mass data
                                 "    that won't be autoindented
+" F5 查看 undo 历史树
+nnoremap <F5> :UndotreeToggle<cr>
 
 " F6 语法开关，关闭语法可以加快大文件的展示
 nnoremap <F6> :exec exists('syntax_on') ? 'syn off' : 'syn on'<CR>
@@ -366,6 +383,8 @@ autocmd TabLeave * let g:last_active_tab = tabpagenr()
 " 新建tab  Ctrl+t
 nnoremap <C-t>     :tabnew<CR>
 inoremap <C-t>     <Esc>:tabnew<CR>
+
+
 " ]]]
 
 " c-x c-x => git grep the word under cursor
@@ -416,10 +435,13 @@ cnoremap <C-a> <Home>
 cnoremap <C-e> <End>
 cnoremap <C-b> <Left>
 cnoremap <C-f> <Right>
+" ctrl-n, ctrl-p 只能搜索历史命令
+cnoremap <c-n> <down>
+cnoremap <c-p> <up>
 
 " 进入搜索Use sane regexes"
-nnoremap / /\v
-vnoremap / /\v
+nnoremap / /\m
+vnoremap / /\m
 
 " Keep search pattern at the center of the screen.
 nnoremap <silent> n nzz
@@ -465,6 +487,11 @@ noremap <right> :bn<CR>
 vnoremap < <gv
 vnoremap > >gv
 
+" 添加 Tmux 的支持
+if $TMUX == ''
+    set clipboard+=unnamed
+endif
+
 " 复制选中区到系统剪切板中
 if has('clipboard')
     vnoremap y "+y
@@ -480,6 +507,8 @@ cmap w!! w !sudo tee >/dev/null %
 " Quickly save the current file
 nnoremap <leader>w :w<CR>
 nnoremap <leader>r :e<CR>
+" https://github.com/wsdjeg/vim-galore-zh_cn#%E6%99%BA%E8%83%BD-ctrl-l
+" nnoremap <leader>r :nohlsearch<cr>:diffupdate<cr>:syntax sync fromstart<cr><c-l>
 
 " 交换 ' `, 使得可以快速使用'跳到marked位置
 nnoremap ' `
@@ -488,10 +517,12 @@ nnoremap ` '
 " 将U映射成<C-r>
 nnoremap U <C-r>
 
+nnoremap <leader>o o<esc>
+
 " Quickly edit/reload the vimrc file
 nmap <silent> <leader>e :e $MYVIMRC<cr>
 nmap <silent> <leader>s :so $MYVIMRC<CR>
-nmap <silent> <leader>u :e ~/.vimrc.bundles<CR>
+nmap <silent> <leader>u :e ~/.vim/vimrc.bundles<CR>
 
 " 文件折叠
 nmap - zc
@@ -502,11 +533,12 @@ nnoremap R :e <CR>
 
 " 获取当前位置作为断点
 function! GetBreakPoint()
-    let @* = expand("%:p").":".line(".")
-    echo @*
+    let @w = expand("%:p").":".line(".")
+    echo @w
 endfunction
 
 nmap <leader>b :call GetBreakPoint()<CR>
+
 " ]]]
 
 " FileType Settings  文件类型设置[[[1
@@ -543,9 +575,9 @@ endif
 if &diff
     colorscheme industry
 else
-    set background=dark
-    set t_Co=256
-    colorscheme solarized
+    " set background=light
+    " set t_Co=256
+    " colorscheme solarized
 endif
 
 
