@@ -533,8 +533,8 @@ nnoremap R :e <CR>
 
 " 获取当前位置作为断点
 function! GetBreakPoint()
-    let @w = expand("%:p").":".line(".")
-    echo @w
+    let @* = expand("%:p").":".line(".")
+    echo @*
 endfunction
 
 nmap <leader>b :call GetBreakPoint()<CR>

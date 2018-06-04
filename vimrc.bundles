@@ -174,19 +174,25 @@ call plug#end()
             map <leader>. <Plug>(easymotion-repeat)
         " ]]]
         " fzf [[[3
-            nmap <leader>p :FZF<CR>
-            nnoremap <Leader>q :Ag<Space>
-            xnoremap <silent> <Leader>q y:Ag <C-R>"<CR>
-            nnoremap <silent> <Leader>` :Marks<CR>
         " ]]]
         " fzf.vim[[[3
             " 显示所有Buffer
+            command! -bang -nargs=* Ag
+                \ call fzf#vim#ag(<q-args>,
+                \                 <bang>0 ? fzf#vim#with_preview('up:60%')
+                \                         : fzf#vim#with_preview('right:50%:hidden', '?'),
+                \                 <bang>0)
+
+            nnoremap <Leader>q :Ag<Space>
+            xnoremap <silent> <Leader>q y:Ag <C-R>"<CR>
+            nnoremap <silent> <Leader>` :Marks<CR>
             nnoremap <leader>p :Files<CR>
             nnoremap <silent> <Leader>l  :Buffers<CR>
             nnoremap <leader>m :Maps<CR>
             nnoremap <silent> <Leader><Enter>        :BLines<CR>
             nnoremap <leader>c :Commits<CR>
             nnoremap <leader>h :BTags<CR>
+            xnoremap <silent> <Leader>h y:BTags <C-R>"<CR>
             let g:fzf_action = {
               \ 'ctrl-t': 'tab split',
               \ 'ctrl-s': 'split',
