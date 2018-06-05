@@ -412,6 +412,9 @@ nnoremap <C-j> <C-W>j
 nnoremap <C-k> <C-W>k
 nnoremap <C-h> <C-W>h
 nnoremap <C-l> <C-W>l
+nnoremap <C-v> <C-w>v
+nnoremap <C-c> <C-w>c
+nnoremap <C-s> <C-w>s
 
 " 屏幕左右滑动的快捷键
 " 需要考虑Mac下zl和zh的映射
