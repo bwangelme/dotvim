@@ -241,7 +241,7 @@ set formatoptions+=B
 
 " 自动补全配置
 " 让Vim的补全菜单行为与一般IDE一致(参考VimTip1228)
-set completeopt=menuone,preview,longest,menu
+set completeopt=menuone,longest,menu
 
 " 增强模式中的命令行自动完成操作
 set wildmenu
@@ -520,7 +520,7 @@ nnoremap ` '
 " 将U映射成<C-r>
 nnoremap U <C-r>
 
-nnoremap <leader>o o<esc>
+" nnoremap <leader>o o<esc>
 
 " Quickly edit/reload the vimrc file
 nmap <silent> <leader>e :e $MYVIMRC<cr>
@@ -536,7 +536,7 @@ nnoremap R :e <CR>
 
 " 获取当前位置作为断点
 function! GetBreakPoint()
-    let @* = expand("%:p").":".line(".")
+    let @* = expand("%").":".line(".")
     echo @*
 endfunction
 

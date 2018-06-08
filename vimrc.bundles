@@ -14,6 +14,7 @@ if !exists('g:bundle_groups')  " inspired by spf13, 自定义需要的插件集�
         \'beta',
         \'markdown',
         \'nginx',
+        \'go',
         \]
 endif
 
@@ -23,6 +24,7 @@ call plug#begin('~/.config/nvim/bundle')
         Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
         " 自动补全单引号，双引号等
         Plug 'Raimondi/delimitMate'
+        Plug 'Valloric/YouCompleteMe'
     " ]]]
 
     " 编辑插件[[[2
@@ -92,6 +94,12 @@ call plug#begin('~/.config/nvim/bundle')
             Plug 'bwangel23/nginx-vim-syntax'
         endif
         " ]]]
+
+        " Go[[[3
+        if count(g:bundle_groups, 'go')
+            Plug 'fatih/vim-go', {'for': 'go'}
+        endif
+        " ]]]
     " ]]]
     if count(g:bundle_groups, 'beta')
     endif
@@ -126,6 +134,43 @@ call plug#end()
             inoremap <c-j> <c-r>=g:JInYCM()<cr>
             au BufEnter,BufRead * exec "inoremap <silent> " . g:UltiSnipsJumpBackwordTrigger . " <C-R>=g:KInYCM()<cr>"
             let g:UltiSnipsJumpBackwordTrigger = "<c-k>"
+        " ]]]
+        " YouCompleteMe [[[3
+            let g:ycm_key_list_select_completion=['<c-n>']
+            let g:ycm_key_list_previous_completion=['<c-p>']
+            let g:ycm_complete_in_comments = 1  "在注释输入中也能补全
+            let g:ycm_complete_in_strings = 1   "在字符串输入中也能补全
+            let g:ycm_use_ultisnips_completer = 1 "提示UltiSnips
+            let g:ycm_collect_identifiers_from_comments_and_strings = 1   "注释和字符串中的文字也会被收入补全
+            let g:ycm_collect_identifiers_from_tags_files = 1
+            " 开启语法关键字补全
+            let g:ycm_seed_identifiers_with_syntax=1
+            " 设置Python解释器的路径
+            if has('mac')
+                let g:ycm_server_python_interpreter = '/usr/local/bin/python'
+            else
+                let g:ycm_server_python_interpreter = '/usr/bin/python'
+            endif
+            " 设置补全时用到的Python解释器的路径
+            let g:ycm_python_binary_path = 'python2'
+
+            if !empty(glob("~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py"))
+                let g:ycm_global_ycm_extra_conf = "~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py"
+            endif
+
+            let g:ycm_show_diagnostics_ui = 1
+
+            " 跳转到定义处, 水平分屏打开
+            let g:ycm_goto_buffer_command = 'horizontal-split'
+            nnoremap <leader>d :YcmCompleter GoToDefinition<CR>
+
+            " 黑名单,不启用
+            let g:ycm_filetype_blacklist = {
+                \ 'tagbar' : 1,
+                \ 'gitcommit' : 1,
+                \ 'nerdtree': 1,
+                \ 'zsh': 1,
+                \}
         " ]]]
         " delimitMate [[[3
             " for python docstring ",优化输入
@@ -264,7 +309,7 @@ call plug#end()
                     lopen
                 endif
             endfunction
-            nnoremap <Leader>s :call ToggleErrors()<cr>
+            " nnoremap <Leader>s :call ToggleErrors()<cr>
 
             let g:ale_set_highlights = 1
             highlight clear ALEErrorSign
@@ -382,6 +427,62 @@ call plug#end()
     " 语言相关[[[2
         " pythonsyntax [[[3
             let python_highlight_all = 1
+        " ]]]
+        " go [[[3
+            " format with goimports instead of gofmt
+            let g:go_fmt_command = "goimports"
+            let g:go_autodetect_gopath = 1
+            let g:go_list_type = "quickfix"
+
+            let g:go_highlight_build_constraints = 1
+            let g:go_highlight_types = 1
+            let g:go_highlight_fields = 1
+            let g:go_highlight_functions = 1
+            let g:go_highlight_methods = 1
+            let g:go_highlight_extra_types = 1
+            let g:go_highlight_generate_tags = 1
+            let g:go_highlight_operators = 1
+            let g:go_highlight_structs = 1
+
+            let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
+            let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go', 'java'] }
+
+            " Open :GoDeclsDir with ctrl-g
+            nmap <C-g> :GoDeclsDir<cr>
+            imap <C-g> <esc>:<C-u>GoDeclsDir<cr>
+
+            augroup go
+                autocmd!
+
+                " Show by default 4 spaces for a tab
+                autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4
+
+                autocmd Filetype go map <C-n> :cnext<CR>
+                autocmd Filetype go map <C-p> :cprevious<CR>
+                autocmd Filetype go nnoremap <leader>a :cclose<CR>
+
+                " :GoDef but opens in a vertical split
+                autocmd FileType go nmap <Leader>v <Plug>(go-def-vertical)
+                " :GoDef but opens in a horizontal split
+                autocmd FileType go nmap <Leader>s <Plug>(go-def-split)
+
+                " :GoAlternate  commands :A, :AV, :AS and :AT
+                autocmd Filetype go command! -bang A call go#alternate#Switch(<bang>0, 'edit')
+                autocmd Filetype go command! -bang AV call go#alternate#Switch(<bang>0, 'vsplit')
+                autocmd Filetype go command! -bang AS call go#alternate#Switch(<bang>0, 'split')
+                autocmd Filetype go command! -bang AT call go#alternate#Switch(<bang>0, 'tabe')
+            augroup END
+
+            " build_go_files is a custom function that builds or compiles the test file.
+            " It calls :GoBuild if its a Go file, or :GoTestCompile if it's a test file
+            function! s:build_go_files()
+                let l:file = expand('%')
+                if l:file =~# '^\f\+_test\.go$'
+                    call go#cmd#Test(0, 1)
+                elseif l:file =~# '^\f\+\.go$'
+                    call go#cmd#Build(0)
+                endif
+            endfunction
         " ]]]
     " ]]]
 " ]]]
