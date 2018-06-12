@@ -174,20 +174,20 @@ call plug#end()
             map <leader>. <Plug>(easymotion-repeat)
         " ]]]
         " fzf [[[3
-            nmap <leader>p :FZF<CR>
-            nnoremap <Leader>q :Ag<Space>
-            xnoremap <silent> <Leader>q y:Ag <C-R>"<CR>
-            nnoremap <silent> <Leader>` :Marks<CR>
         " ]]]
         " fzf.vim[[[3
-            " 显示所有Buffer
-            nnoremap <leader>p :Files<CR>
-            nnoremap <silent> <Leader>l  :Buffers<CR>
-            nnoremap <leader>m :Maps<CR>
-            nnoremap <silent> <Leader><Enter>        :BLines<CR>
-            nnoremap <leader>c :Commits<CR>
-            nnoremap <leader>h :BTags<CR>
-            let g:fzf_layout = { 'window': '-tabnew', 'down': '~40%' }
+            command! -bang -nargs=* Ag
+                \ call fzf#vim#ag(<q-args>,
+                \                 <bang>0 ? fzf#vim#with_preview('up:60%')
+                \                         : fzf#vim#with_preview('right:50%:hidden', '?'),
+                \                 <bang>0)
+            let g:fzf_action = {
+                \ 'ctrl-w': 'tab split',
+                \ 'ctrl-t': 'tab split',
+                \ 'ctrl-s': 'split',
+                \ 'ctrl-v': 'vsplit' }
+
+            let g:fzf_layout = { 'window': '40split enew', 'down': '~40%' }
             let g:fzf_colors =
             \ { 'fg':      ['fg', 'Normal'],
                 \ 'bg':      ['bg', 'Normal'],
@@ -202,6 +202,17 @@ call plug#end()
                 \ 'marker':  ['fg', 'Keyword'],
                 \ 'spinner': ['fg', 'Label'],
                 \ 'header':  ['fg', 'Comment'] }
+
+            nnoremap <Leader>q :Ag<Space>
+            xnoremap <silent> <Leader>q y:Ag <C-R>"<CR>
+            nnoremap <silent> <Leader>` :Marks<CR>
+            nnoremap <leader>p :Files<CR>
+            nnoremap <silent> <Leader>l  :Buffers<CR>
+            nnoremap <leader>m :Maps<CR>
+            nnoremap <silent> <Leader><Enter>        :BLines<CR>
+            nnoremap <leader>c :Commits<CR>
+            nnoremap <leader>h :BTags<CR>
+            xnoremap <silent> <Leader>h y:BTags <C-R>"<CR>
         " ]]]
     " ]]]
     " 功能插件[[[2
