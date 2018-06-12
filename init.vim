@@ -447,10 +447,10 @@ nnoremap / /\m
 vnoremap / /\m
 
 " Keep search pattern at the center of the screen.
-nnoremap <silent> n nzz
-nnoremap <silent> N Nzz
-nnoremap <silent> * *zz
-nnoremap <silent> # #zz
+nnoremap <silent> n n
+nnoremap <silent> N N
+nnoremap <silent> * #Nzz
+nnoremap <silent> # *Nzz
 nnoremap <silent> g* g*zz
 
 " In visual mode when you press * or # to search for the current selection

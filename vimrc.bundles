@@ -24,7 +24,7 @@ call plug#begin('~/.config/nvim/bundle')
         Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
         " 自动补全单引号，双引号等
         Plug 'Raimondi/delimitMate'
-        Plug 'Valloric/YouCompleteMe'
+        " Plug 'Valloric/YouCompleteMe'
     " ]]]
 
     " 编辑插件[[[2
@@ -136,41 +136,41 @@ call plug#end()
             let g:UltiSnipsJumpBackwordTrigger = "<c-k>"
         " ]]]
         " YouCompleteMe [[[3
-            let g:ycm_key_list_select_completion=['<c-n>']
-            let g:ycm_key_list_previous_completion=['<c-p>']
-            let g:ycm_complete_in_comments = 1  "在注释输入中也能补全
-            let g:ycm_complete_in_strings = 1   "在字符串输入中也能补全
-            let g:ycm_use_ultisnips_completer = 1 "提示UltiSnips
-            let g:ycm_collect_identifiers_from_comments_and_strings = 1   "注释和字符串中的文字也会被收入补全
-            let g:ycm_collect_identifiers_from_tags_files = 1
-            " 开启语法关键字补全
-            let g:ycm_seed_identifiers_with_syntax=1
-            " 设置Python解释器的路径
-            if has('mac')
-                let g:ycm_server_python_interpreter = '/usr/local/bin/python'
-            else
-                let g:ycm_server_python_interpreter = '/usr/bin/python'
-            endif
-            " 设置补全时用到的Python解释器的路径
-            let g:ycm_python_binary_path = 'python2'
+            " let g:ycm_key_list_select_completion=['<c-n>']
+            " let g:ycm_key_list_previous_completion=['<c-p>']
+            " let g:ycm_complete_in_comments = 1  "在注释输入中也能补全
+            " let g:ycm_complete_in_strings = 1   "在字符串输入中也能补全
+            " let g:ycm_use_ultisnips_completer = 1 "提示UltiSnips
+            " let g:ycm_collect_identifiers_from_comments_and_strings = 1   "注释和字符串中的文字也会被收入补全
+            " let g:ycm_collect_identifiers_from_tags_files = 1
+            " " 开启语法关键字补全
+            " let g:ycm_seed_identifiers_with_syntax=1
+            " " 设置Python解释器的路径
+            " if has('mac')
+            "     let g:ycm_server_python_interpreter = '/usr/local/bin/python'
+            " else
+            "     let g:ycm_server_python_interpreter = '/usr/bin/python'
+            " endif
+            " " 设置补全时用到的Python解释器的路径
+            " let g:ycm_python_binary_path = 'python2'
 
-            if !empty(glob("~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py"))
-                let g:ycm_global_ycm_extra_conf = "~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py"
-            endif
+            " if !empty(glob("~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py"))
+            "     let g:ycm_global_ycm_extra_conf = "~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py"
+            " endif
 
-            let g:ycm_show_diagnostics_ui = 1
+            " let g:ycm_show_diagnostics_ui = 1
 
-            " 跳转到定义处, 水平分屏打开
-            let g:ycm_goto_buffer_command = 'horizontal-split'
-            nnoremap <leader>d :YcmCompleter GoToDefinition<CR>
+            " " 跳转到定义处, 水平分屏打开
+            " let g:ycm_goto_buffer_command = 'horizontal-split'
+            " nnoremap <leader>d :YcmCompleter GoToDefinition<CR>
 
-            " 黑名单,不启用
-            let g:ycm_filetype_blacklist = {
-                \ 'tagbar' : 1,
-                \ 'gitcommit' : 1,
-                \ 'nerdtree': 1,
-                \ 'zsh': 1,
-                \}
+            " " 黑名单,不启用
+            " let g:ycm_filetype_blacklist = {
+            "     \ 'tagbar' : 1,
+            "     \ 'gitcommit' : 1,
+            "     \ 'nerdtree': 1,
+            "     \ 'zsh': 1,
+            "     \}
         " ]]]
         " delimitMate [[[3
             " for python docstring ",优化输入
@@ -448,8 +448,8 @@ call plug#end()
             let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go', 'java'] }
 
             " Open :GoDeclsDir with ctrl-g
-            nmap <C-g> :GoDeclsDir<cr>
-            imap <C-g> <esc>:<C-u>GoDeclsDir<cr>
+            " nmap <C-g> :GoDeclsDir<cr>
+            " imap <C-g> <esc>:<C-u>GoDeclsDir<cr>
 
             augroup go
                 autocmd!
