@@ -254,7 +254,7 @@ call plug#end()
                     lopen
                 endif
             endfunction
-            nnoremap <Leader>s :call ToggleErrors()<cr>
+            " nnoremap <Leader>s :call ToggleErrors()<cr>
 
             let g:ale_set_highlights = 1
             highlight clear ALEErrorSign

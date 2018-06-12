@@ -412,6 +412,9 @@ nnoremap <C-j> <C-W>j
 nnoremap <C-k> <C-W>k
 nnoremap <C-h> <C-W>h
 nnoremap <C-l> <C-W>l
+nnoremap <C-v> <C-w>v
+nnoremap <C-c> <C-w>c
+nnoremap <C-s> <C-w>s
 
 " 屏幕左右滑动的快捷键
 " 需要考虑Mac下zl和zh的映射
@@ -444,10 +447,10 @@ nnoremap / /\m
 vnoremap / /\m
 
 " Keep search pattern at the center of the screen.
-nnoremap <silent> n nzz
-nnoremap <silent> N Nzz
-nnoremap <silent> * *zz
-nnoremap <silent> # #zz
+nnoremap <silent> n n
+nnoremap <silent> N N
+nnoremap <silent> * #Nzz
+nnoremap <silent> # *Nzz
 nnoremap <silent> g* g*zz
 
 " In visual mode when you press * or # to search for the current selection
@@ -517,7 +520,7 @@ nnoremap ` '
 " 将U映射成<C-r>
 nnoremap U <C-r>
 
-nnoremap <leader>o o<esc>
+" nnoremap <leader>o o<esc>
 
 " Quickly edit/reload the vimrc file
 nmap <silent> <leader>e :e $MYVIMRC<cr>
@@ -533,8 +536,8 @@ nnoremap R :e <CR>
 
 " 获取当前位置作为断点
 function! GetBreakPoint()
-    let @w = expand("%:p").":".line(".")
-    echo @w
+    let @* = expand("%").":".line(".")
+    echo @*
 endfunction
 
 nmap <leader>b :call GetBreakPoint()<CR>
