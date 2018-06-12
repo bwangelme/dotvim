@@ -53,7 +53,7 @@ call plug#begin('~/.config/nvim/bundle')
 
     " 功能插件[[[2
         Plug 'tpope/vim-fugitive'
-        Plug 'w0rp/ale'
+        " Plug 'w0rp/ale'
         Plug 'tpope/vim-rhubarb'
     " ]]]
 
@@ -267,53 +267,51 @@ call plug#end()
         " ]]]
         " ale [[[3
             " pip install flake8 isort
-            let g:ale_enabled = 0
+            " let g:ale_linters = {
+            " \   'python': ['flake8'],
+            " \}
 
-            let g:ale_linters = {
-            \   'python': ['flake8'],
-            \}
+            " let g:ale_fixers = {
+            " \   'python': ['isort'],
+            " \}
 
-            let g:ale_fixers = {
-            \   'python': ['isort'],
-            \}
+            " " http://pep8.readthedocs.io/en/latest/intro.html#error-codes
+            " " http://flake8.pycqa.org/en/latest/user/error-codes.html
+            " let g:ale_python_flake8_args="--ignore=E114,E116,E131 --max-line-length=80"
+            " let g:ale_lint_delay = 2000
 
-            " http://pep8.readthedocs.io/en/latest/intro.html#error-codes
-            " http://flake8.pycqa.org/en/latest/user/error-codes.html
-            let g:ale_python_flake8_args="--ignore=E114,E116,E131 --max-line-length=80"
-            let g:ale_lint_delay = 2000
+            " let g:ale_sign_column_always = 1
 
-            let g:ale_sign_column_always = 1
+            " nmap <silent> <C-p> <Plug>(ale_previous_wrap)
+            " nmap <silent> <C-n> <Plug>(ale_next_wrap)
+            " nmap <silent> <Leader>y <Plug>(ale_fix)
 
-            nmap <silent> <C-p> <Plug>(ale_previous_wrap)
-            nmap <silent> <C-n> <Plug>(ale_next_wrap)
-            nmap <silent> <Leader>y <Plug>(ale_fix)
+            " let g:ale_sign_error = '>>'
+            " let g:ale_sign_warning = '__'
+            " let g:ale_deprecation_ale_statusline_status = 1
+            " let g:ale_deprecation_ale_get_status_line = 1
 
-            let g:ale_sign_error = '>>'
-            let g:ale_sign_warning = '__'
-            let g:ale_deprecation_ale_statusline_status = 1
-            let g:ale_deprecation_ale_get_status_line = 1
+            " let g:ale_statusline_format = ['⨉ %d', '⚠ %d', '⬥ ok']
+            " let g:ale_echo_msg_error_str = 'E'
+            " let g:ale_echo_msg_warning_str = 'W'
+            " let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
 
-            let g:ale_statusline_format = ['⨉ %d', '⚠ %d', '⬥ ok']
-            let g:ale_echo_msg_error_str = 'E'
-            let g:ale_echo_msg_warning_str = 'W'
-            let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+            " nnoremap <silent> <Leader>ec :ALEToggle<CR>
 
-            nnoremap <silent> <Leader>ec :ALEToggle<CR>
+            " " troggle quickfix list
+            " function! ToggleErrors()
+            "     let old_last_winnr = winnr('$')
+            "     lclose
+            "     if old_last_winnr == winnr('$')
+            "         " Nothing was closed, open syntastic_error location panel
+            "         lopen
+            "     endif
+            " endfunction
+            " " nnoremap <Leader>s :call ToggleErrors()<cr>
 
-            " troggle quickfix list
-            function! ToggleErrors()
-                let old_last_winnr = winnr('$')
-                lclose
-                if old_last_winnr == winnr('$')
-                    " Nothing was closed, open syntastic_error location panel
-                    lopen
-                endif
-            endfunction
-            " nnoremap <Leader>s :call ToggleErrors()<cr>
-
-            let g:ale_set_highlights = 1
-            highlight clear ALEErrorSign
-            highlight clear ALEWarningSign
+            " let g:ale_set_highlights = 1
+            " highlight clear ALEErrorSign
+            " highlight clear ALEWarningSign
         " ]]]
     " ]]]
 
