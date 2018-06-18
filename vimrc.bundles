@@ -168,8 +168,9 @@ call plug#end()
             let g:ycm_show_diagnostics_ui = 1
 
             " 跳转到定义处, 水平分屏打开
-            let g:ycm_goto_buffer_command = 'horizontal-split'
-            nnoremap <leader>d :YcmCompleter GoToDefinition<CR>
+            " Python 基本用不到，使用 Go 的GoDecls
+            " let g:ycm_goto_buffer_command = 'horizontal-split'
+            " nnoremap <leader>d :YcmCompleter GoToDefinition<CR>
 
             " 黑名单,不启用
             let g:ycm_filetype_blacklist = {
@@ -276,7 +277,7 @@ call plug#end()
         " ale [[[3
             " pip install flake8 isort
             let g:ale_linters = {
-            \   'python': ['flake8'],
+            \   'python': ['/usr/local/bin/python3 /usr/local/bin/flake8'],
             \}
 
             let g:ale_fixers = {
@@ -286,7 +287,7 @@ call plug#end()
             " http://pep8.readthedocs.io/en/latest/intro.html#error-codes
             " http://flake8.pycqa.org/en/latest/user/error-codes.html
             let g:ale_python_flake8_options="--ignore=E114,E116,E131 --max-line-length=80"
-            let g:ale_lint_delay = 2000
+            let g:ale_lint_delay = 1000
 
             let g:ale_sign_column_always = 1
 
@@ -483,44 +484,10 @@ call plug#end()
             let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
             let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go', 'java'] }
 
-            if &filetype == 'go'
-                nmap <Leader>h :GoDeclsDir<cr>
-                imap <Leader>h <esc>:<C-u>GoDeclsDir<cr>
-            endif
-
-
-            augroup go
-                autocmd!
-
-                " Show by default 4 spaces for a tab
-                autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4
-
-                autocmd Filetype go map <C-n> :cnext<CR>
-                autocmd Filetype go map <C-p> :cprevious<CR>
-                autocmd Filetype go nnoremap <leader>a :cclose<CR>
-
-                " :GoDef but opens in a vertical split
-                autocmd FileType go nmap <Leader>v <Plug>(go-def-vertical)
-                " :GoDef but opens in a horizontal split
-                autocmd FileType go nmap <Leader>s <Plug>(go-def-split)
-
-                " :GoAlternate  commands :A, :AV, :AS and :AT
-                autocmd Filetype go command! -bang A call go#alternate#Switch(<bang>0, 'edit')
-                autocmd Filetype go command! -bang AV call go#alternate#Switch(<bang>0, 'vsplit')
-                autocmd Filetype go command! -bang AS call go#alternate#Switch(<bang>0, 'split')
-                autocmd Filetype go command! -bang AT call go#alternate#Switch(<bang>0, 'tabe')
-            augroup END
-
-            " build_go_files is a custom function that builds or compiles the test file.
-            " It calls :GoBuild if its a Go file, or :GoTestCompile if it's a test file
-            function! s:build_go_files()
-                let l:file = expand('%')
-                if l:file =~# '^\f\+_test\.go$'
-                    call go#cmd#Test(0, 1)
-                elseif l:file =~# '^\f\+\.go$'
-                    call go#cmd#Build(0)
-                endif
-            endfunction
+            nmap <Leader>i :GoDecls<cr>
+            nmap <Leader>d <Plug>(go-def-vertical)
+            nmap <Leader>f :GoFmt<cr>
+            imap <Leader>f <esc>:GoFmt<cr>
         " ]]]
     " ]]]
 " ]]]
