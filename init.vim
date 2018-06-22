@@ -119,7 +119,7 @@ set scrolloff=7
     set statusline=
     " %<: 如果内容被截断，前面用<填充
     " %f: buffer中的文件路径
-    set statusline+=%<%f
+    set statusline+=%<
     " %m: 修改标记[+]，如果'modifiable'选项关闭的话是[-]
     " %r: 只读标记[RO]
     " %w: 预览窗口标记[Preview]
@@ -265,6 +265,8 @@ autocmd CmdwinEnter * nnoremap <buffer> <CR> <CR>
 if has("autocmd")
   au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 endif
+
+autocmd BufEnter * call system("tmux rename-window " . expand("%"))
 " ]]]
 
 " HotKey Settings  自定义快捷键设置[[[1
@@ -504,9 +506,6 @@ else
     map Y y$
 endif
 
-" w!! to sudo & write a file
-cmap w!! w !sudo tee >/dev/null %
-
 " Quickly save the current file
 nnoremap <leader>w :w<CR>
 nnoremap <leader>r :e<CR>
@@ -567,7 +566,7 @@ if has("autocmd")
   " Highlight TODO, FIXME, NOTE, etc.
   if v:version > 701
     autocmd Syntax * call matchadd('Todo',  '\W\zs\(TODO\|FIXME\|CHANGED\|DONE\||BUG\|HACK\)')
-    autocmd Syntax * call matchadd('Debug', '\W\zs\(INFO\|NOTE\|IDEA\|NOTICE\)')
+    autocmd Syntax * call matchadd('Debug', '\W\zs\(INFO\|IDEA\|NOTICE\)')
     " 这里TIPS表示做的笔记, DESC表示代码的描述
     " autocmd Syntax * call matchadd('level1c', '\W\zs\(TIPS\|DESC\)')
   endif
