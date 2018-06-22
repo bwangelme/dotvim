@@ -89,6 +89,7 @@ call plug#begin('~/.config/nvim/bundle')
             " for python.vim syntax highlight
             " pythonsyntax
             Plug 'hdima/python-syntax'
+            Plug 'hynek/vim-python-pep8-indent'
         endif
         " ]]]
 
