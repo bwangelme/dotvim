@@ -81,6 +81,8 @@ call plug#begin('~/.config/nvim/bundle')
         " markdown[[[3
         if count(g:bundle_groups, 'markdown')
             Plug 'plasticboy/vim-markdown', {'for': 'md'}
+            Plug 'iamcco/mathjax-support-for-mkdp'
+            Plug 'iamcco/markdown-preview.vim'
         endif
         " ]]]
 
@@ -239,7 +241,7 @@ call plug#end()
         " ale [[[3
             " pip install flake8 isort
             let g:ale_linters = {
-            \   'python': ['/usr/local/bin/python3 /usr/local/bin/flake8'],
+            \   'python': ['flake8'],
             \}
 
             let g:ale_fixers = {
@@ -248,14 +250,14 @@ call plug#end()
 
             " http://pep8.readthedocs.io/en/latest/intro.html#error-codes
             " http://flake8.pycqa.org/en/latest/user/error-codes.html
-            let g:ale_python_flake8_options="--ignore=E114,E116,E131 --max-line-length=80"
+            let g:ale_python_flake8_options="--ignore=E114,E116,E131 --max-line-length=120"
             let g:ale_lint_delay = 1000
 
             let g:ale_sign_column_always = 1
 
             nmap <silent> <C-p> <Plug>(ale_previous_wrap)
             nmap <silent> <C-n> <Plug>(ale_next_wrap)
-            nmap <silent> <Leader>y <Plug>(ale_fix)
+            " nmap <silent> <Leader>y <Plug>(ale_fix)
 
             let g:ale_sign_error = '>>'
             let g:ale_sign_warning = '__'
@@ -269,24 +271,12 @@ call plug#end()
 
             nnoremap <silent> <Leader>ec :ALEToggle<CR>
 
-            " troggle quickfix list
-            function! ToggleErrors()
-                let old_last_winnr = winnr('$')
-                lclose
-                if old_last_winnr == winnr('$')
-                    " Nothing was closed, open syntastic_error location panel
-                    lopen
-                endif
-            endfunction
-            " nnoremap <Leader>s :call ToggleErrors()<cr>
-
             let g:ale_set_highlights = 1
             highlight clear ALEErrorSign
             highlight clear ALEWarningSign
-
         " ]]]
         " vim-rhubarb [[[3
-        let g:github_enterprise_urls = ['https://api.github.intra.douban.com/']
+            let g:github_enterprise_urls = ['https://api.github.intra.douban.com/']
         " ]]]
     " ]]]
 
@@ -452,6 +442,36 @@ call plug#end()
             nmap <Leader>i :GoDecls<cr>
             nmap <Leader>d <Plug>(go-def-vertical)
             nmap <Leader>f :GoFmt<cr>
+        " ]]]
+        " markdown [[[
+            nmap <silent> <F12> <Plug>MarkdownPreview
+            let g:mkdp_path_to_chrome = ""
+            " path to the chrome or the command to open chrome(or other modern browsers)
+            " if set, g:mkdp_browserfunc would be ignored
+
+            let g:mkdp_browserfunc = 'MKDP_browserfunc_default'
+            " callback vim function to open browser, the only param is the url to open
+
+            let g:mkdp_auto_start = 0
+            " set to 1, the vim will open the preview window once enter the markdown
+            " buffer
+
+            let g:mkdp_auto_open = 0
+            " set to 1, the vim will auto open preview window when you edit the
+            " markdown file
+
+            let g:mkdp_auto_close = 1
+            " set to 1, the vim will auto close current preview window when change
+            " from markdown buffer to another buffer
+
+            let g:mkdp_refresh_slow = 0
+            " set to 1, the vim will just refresh markdown when save the buffer or
+            " leave from insert mode, default 0 is auto refresh markdown as you edit or
+            " move the cursor
+
+            let g:mkdp_command_for_global = 0
+            " set to 1, the MarkdownPreview command can be use for all files,
+            " by default it just can be use in markdown file
         " ]]]
     " ]]]
 " ]]]

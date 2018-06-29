@@ -241,7 +241,7 @@ set formatoptions+=B
 
 " 自动补全配置
 " 让Vim的补全菜单行为与一般IDE一致(参考VimTip1228)
-set completeopt=menuone,longest,menu
+set completeopt=menuone,longest,menu,preview
 
 " 增强模式中的命令行自动完成操作
 set wildmenu
@@ -523,7 +523,7 @@ nnoremap U <C-r>
 
 " Quickly edit/reload the vimrc file
 nmap <silent> <leader>e :e $MYVIMRC<cr>
-nmap <silent> <leader>s :so $MYVIMRC<CR>
+" nmap <silent> <leader>s :so $MYVIMRC<CR>
 nmap <silent> <leader>u :e ~/.config/nvim/vimrc.bundles<CR>
 
 " 文件折叠
@@ -543,6 +543,8 @@ nmap <leader>b :call GetBreakPoint()<CR>
 
 " 快速打开Vimwiki
 nmap <leader>v :Files ~/vimwiki/<CR>
+" 快速打开豆瓣的运行脚本
+nmap <leader>s :Files ~/work/Douban/code/scripts/<CR>
 
 " ]]]
 
