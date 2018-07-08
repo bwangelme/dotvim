@@ -34,6 +34,9 @@ filetype plugin indent on
 " General Settings 基础设置[[[1
 " =============================
 
+"文件自动重新载入
+set autoread<
+
 " history存储容量
 set history=2000
 
@@ -545,6 +548,23 @@ nmap <leader>b :call GetBreakPoint()<CR>
 nmap <leader>v :Files ~/vimwiki/<CR>
 " 快速打开豆瓣的运行脚本
 nmap <leader>s :Files ~/work/Douban/code/scripts/<CR>
+
+function! CreateNewFile(isToday)
+    if a:isToday == "yes"
+        let filename = "~/vimwiki/diary/" . strftime("%Y-%m-%d") . ".md"
+    else
+        let date = localtime() + 86400
+        let filename = "~/vimwiki/diary/" . strftime("%Y-%m-%d", date) . ".md"
+    endif
+    execute 'edit' filename
+    call setline(1, strftime("%Y年%b月%d日"))
+    call setline(2, strftime("============="))
+    call setline(3, "")
+endfunction
+
+" 打开今天的任务列表
+nmap <leader>g :call CreateNewFile("yes")<CR>
+
 
 " ]]]
 

@@ -235,8 +235,8 @@ call plug#end()
     " 功能插件[[[2
         " vim-fugitive [[[3
             " :Gdiff  :Gstatus :Gvsplit
-            nnoremap <leader>ge :Gdiff<CR>
-            nmap     <Leader>g :Gstatus<CR>gg<c-n>
+            " nnoremap <leader>ge :Gdiff<CR>
+            " nmap     <Leader>g :Gstatus<CR>gg<c-n>
         " ]]]
         " ale [[[3
             " pip install flake8 isort
