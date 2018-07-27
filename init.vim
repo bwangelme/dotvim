@@ -35,7 +35,9 @@ filetype plugin indent on
 " =============================
 
 "文件自动重新载入
-set autoread<
+set autoread
+set updatetime=500
+au CursorHold * checktime
 
 " history存储容量
 set history=2000
@@ -48,9 +50,6 @@ filetype indent on
 
 " 允许插件
 filetype indent on
-
-" 文件修改后自动载入
-set autoread
 
 " 取消备份
 set nobackup
@@ -139,7 +138,7 @@ set scrolloff=7
     set statusline+=\ %B
     " ALE代码检查状态
     set statusline+=\ %{ale#engine#IsCheckingBuffer(bufnr('%'))?'[♫]':'[●]'}
-    set statusline+=\ %{ALEGetStatusLine()}
+    " set statusline+=\ %{ALEGetStatusLine()}
 
     " %=: 左右对齐项目的分割点
     set statusline+=\ %=
@@ -269,7 +268,7 @@ if has("autocmd")
   au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 endif
 
-autocmd BufEnter * call system("tmux rename-window " . expand("%"))
+autocmd BufEnter * call system("[[ $(tmux display-message -p '#I') == 1 ]] && tmux rename-window " . expand("%"))
 " ]]]
 
 " HotKey Settings  自定义快捷键设置[[[1
@@ -283,7 +282,7 @@ nnoremap gj j
 " 功能键的键位映射[[[2
 " ====================
 
-" F1 废弃这个键,防止调出系统帮助
+" F1 设置行号
 noremap <F1> :set number!<CR>"
 
 " F2 折叠开关
@@ -308,7 +307,7 @@ set pastetoggle=<F5>            "    when in insert mode, press <F5> to go to
                                 "    paste mode, where you can paste mass data
                                 "    that won't be autoindented
 " F5 查看 undo 历史树
-nnoremap <F5> :UndotreeToggle<cr>
+" nnoremap <F5> :UndotreeToggle<cr>
 
 " F6 语法开关，关闭语法可以加快大文件的展示
 nnoremap <F6> :exec exists('syntax_on') ? 'syn off' : 'syn on'<CR>
@@ -358,6 +357,8 @@ func! FormartSrc()
     endif
     exec "e! %"
 endfunc
+
+" F11 用于 LSP
 " ]]]
 
 " Tab 按键设置[[[2
@@ -602,7 +603,7 @@ endif
 if &diff
     colorscheme industry
 else
-    set background=light
+    set background=dark
     set t_Co=256
     colorscheme solarized
 endif
