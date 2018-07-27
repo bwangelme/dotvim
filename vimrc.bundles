@@ -63,6 +63,9 @@ call plug#begin('~/.vim/bundle')
 
         " 显示Mark
         Plug 'kshenoy/vim-signature'
+
+        " 状态行增强
+        Plug 'vim-airline/vim-airline'
     " ]]]
 
     " 导航插件[[[2
@@ -76,6 +79,8 @@ call plug#begin('~/.vim/bundle')
         " markdown[[[3
         if count(g:bundle_groups, 'markdown')
             Plug 'plasticboy/vim-markdown', {'for': 'md'}
+            Plug 'iamcco/mathjax-support-for-mkdp'
+            Plug 'iamcco/markdown-preview.vim'
         endif
         " ]]]
 
@@ -84,12 +89,19 @@ call plug#begin('~/.vim/bundle')
             " for python.vim syntax highlight
             " pythonsyntax
             Plug 'hdima/python-syntax'
+            Plug 'hynek/vim-python-pep8-indent'
         endif
         " ]]]
 
         " Nginx[[[3
         if count(g:bundle_groups, 'nginx')
             Plug 'bwangel23/nginx-vim-syntax'
+        endif
+        " ]]]
+
+        " Go[[[3
+        if count(g:bundle_groups, 'go')
+            Plug 'fatih/vim-go', {'for': 'go'}
         endif
         " ]]]
     " ]]]
@@ -126,6 +138,19 @@ call plug#end()
             inoremap <c-j> <c-r>=g:JInYCM()<cr>
             au BufEnter,BufRead * exec "inoremap <silent> " . g:UltiSnipsJumpBackwordTrigger . " <C-R>=g:KInYCM()<cr>"
             let g:UltiSnipsJumpBackwordTrigger = "<c-k>"
+        " ]]]
+        " deoplete [[[3
+            let g:deoplete#enable_at_startup = 1
+        " ]]]
+        " LanguageClient-neovim [[[3
+            let g:LanguageClient_serverCommands = {
+                \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
+                \ 'javascript': ['javascript-typescript-stdio'],
+                \ 'javascript.jsx': ['tcp://127.0.0.1:2089'],
+                \ 'python': ['pyls'],
+                \ }
+
+            nnoremap <F5> :call LanguageClient_contextMenu()<CR>
         " ]]]
         " delimitMate [[[3
             " for python docstring ",优化输入
@@ -176,18 +201,29 @@ call plug#end()
         " fzf [[[3
         " ]]]
         " fzf.vim[[[3
+            " 显示所有Buffer
             command! -bang -nargs=* Ag
                 \ call fzf#vim#ag(<q-args>,
                 \                 <bang>0 ? fzf#vim#with_preview('up:60%')
                 \                         : fzf#vim#with_preview('right:50%:hidden', '?'),
                 \                 <bang>0)
-            let g:fzf_action = {
-                \ 'ctrl-w': 'tab split',
-                \ 'ctrl-t': 'tab split',
-                \ 'ctrl-s': 'split',
-                \ 'ctrl-v': 'vsplit' }
 
-            let g:fzf_layout = { 'window': '40split enew', 'down': '~40%' }
+            nnoremap <Leader>q :Ag<Space>
+            xnoremap <silent> <Leader>q y:Ag <C-R>"<CR>
+            nnoremap <silent> <Leader>` :Marks<CR>
+            nnoremap <leader>p :Files<CR>
+            " xnoremap <silent> <Leader>p y:Files <C-R>"<CR>
+            nnoremap <silent> <Leader>l  :Buffers<CR>
+            nnoremap <leader>m :Maps<CR>
+            nnoremap <silent> <Leader><Enter>        :BLines<CR>
+            nnoremap <leader>c :Commits<CR>
+            nnoremap <leader>h :BTags<CR>
+            xnoremap <silent> <Leader>h y:BTags <C-R>"<CR>
+            let g:fzf_action = {
+              \ 'ctrl-t': 'tab split',
+              \ 'ctrl-s': 'split',
+              \ 'ctrl-v': 'vsplit' }
+            let g:fzf_layout = { 'window': '30split enew', 'down': '~40%' }
             let g:fzf_colors =
             \ { 'fg':      ['fg', 'Normal'],
                 \ 'bg':      ['bg', 'Normal'],
@@ -202,28 +238,17 @@ call plug#end()
                 \ 'marker':  ['fg', 'Keyword'],
                 \ 'spinner': ['fg', 'Label'],
                 \ 'header':  ['fg', 'Comment'] }
-
-            nnoremap <Leader>q :Ag<Space>
-            xnoremap <silent> <Leader>q y:Ag <C-R>"<CR>
-            nnoremap <silent> <Leader>` :Marks<CR>
-            nnoremap <leader>p :Files<CR>
-            nnoremap <silent> <Leader>l  :Buffers<CR>
-            nnoremap <leader>m :Maps<CR>
-            nnoremap <silent> <Leader><Enter>        :BLines<CR>
-            nnoremap <leader>c :Commits<CR>
-            nnoremap <leader>h :BTags<CR>
-            xnoremap <silent> <Leader>h y:BTags <C-R>"<CR>
         " ]]]
     " ]]]
     " 功能插件[[[2
         " vim-fugitive [[[3
             " :Gdiff  :Gstatus :Gvsplit
-            nnoremap <leader>ge :Gdiff<CR>
-            nmap     <Leader>g :Gstatus<CR>gg<c-n>
+            " nnoremap <leader>ge :Gdiff<CR>
+            " nmap     <Leader>g :Gstatus<CR>gg<c-n>
         " ]]]
         " ale [[[3
             " pip install flake8 isort
-            let g:ale_enabled = 0
+            " let g:ale_enabled = 0
 
             let g:ale_linters = {
             \   'python': ['flake8'],
@@ -235,14 +260,14 @@ call plug#end()
 
             " http://pep8.readthedocs.io/en/latest/intro.html#error-codes
             " http://flake8.pycqa.org/en/latest/user/error-codes.html
-            let g:ale_python_flake8_args="--ignore=E114,E116,E131 --max-line-length=80"
-            let g:ale_lint_delay = 2000
+            let g:ale_python_flake8_options="--ignore=E114,E116,E131 --max-line-length=120"
+            let g:ale_lint_delay = 1000
 
             let g:ale_sign_column_always = 1
 
             nmap <silent> <C-p> <Plug>(ale_previous_wrap)
             nmap <silent> <C-n> <Plug>(ale_next_wrap)
-            nmap <silent> <Leader>y <Plug>(ale_fix)
+            " nmap <silent> <Leader>y <Plug>(ale_fix)
 
             let g:ale_sign_error = '>>'
             let g:ale_sign_warning = '__'
@@ -306,6 +331,28 @@ call plug#end()
             let g:solarized_termtrans=1
             let g:solarized_contrast="normal"
             let g:solarized_visibility="normal"
+        " ]]]
+        " vim-airline [[[3
+            let g:airline#extensions#default#section_truncate_width = {
+                \ 'a': 90,
+                \ 'b': 90,
+                \ 'x': 60,
+                \ 'y': 90,
+                \ 'z': 45,
+                \ 'warning': 90,
+                \ 'error': 90,
+                \ }
+            if !exists('g:airline_symbols')
+                let g:airline_symbols = {}
+            endif
+            let g:airline_left_sep = '▶'
+            let g:airline_left_alt_sep = '❯'
+            let g:airline_right_sep = '◀'
+            let g:airline_right_alt_sep = '❮'
+            let g:airline_symbols.linenr = '¶'
+            let g:airline_symbols.branch = '⎇'
+            let g:airline_section_z = '[%n] %P %L :%c'
+            let g:airline_section_y = '%{airline#util#wrap(airline#parts#ffenc(),0)} %B'
         " ]]]
     " ]]]
 
@@ -377,12 +424,85 @@ call plug#end()
                 \ 'ctagsbin'  : 'gotags',
                 \ 'ctagsargs' : '-sort -silent'
             \ }
+
+            " for markdown
+            let g:tagbar_type_markdown = {
+                \ 'ctagstype': 'markdown',
+                \ 'ctagsbin' : '/Users/michaeltsui/bin/markdown2ctags.py',
+                \ 'ctagsargs' : '-f - --sort=yes',
+                \ 'kinds' : [
+                    \ 's:sections',
+                    \ 'i:images'
+                \ ],
+                \ 'sro' : '|',
+                \ 'kind2scope' : {
+                    \ 's' : 'section',
+                \ },
+                \ 'sort': 0,
+            \}
         " ]]]
     " ]]]
 
     " 语言相关[[[2
         " pythonsyntax [[[3
             let python_highlight_all = 1
+        " ]]]
+        " go [[[3
+            " format with goimports instead of gofmt
+            let g:go_fmt_command = "goimports"
+            let g:go_autodetect_gopath = 1
+            let g:go_list_type = "quickfix"
+
+            let g:go_highlight_build_constraints = 1
+            let g:go_highlight_types = 1
+            let g:go_highlight_fields = 1
+            let g:go_highlight_functions = 1
+            let g:go_highlight_methods = 1
+            let g:go_highlight_extra_types = 1
+            let g:go_highlight_generate_tags = 1
+            let g:go_highlight_operators = 1
+            let g:go_highlight_structs = 1
+
+            let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
+            let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go', 'java'] }
+
+            nmap <Leader>i :GoDecls<cr>
+            nmap <Leader>d <Plug>(go-def-vertical)
+            nmap <Leader>f :GoFmt<cr>
+        " ]]]
+        " markdown [[[
+            nmap <silent> <F12> <Plug>MarkdownPreview
+            let g:mkdp_path_to_chrome = ""
+            " path to the chrome or the command to open chrome(or other modern browsers)
+            " if set, g:mkdp_browserfunc would be ignored
+
+            let g:mkdp_browserfunc = 'MKDP_browserfunc_default'
+            " callback vim function to open browser, the only param is the url to open
+
+            let g:mkdp_auto_start = 0
+            " set to 1, the vim will open the preview window once enter the markdown
+            " buffer
+
+            let g:mkdp_auto_open = 0
+            " set to 1, the vim will auto open preview window when you edit the
+            " markdown file
+
+            let g:mkdp_auto_close = 1
+            " set to 1, the vim will auto close current preview window when change
+            " from markdown buffer to another buffer
+
+            let g:mkdp_refresh_slow = 0
+            " set to 1, the vim will just refresh markdown when save the buffer or
+            " leave from insert mode, default 0 is auto refresh markdown as you edit or
+            " move the cursor
+
+            let g:mkdp_command_for_global = 0
+            " set to 1, the MarkdownPreview command can be use for all files,
+            " by default it just can be use in markdown file
+
+            let g:mkdp_open_to_the_world = 1
+            " set to 1, server available to others in your network
+            " by default, the server only listens on localhost
         " ]]]
     " ]]]
 " ]]]

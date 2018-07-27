@@ -34,6 +34,11 @@ filetype plugin indent on
 " General Settings 基础设置[[[1
 " =============================
 
+"文件自动重新载入
+set autoread
+set updatetime=500
+au CursorHold * checktime
+
 " history存储容量
 set history=2000
 
@@ -45,9 +50,6 @@ filetype indent on
 
 " 允许插件
 filetype indent on
-
-" 文件修改后自动载入
-set autoread
 
 " 取消备份
 set nobackup
@@ -82,7 +84,7 @@ set backspace=eol,start,indent
 set whichwrap+=<,>
 
 " 离开当前Buffer,或者失去焦点的时候，就保存所有的buffer
-au BufLeave,FocusLost * wa
+" au BufLeave,FocusLost * wa
 
 " 开启鼠标
 set mouse=a
@@ -104,6 +106,13 @@ set ruler
 set showcmd
 " 左下角显示当前Vim模式
 set showmode
+" 设置 MacVim 的行号
+set guifont=Monaco:h14
+" MacVim 移除滚动条
+set guioptions=
+" MacVim 关闭鼠标闪烁
+" set guicursor=n-v-c:block-Cursor/lCursor,ve:ver35-Cursor,o:hor50-Cursor,i-ci:ver25-Cursor/lCursor,r-cr:hor20-Cursor/lCursor,sm:block-Cursor-blinkon0
+set gcr=a:blinkon0              "Disable cursor blink
 
 " 在上下移动光标时，光标的上方或下方至少会保留显示的行数
 set scrolloff=7
@@ -119,7 +128,7 @@ set scrolloff=7
     set statusline=
     " %<: 如果内容被截断，前面用<填充
     " %f: buffer中的文件路径
-    set statusline+=%<%f
+    set statusline+=%<
     " %m: 修改标记[+]，如果'modifiable'选项关闭的话是[-]
     " %r: 只读标记[RO]
     " %w: 预览窗口标记[Preview]
@@ -130,13 +139,13 @@ set scrolloff=7
     set statusline+=\ %(%l,%c%)
     " %P: 文档阅读百分比 %L: 文档总行数
     set statusline+=\ %P-%L
-    " %{ALEGetStatusLine()}: ALE代码检查状态
-    set statusline+=\ %{ALEGetStatusLine()}
-    set statusline+=\ %{ale#engine#IsCheckingBuffer(bufnr('%'))?'[♫]':'[●]'}
     " %n: Buffer序号
     set statusline+=\ \<%n\>
     " %B: 光标下字符的十六进制编码值
     set statusline+=\ %B
+    " %{ALEGetStatusLine()}: ALE代码检查状态
+    set statusline+=\ %{ale#engine#IsCheckingBuffer(bufnr('%'))?'[♫]':'[●]'}
+    " set statusline+=\ %{ALEGetStatusLine()}
 
     " %=: 左右对齐项目的分割点
     set statusline+=\ %=
@@ -209,8 +218,6 @@ set shiftround
 
 " A buffer becomes hidden when it is abandoned
 set hidden
-" ex模式下补全的方式
-set wildmode=list:longest
 
 set ttyfast
 
@@ -241,12 +248,24 @@ set formatoptions+=B
 
 " 自动补全配置
 " 让Vim的补全菜单行为与一般IDE一致(参考VimTip1228)
-set completeopt=menuone,preview,longest,menu
+set completeopt=menuone,longest,menu,preview
 
+" ex模式下补全的方式
+set wildmode=list:longest
 " 增强模式中的命令行自动完成操作
 set wildmenu
 " Ignore compiled files
 set wildignore=*.swp,*.bak,*.pyc,*.class,.svn,.git,node_modules,*~,*.o
+set wildignore=*.o,*.obj,*~ "stuff to ignore when tab completing
+set wildignore+=*vim/backups*
+set wildignore+=*sass-cache*
+set wildignore+=*DS_Store*
+set wildignore+=vendor/rails/**
+set wildignore+=vendor/cache/**
+set wildignore+=*.gem
+set wildignore+=log/**
+set wildignore+=tmp/**
+set wildignore+=*.png,*.jpg,*.gif
 
 " 离开插入模式后自动关闭预览窗口
 autocmd InsertLeave * if pumvisible() == 0|pclose|endif
@@ -278,7 +297,7 @@ nnoremap gj j
 " 功能键的键位映射[[[2
 " ====================
 
-" F1 废弃这个键,防止调出系统帮助
+" F1 设置行号
 noremap <F1> :set number!<CR>"
 
 " F2 折叠开关
@@ -303,7 +322,7 @@ set pastetoggle=<F5>            "    when in insert mode, press <F5> to go to
                                 "    paste mode, where you can paste mass data
                                 "    that won't be autoindented
 " F5 查看 undo 历史树
-nnoremap <F5> :UndotreeToggle<cr>
+" nnoremap <F5> :UndotreeToggle<cr>
 
 " F6 语法开关，关闭语法可以加快大文件的展示
 nnoremap <F6> :exec exists('syntax_on') ? 'syn off' : 'syn on'<CR>
@@ -353,6 +372,8 @@ func! FormartSrc()
     endif
     exec "e! %"
 endfunc
+
+" F11 用于 LSP
 " ]]]
 
 " Tab 按键设置[[[2
@@ -564,7 +585,7 @@ if has("autocmd")
   " Highlight TODO, FIXME, NOTE, etc.
   if v:version > 701
     autocmd Syntax * call matchadd('Todo',  '\W\zs\(TODO\|FIXME\|CHANGED\|DONE\||BUG\|HACK\)')
-    autocmd Syntax * call matchadd('Debug', '\W\zs\(INFO\|NOTE\|IDEA\|NOTICE\)')
+    autocmd Syntax * call matchadd('Debug', '\W\zs\(INFO\|IDEA\|NOTICE\)')
     " 这里TIPS表示做的笔记, DESC表示代码的描述
     " autocmd Syntax * call matchadd('level1c', '\W\zs\(TIPS\|DESC\)')
   endif
@@ -578,7 +599,7 @@ endif
 if &diff
     colorscheme industry
 else
-    set background=light
+    set background=dark
     set t_Co=256
     colorscheme solarized
 endif
