@@ -114,6 +114,7 @@ set guioptions=
 " set guicursor=n-v-c:block-Cursor/lCursor,ve:ver35-Cursor,o:hor50-Cursor,i-ci:ver25-Cursor/lCursor,r-cr:hor20-Cursor/lCursor,sm:block-Cursor-blinkon0
 set gcr=a:blinkon0              "Disable cursor blink
 
+
 " 在上下移动光标时，光标的上方或下方至少会保留显示的行数
 set scrolloff=7
 
@@ -547,6 +548,9 @@ nnoremap U <C-r>
 nmap <silent> <leader>e :e $MYVIMRC<cr>
 nmap <silent> <leader>s :so $MYVIMRC<CR>
 nmap <silent> <leader>u :e ~/.vim/vimrc.bundles<CR>
+nmap <leader>v :Files ~/vimwiki/<CR>
+nmap <leader>s :Files ~/work/Douban/code/scripts/<CR>
+
 
 " 文件折叠
 nmap - zc
