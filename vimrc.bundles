@@ -149,15 +149,48 @@ call plug#end()
         " deoplete [[[3
             let g:deoplete#enable_at_startup = 1
         " ]]]
+        " YouCompleteme[[[3
+            let g:ycm_key_list_select_completion=['<c-n>']
+            let g:ycm_key_list_previous_completion=['<c-p>']
+            let g:ycm_complete_in_comments = 1  "在注释输入中也能补全
+            let g:ycm_complete_in_strings = 1   "在字符串输入中也能补全
+            let g:ycm_use_ultisnips_completer = 1 "提示UltiSnips
+            let g:ycm_collect_identifiers_from_comments_and_strings = 1   "注释和字符串中的文字也会被收入补全
+            let g:ycm_collect_identifiers_from_tags_files = 1
+            " 开启语法关键字补全
+            let g:ycm_seed_identifiers_with_syntax=1
+            " 设置Python解释器的路径
+            if has('mac')
+                let g:ycm_server_python_interpreter = '/usr/local/bin/python'
+            else
+                let g:ycm_server_python_interpreter = '/usr/bin/python'
+            endif
+            " 设置补全时用到的Python解释器的路径
+            let g:ycm_python_binary_path = 'python'
+             if !empty(glob("~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py"))
+                let g:ycm_global_ycm_extra_conf = "~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py"
+            endif
+             let g:ycm_show_diagnostics_ui = 1
+             " 跳转到定义处, 水平分屏打开
+            let g:ycm_goto_buffer_command = 'horizontal-split'
+            nnoremap <leader>d :YcmCompleter GoToDefinition<CR>
+             " 黑名单,不启用
+            let g:ycm_filetype_blacklist = {
+                \ 'tagbar' : 1,
+                \ 'gitcommit' : 1,
+                \ 'nerdtree': 1,
+                \ 'zsh': 1,
+                \}
+        " ]]]
         " LanguageClient-neovim [[[3
-            let g:LanguageClient_serverCommands = {
-                \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
-                \ 'javascript': ['javascript-typescript-stdio'],
-                \ 'javascript.jsx': ['tcp://127.0.0.1:2089'],
-                \ 'python': ['pyls'],
-                \ }
+            " let g:LanguageClient_serverCommands = {
+            "     \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
+            "     \ 'javascript': ['javascript-typescript-stdio'],
+            "     \ 'javascript.jsx': ['tcp://127.0.0.1:2089'],
+            "     \ 'python': ['pyls'],
+            "     \ }
 
-            nnoremap <F5> :call LanguageClient_contextMenu()<CR>
+            " nnoremap <F5> :call LanguageClient_contextMenu()<CR>
         " ]]]
         " delimitMate [[[3
             " for python docstring ",优化输入
@@ -474,7 +507,7 @@ call plug#end()
             let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go', 'java'] }
 
             nmap <Leader>i :GoDecls<cr>
-            nmap <Leader>d <Plug>(go-def-vertical)
+            " nmap <Leader>d <Plug>(go-def-vertical)
             nmap <Leader>f :GoFmt<cr>
         " ]]]
         " markdown [[[
