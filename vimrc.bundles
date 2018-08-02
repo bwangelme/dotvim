@@ -23,6 +23,13 @@ call plug#begin('~/.vim/bundle')
         Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
         " 自动补全单引号，双引号等
         Plug 'Raimondi/delimitMate'
+        " 自动补全插件
+        function! BuildYCM(info)
+          if a:info.status == 'installed' || a:info.force
+            !./install.py --clang-completer --gocode-completer
+          endif
+        endfunction
+        Plug 'Valloric/YouCompleteMe', { 'for': ['c', 'cpp'], 'do': function('BuildYCM') }
     " ]]]
 
     " 编辑插件[[[2
@@ -65,7 +72,7 @@ call plug#begin('~/.vim/bundle')
         Plug 'kshenoy/vim-signature'
 
         " 状态行增强
-        Plug 'vim-airline/vim-airline'
+        " Plug 'vim-airline/vim-airline'
     " ]]]
 
     " 导航插件[[[2
@@ -333,26 +340,26 @@ call plug#end()
             let g:solarized_visibility="normal"
         " ]]]
         " vim-airline [[[3
-            let g:airline#extensions#default#section_truncate_width = {
-                \ 'a': 90,
-                \ 'b': 90,
-                \ 'x': 60,
-                \ 'y': 90,
-                \ 'z': 45,
-                \ 'warning': 90,
-                \ 'error': 90,
-                \ }
-            if !exists('g:airline_symbols')
-                let g:airline_symbols = {}
-            endif
-            let g:airline_left_sep = '▶'
-            let g:airline_left_alt_sep = '❯'
-            let g:airline_right_sep = '◀'
-            let g:airline_right_alt_sep = '❮'
-            let g:airline_symbols.linenr = '¶'
-            let g:airline_symbols.branch = '⎇'
-            let g:airline_section_z = '[%n] %P %L :%c'
-            let g:airline_section_y = '%{airline#util#wrap(airline#parts#ffenc(),0)} %B'
+            " let g:airline#extensions#default#section_truncate_width = {
+            "     \ 'a': 90,
+            "     \ 'b': 90,
+            "     \ 'x': 60,
+            "     \ 'y': 90,
+            "     \ 'z': 45,
+            "     \ 'warning': 90,
+            "     \ 'error': 90,
+            "     \ }
+            " if !exists('g:airline_symbols')
+            "     let g:airline_symbols = {}
+            " endif
+            " let g:airline_left_sep = '▶'
+            " let g:airline_left_alt_sep = '❯'
+            " let g:airline_right_sep = '◀'
+            " let g:airline_right_alt_sep = '❮'
+            " let g:airline_symbols.linenr = '¶'
+            " let g:airline_symbols.branch = '⎇'
+            " let g:airline_section_z = '[%n] %P %L :%c'
+            " let g:airline_section_y = '%{airline#util#wrap(airline#parts#ffenc(),0)} %B'
         " ]]]
     " ]]]
 
