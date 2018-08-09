@@ -106,14 +106,51 @@ set ruler
 set showcmd
 " 左下角显示当前Vim模式
 set showmode
-" 设置 MacVim 的行号
-set guifont=Monaco:h14
-" MacVim 移除滚动条
-set guioptions=
-" MacVim 关闭鼠标闪烁
-" set guicursor=n-v-c:block-Cursor/lCursor,ve:ver35-Cursor,o:hor50-Cursor,i-ci:ver25-Cursor/lCursor,r-cr:hor20-Cursor/lCursor,sm:block-Cursor-blinkon0
-set gcr=a:blinkon0              "Disable cursor blink
 
+if has("gui_macvim")
+    " 设置 MacVim 的行号
+    set guifont=Monaco:h14
+    " MacVim 移除滚动条
+    set guioptions=
+    " MacVim 关闭鼠标闪烁
+    " set guicursor=n-v-c:block-Cursor/lCursor,ve:ver35-Cursor,o:hor50-Cursor,i-ci:ver25-Cursor/lCursor,r-cr:hor20-Cursor/lCursor,sm:block-Cursor-blinkon0
+    set gcr=a:blinkon0              "Disable cursor blink
+
+	function GuiTabLabel(n)
+	  return "[". a:n . "]" . fnamemodify(getcwd(1, a:n), ':t')
+	endfunc
+
+	" 设置tabline显示的内容为当前目录
+	function MyTabLine()
+      let s = ''
+      for i in range(tabpagenr('$'))
+        " select the highlighting
+        if i + 1 == tabpagenr()
+          let s .= '%#TabLineSel#'
+        else
+          let s .= '%#TabLine#'
+        endif
+
+        " set the tab page number (for mouse clicks)
+        let s .= '%' . (i + 1) . 'T'
+
+        " the label is made by MyTabLabel()
+        let s .= ' %{GuiTabLabel(' . (i + 1) . ')} '
+      endfor
+
+      " after the last tab fill with TabLineFill and reset tab page nr
+      let s .= '%#TabLineFill#%T'
+
+      " right-align the label to close the current tab page
+      if tabpagenr('$') > 1
+        let s .= '%=%#TabLine#%999Xclose'
+      endif
+
+      return s
+    endfunction
+
+	set tabline=%!MyTabLine()
+endif
 
 " 在上下移动光标时，光标的上方或下方至少会保留显示的行数
 set scrolloff=7
@@ -250,6 +287,7 @@ set formatoptions+=B
 " 自动补全配置
 " 让Vim的补全菜单行为与一般IDE一致(参考VimTip1228)
 set completeopt=menuone,longest,menu,preview
+imap <c-space> <c-x><c-o>
 
 " ex模式下补全的方式
 set wildmode=list:longest
@@ -546,10 +584,27 @@ nnoremap U <C-r>
 
 " Quickly edit/reload the vimrc file
 nmap <silent> <leader>e :e $MYVIMRC<cr>
-nmap <silent> <leader>s :so $MYVIMRC<CR>
+" nmap <silent> <leader>s :so $MYVIMRC<CR>
 nmap <silent> <leader>u :e ~/.vim/vimrc.bundles<CR>
-nmap <leader>v :Files ~/vimwiki/<CR>
-nmap <leader>s :Files ~/work/Douban/code/scripts/<CR>
+
+if has("gui_macvim")
+    " 前后切换tab
+    " noremap <S-L> :tabnext<CR>
+    " noremap <S-H> :tabprev<CR>
+
+    " Switch to specific tab numbers with Command-number
+    noremap <D-1> :tabn 1<CR>
+    noremap <D-2> :tabn 2<CR>
+    noremap <D-3> :tabn 3<CR>
+    noremap <D-4> :tabn 4<CR>
+    noremap <D-5> :tabn 5<CR>
+    noremap <D-6> :tabn 6<CR>
+    noremap <D-7> :tabn 7<CR>
+    noremap <D-8> :tabn 8<CR>
+    noremap <D-9> :tabn 9<CR>
+    " Command-0 goes to the last tab
+    noremap <D-0> :tablast<CR>
+endif
 
 
 " 文件折叠

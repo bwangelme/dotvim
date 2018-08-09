@@ -259,6 +259,7 @@ call plug#end()
             nnoremap <leader>c :Commits<CR>
             nnoremap <leader>h :BTags<CR>
             xnoremap <silent> <Leader>h y:BTags <C-R>"<CR>
+
             let g:fzf_action = {
               \ 'ctrl-t': 'tab split',
               \ 'ctrl-s': 'split',
@@ -278,6 +279,15 @@ call plug#end()
                 \ 'marker':  ['fg', 'Keyword'],
                 \ 'spinner': ['fg', 'Label'],
                 \ 'header':  ['fg', 'Comment'] }
+
+            " 快速打开某个位置的文件
+            nmap <leader>v :Files ~/vimwiki/<CR>
+            nmap <leader>s :Files ~/work/Douban/scripts/<CR>
+            nmap <leader>g :call fzf#run({
+                \ 'source': 'ls -1',
+                \ 'dir': '~/work/Douban/code',
+                \ 'sink': 'lcd',
+                \ })<CR>
         " ]]]
     " ]]]
     " 功能插件[[[2
