@@ -116,12 +116,12 @@ if has("gui_macvim")
     " set guicursor=n-v-c:block-Cursor/lCursor,ve:ver35-Cursor,o:hor50-Cursor,i-ci:ver25-Cursor/lCursor,r-cr:hor20-Cursor/lCursor,sm:block-Cursor-blinkon0
     set gcr=a:blinkon0              "Disable cursor blink
 
-	function GuiTabLabel(n)
+	function! GuiTabLabel(n)
 	  return "[". a:n . "]" . fnamemodify(getcwd(1, a:n), ':t')
 	endfunc
 
 	" 设置tabline显示的内容为当前目录
-	function MyTabLine()
+	function! MyTabLine()
       let s = ''
       for i in range(tabpagenr('$'))
         " select the highlighting
@@ -604,6 +604,18 @@ if has("gui_macvim")
     noremap <D-9> :tabn 9<CR>
     " Command-0 goes to the last tab
     noremap <D-0> :tablast<CR>
+
+    imap <D-1> <Esc>:tabn 1<CR>
+    imap <D-2> <Esc>:tabn 2<CR>
+    imap <D-3> <Esc>:tabn 3<CR>
+    imap <D-4> <Esc>:tabn 4<CR>
+    imap <D-5> <Esc>:tabn 5<CR>
+    imap <D-6> <Esc>:tabn 6<CR>
+    imap <D-7> <Esc>:tabn 7<CR>
+    imap <D-8> <Esc>:tabn 8<CR>
+    imap <D-9> <Esc>:tabn 9<CR>
+    " Command-0 goes to the last tab
+    imap <D-0> <Esc>:tablast<CR>
 endif
 
 
