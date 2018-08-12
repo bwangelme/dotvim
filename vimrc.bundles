@@ -159,16 +159,15 @@ call plug#end()
         " deoplete [[[3
             let g:deoplete#enable_at_startup = 1
 
-            " call deoplete#custom#option({
-            " \ 'smart_case': v:true,
-            " \ })
+            call deoplete#custom#option({
+            \ 'smart_case': v:true,
+            \ })
 
             " <C-h>, <BS>: close popup and delete backword char.
             " inoremap <expr><C-h> deoplete#smart_close_popup()."\<C-h>"
             " inoremap <expr><BS>  deoplete#smart_close_popup()."\<C-h>"
         " ]]]
         " jedi-vim [[[3
-            " let g:jedi#completions_enabled = 1
         " ]]]
         " YouCompleteme[[[3
             " let g:ycm_key_list_select_completion=['<c-n>']
@@ -538,7 +537,7 @@ call plug#end()
             let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go', 'java'] }
 
             nmap <Leader>i :GoDecls<cr>
-            nmap <Leader>gd <Plug>(go-def-vertical)
+            nmap <Leader>d <Plug>(go-def-vertical)
             nmap <Leader>f :GoFmt<cr>
         " ]]]
         " markdown [[[
