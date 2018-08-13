@@ -315,11 +315,11 @@ call plug#end()
                 \ 'sink': 'lcd',
                 \ })<CR>
 
-            " nmap <leader>gg :call fzf#run({
-            "     \ 'source': 'ls -1',
-            "     \ 'dir': '~/go/src/github.com/bwangelme/',
-            "     \ 'sink': 'lcd',
-            "     \ })<CR>
+            nmap <leader>gg :call fzf#run({
+                \ 'source': 'ls -1',
+                \ 'dir': '~/go/src/github.com/bwangelme/',
+                \ 'sink': 'lcd',
+                \ })<CR>
         " ]]]
     " ]]]
     " 功能插件[[[2
