@@ -31,7 +31,7 @@ call plug#begin('~/.vim/bundle')
         Plug 'roxma/vim-hug-neovim-rpc'
 
         " Python 自动补全插件
-        " Plug 'davidhalter/jedi-vim'
+        Plug 'davidhalter/jedi-vim'
 
         " 自动补全插件
         " function! BuildYCM(info)
@@ -161,6 +161,11 @@ call plug#end()
 
             call deoplete#custom#option({
             \ 'smart_case': v:true,
+            \ 'camel_case': v:true,
+            \ })
+
+            call deoplete#custom#option('ignore_sources', {
+            \ '_': ['buffer', 'tag'],
             \ })
 
             " <C-h>, <BS>: close popup and delete backword char.
@@ -303,11 +308,18 @@ call plug#end()
             " 快速打开某个位置的文件
             nmap <leader>v :Files ~/vimwiki/<CR>
             nmap <leader>s :Files ~/work/Douban/code/scripts/<CR>
+
             nmap <leader>g :call fzf#run({
                 \ 'source': 'ls -1',
                 \ 'dir': '~/work/Douban/code',
                 \ 'sink': 'lcd',
                 \ })<CR>
+
+            " nmap <leader>gg :call fzf#run({
+            "     \ 'source': 'ls -1',
+            "     \ 'dir': '~/go/src/github.com/bwangelme/',
+            "     \ 'sink': 'lcd',
+            "     \ })<CR>
         " ]]]
     " ]]]
     " 功能插件[[[2
