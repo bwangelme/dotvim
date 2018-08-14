@@ -26,9 +26,9 @@ call plug#begin('~/.vim/bundle')
         Plug 'Raimondi/delimitMate'
 
         " 自动补全插件
-        Plug 'Shougo/deoplete.nvim'
-        Plug 'roxma/nvim-yarp'
-        Plug 'roxma/vim-hug-neovim-rpc'
+        " Plug 'Shougo/deoplete.nvim'
+        " Plug 'roxma/nvim-yarp'
+        " Plug 'roxma/vim-hug-neovim-rpc'
 
         " Python 自动补全插件
         Plug 'davidhalter/jedi-vim'
@@ -157,22 +157,23 @@ call plug#end()
             let g:UltiSnipsJumpBackwordTrigger = "<c-k>"
         " ]]]
         " deoplete [[[3
-            let g:deoplete#enable_at_startup = 1
+            " let g:deoplete#enable_at_startup = 0
 
-            call deoplete#custom#option({
-            \ 'smart_case': v:true,
-            \ 'camel_case': v:true,
-            \ })
+            " call deoplete#custom#option({
+            " \ 'smart_case': v:true,
+            " \ 'camel_case': v:true,
+            " \ })
 
-            call deoplete#custom#option('ignore_sources', {
-            \ '_': ['buffer', 'tag'],
-            \ })
+            " call deoplete#custom#option('ignore_sources', {
+            " \ '_': ['buffer', 'tag'],
+            " \ })
 
             " <C-h>, <BS>: close popup and delete backword char.
             " inoremap <expr><C-h> deoplete#smart_close_popup()."\<C-h>"
             " inoremap <expr><BS>  deoplete#smart_close_popup()."\<C-h>"
         " ]]]
         " jedi-vim [[[3
+            let g:jedi#goto_assignments_command = "-"
         " ]]]
         " YouCompleteme[[[3
             " let g:ycm_key_list_select_completion=['<c-n>']
@@ -309,17 +310,12 @@ call plug#end()
             nmap <leader>v :Files ~/vimwiki/<CR>
             nmap <leader>s :Files ~/work/Douban/code/scripts/<CR>
 
-            nmap <leader>g :call fzf#run({
-                \ 'source': 'ls -1',
-                \ 'dir': '~/work/Douban/code',
-                \ 'sink': 'lcd',
-                \ })<CR>
-
-            nmap <leader>gg :call fzf#run({
-                \ 'source': 'ls -1',
-                \ 'dir': '~/go/src/github.com/bwangelme/',
-                \ 'sink': 'lcd',
-                \ })<CR>
+            " nmap <leader>g :call fzf#run({
+            "     \ 'source': 'ls \| xargs -I{} echo "$(pwd)/"{}',
+            "     \ 'dir': '~/work/Douban/code',
+            "     \ 'sink': 'lcd',
+            "     \ })<CR>
+            nmap <leader>g :lcd ~/work/Douban/code<CR>lcd <TAB>
         " ]]]
     " ]]]
     " 功能插件[[[2
