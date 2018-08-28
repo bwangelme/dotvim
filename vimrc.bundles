@@ -31,7 +31,7 @@ call plug#begin('~/.vim/bundle')
         " Plug 'roxma/vim-hug-neovim-rpc'
 
         " Python 自动补全插件
-        Plug 'davidhalter/jedi-vim'
+        " Plug 'davidhalter/jedi-vim'
 
         " 自动补全插件
         " function! BuildYCM(info)
@@ -173,7 +173,7 @@ call plug#end()
             " inoremap <expr><BS>  deoplete#smart_close_popup()."\<C-h>"
         " ]]]
         " jedi-vim [[[3
-            let g:jedi#goto_assignments_command = "-"
+            " let g:jedi#goto_assignments_command = "-"
         " ]]]
         " YouCompleteme[[[3
             " let g:ycm_key_list_select_completion=['<c-n>']
@@ -310,12 +310,11 @@ call plug#end()
             nmap <leader>v :Files ~/vimwiki/<CR>
             nmap <leader>s :Files ~/work/Douban/code/scripts/<CR>
 
-            " nmap <leader>g :call fzf#run({
-            "     \ 'source': 'ls \| xargs -I{} echo "$(pwd)/"{}',
-            "     \ 'dir': '~/work/Douban/code',
-            "     \ 'sink': 'lcd',
-            "     \ })<CR>
-            nmap <leader>g :lcd ~/work/Douban/code<CR>lcd <TAB>
+            nmap <leader>g :call fzf#run({
+                \ 'source': 'ls -1',
+                \ 'dir': '~/work/Douban/code',
+                \ 'sink': 'lcd',
+                \ })<CR>
         " ]]]
     " ]]]
     " 功能插件[[[2
@@ -543,9 +542,10 @@ call plug#end()
 
             let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
             let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go', 'java'] }
+            let g:go_fold_enable = ['import']
 
             nmap <Leader>i :GoDecls<cr>
-            nmap <Leader>d <Plug>(go-def-vertical)
+            nmap <Leader>d <Plug>(go-def)
             nmap <Leader>f :GoFmt<cr>
         " ]]]
         " markdown [[[

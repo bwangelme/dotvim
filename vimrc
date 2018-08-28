@@ -110,11 +110,21 @@ set showmode
 if has("gui_macvim")
     " 设置 MacVim 的行号
     set guifont=Monaco:h14
+
     " MacVim 移除滚动条
     set guioptions=
-    " MacVim 关闭鼠标闪烁
-    " set guicursor=n-v-c:block-Cursor/lCursor,ve:ver35-Cursor,o:hor50-Cursor,i-ci:ver25-Cursor/lCursor,r-cr:hor20-Cursor/lCursor,sm:block-Cursor-blinkon0
+
+    " MacVim 鼠标
     set gcr=a:blinkon0              "Disable cursor blink
+    " set gcr+=a:blinkwait500-blinkon600-blinkoff300
+
+    nmap <C-6> <C-^>
+
+    set columns=270
+    set lines=60
+
+    " 关闭声音
+    set noerrorbells visualbell t_vb=
 
 	function! GuiTabLabel(n)
 	  return "[". a:n . "]" . fnamemodify(getcwd(1, a:n), ':t')
@@ -645,7 +655,7 @@ autocmd BufRead,BufNewFile *.part set filetype=html
 
 " 定义函数AutoSetFileHead，自动插入文件头
 autocmd bufnewfile *.c so ~/.vim/templates/c.template
-autocmd bufnewfile *.py so ~/.vim/templates/python.template
+" autocmd bufnewfile *.py so ~/.vim/templates/python.template
 autocmd bufnewfile *.ruby so ~/.vim/templates/ruby.template
 autocmd bufnewfile *.cpp so ~/.vim/templates/cpp.template
 autocmd bufnewfile *.sh so ~/.vim/templates/sh.template
