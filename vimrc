@@ -107,60 +107,40 @@ set showcmd
 " 左下角显示当前Vim模式
 set showmode
 
-if has("gui_macvim")
-    " 设置 MacVim 的行号
-    set guifont=Monaco:h14
+function! GuiTabLabel(n)
+    return "[". a:n . "]" . fnamemodify(getcwd(1, a:n), ':t')
+endfunc
 
-    " MacVim 移除滚动条
-    set guioptions=
+" 设置tabline显示的内容为当前目录
+function! MyTabLine()
+    let s = ''
+    for i in range(tabpagenr('$'))
+    " select the highlighting
+    if i + 1 == tabpagenr()
+        let s .= '%#TabLineSel#'
+    else
+        let s .= '%#TabLine#'
+    endif
 
-    " MacVim 鼠标
-    set gcr=a:blinkon0              "Disable cursor blink
-    " set gcr+=a:blinkwait500-blinkon600-blinkoff300
+    " set the tab page number (for mouse clicks)
+    let s .= '%' . (i + 1) . 'T'
 
-    nmap <C-6> <C-^>
+    " the label is made by MyTabLabel()
+    let s .= ' %{GuiTabLabel(' . (i + 1) . ')} '
+    endfor
 
-    set columns=270
-    set lines=60
+    " after the last tab fill with TabLineFill and reset tab page nr
+    let s .= '%#TabLineFill#%T'
 
-    " 关闭声音
-    set noerrorbells visualbell t_vb=
+    " right-align the label to close the current tab page
+    if tabpagenr('$') > 1
+    let s .= '%=%#TabLine#%999Xclose'
+    endif
 
-	function! GuiTabLabel(n)
-	  return "[". a:n . "]" . fnamemodify(getcwd(1, a:n), ':t')
-	endfunc
+    return s
+endfunction
 
-	" 设置tabline显示的内容为当前目录
-	function! MyTabLine()
-      let s = ''
-      for i in range(tabpagenr('$'))
-        " select the highlighting
-        if i + 1 == tabpagenr()
-          let s .= '%#TabLineSel#'
-        else
-          let s .= '%#TabLine#'
-        endif
-
-        " set the tab page number (for mouse clicks)
-        let s .= '%' . (i + 1) . 'T'
-
-        " the label is made by MyTabLabel()
-        let s .= ' %{GuiTabLabel(' . (i + 1) . ')} '
-      endfor
-
-      " after the last tab fill with TabLineFill and reset tab page nr
-      let s .= '%#TabLineFill#%T'
-
-      " right-align the label to close the current tab page
-      if tabpagenr('$') > 1
-        let s .= '%=%#TabLine#%999Xclose'
-      endif
-
-      return s
-    endfunction
-
-	set tabline=%!MyTabLine()
-endif
+set tabline=%!MyTabLine()
 
 " 在上下移动光标时，光标的上方或下方至少会保留显示的行数
 set scrolloff=7
