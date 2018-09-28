@@ -635,7 +635,7 @@ autocmd BufRead,BufNewFile *.part set filetype=html
 
 " 定义函数AutoSetFileHead，自动插入文件头
 autocmd bufnewfile *.c so ~/.vim/templates/c.template
-" autocmd bufnewfile *.py so ~/.vim/templates/python.template
+autocmd bufnewfile *.py so ~/.vim/templates/python.template
 autocmd bufnewfile *.ruby so ~/.vim/templates/ruby.template
 autocmd bufnewfile *.cpp so ~/.vim/templates/cpp.template
 autocmd bufnewfile *.sh so ~/.vim/templates/sh.template
