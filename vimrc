@@ -659,7 +659,7 @@ endif
 if &diff
     colorscheme industry
 else
-    set background=dark
+    set background=light
     set t_Co=256
     colorscheme solarized
 endif
