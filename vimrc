@@ -413,6 +413,7 @@ endfunc
 " http://stackoverflow.com/questions/2005214/switching-to-a-particular-tab-in-vim
 
 " normal模式下切换到确切的tab
+noremap <leader>n :tabnew<CR>
 noremap <leader>1 1gt
 noremap <leader>2 2gt
 noremap <leader>3 3gt
