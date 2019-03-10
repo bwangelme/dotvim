@@ -25,21 +25,16 @@ call plug#begin('~/.vim/bundle')
         " 自动补全单引号，双引号等
         Plug 'Raimondi/delimitMate'
 
-        " 自动补全插件
-        " Plug 'Shougo/deoplete.nvim'
-        " Plug 'roxma/nvim-yarp'
-        " Plug 'roxma/vim-hug-neovim-rpc'
-
         " Python 自动补全插件
         " Plug 'davidhalter/jedi-vim'
 
         " 自动补全插件
-        " function! BuildYCM(info)
-        "   if a:info.status == 'installed' || a:info.force
-        "     !./install.py --clang-completer --gocode-completer
-        "   endif
-        " endfunction
-        " Plug 'Valloric/YouCompleteMe', { 'for': ['c', 'cpp', 'python', 'go'], 'do': function('BuildYCM') }
+        function! BuildYCM(info)
+          if a:info.status == 'installed' || a:info.force
+            !./install.py --gocode-completer
+          endif
+        endfunction
+        Plug 'Valloric/YouCompleteMe', { 'for': ['c', 'cpp', 'python', 'go'], 'do': function('BuildYCM') }
     " ]]]
 
     " 编辑插件[[[2
@@ -51,10 +46,6 @@ call plug#begin('~/.vim/bundle')
         Plug 'ntpeters/vim-better-whitespace'
         " 多光标选中编辑
         Plug 'terryma/vim-multiple-cursors'
-        " 格式化Python
-        Plug 'google/yapf', { 'rtp': 'plugins/vim', 'for': 'python' }
-        " 查看 Vim 的 undo 历史
-        Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
     " ]]]
 
     " 快速定位插件 [[[2
@@ -122,8 +113,6 @@ call plug#begin('~/.vim/bundle')
         endif
         " ]]]
     " ]]]
-    if count(g:bundle_groups, 'beta')
-    endif
 call plug#end()
 " ]]]
 
@@ -134,7 +123,7 @@ call plug#end()
             " 定义存放代码片段的文件夹 .vim/UltiSnips下，使用自定义和默认的，将会的到全局，有冲突的会提示
             let g:UltiSnipsSnippetsDir = '~/.vim/UltiSnips'
             " 进入对应filetype的snippets进行编辑
-            map <leader>n :UltiSnipsEdit<CR>
+            " map <leader>n :UltiSnipsEdit<CR>
 
             " ctrl+j/k 进行选择
             func! g:JInYCM()
@@ -156,67 +145,41 @@ call plug#end()
             au BufEnter,BufRead * exec "inoremap <silent> " . g:UltiSnipsJumpBackwordTrigger . " <C-R>=g:KInYCM()<cr>"
             let g:UltiSnipsJumpBackwordTrigger = "<c-k>"
         " ]]]
-        " deoplete [[[3
-            " let g:deoplete#enable_at_startup = 0
-
-            " call deoplete#custom#option({
-            " \ 'smart_case': v:true,
-            " \ 'camel_case': v:true,
-            " \ })
-
-            " call deoplete#custom#option('ignore_sources', {
-            " \ '_': ['buffer', 'tag'],
-            " \ })
-
-            " <C-h>, <BS>: close popup and delete backword char.
-            " inoremap <expr><C-h> deoplete#smart_close_popup()."\<C-h>"
-            " inoremap <expr><BS>  deoplete#smart_close_popup()."\<C-h>"
-        " ]]]
         " jedi-vim [[[3
             " let g:jedi#goto_assignments_command = "-"
         " ]]]
         " YouCompleteme[[[3
-            " let g:ycm_key_list_select_completion=['<c-n>']
-            " let g:ycm_key_list_previous_completion=['<c-p>']
-            " let g:ycm_complete_in_comments = 1  "在注释输入中也能补全
-            " let g:ycm_complete_in_strings = 1   "在字符串输入中也能补全
-            " let g:ycm_use_ultisnips_completer = 1 "提示UltiSnips
-            " let g:ycm_collect_identifiers_from_comments_and_strings = 1   "注释和字符串中的文字也会被收入补全
-            " let g:ycm_collect_identifiers_from_tags_files = 1
-            " " 开启语法关键字补全
-            " let g:ycm_seed_identifiers_with_syntax=1
-            " " 设置Python解释器的路径
-            " if has('mac')
-            "     let g:ycm_server_python_interpreter = '/usr/local/bin/python'
-            " else
-            "     let g:ycm_server_python_interpreter = '/usr/bin/python'
-            " endif
-            " " 设置补全时用到的Python解释器的路径
-            " let g:ycm_python_binary_path = 'python'
-            "  if !empty(glob("~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py"))
-            "     let g:ycm_global_ycm_extra_conf = "~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py"
-            " endif
-            "  let g:ycm_show_diagnostics_ui = 1
-            "  " 跳转到定义处, 水平分屏打开
-            " let g:ycm_goto_buffer_command = 'horizontal-split'
-            " nnoremap <leader>d :YcmCompleter GoToDefinition<CR>
-            "  " 黑名单,不启用
-            " let g:ycm_filetype_blacklist = {
-            "     \ 'tagbar' : 1,
-            "     \ 'gitcommit' : 1,
-            "     \ 'nerdtree': 1,
-            "     \ 'zsh': 1,
-            "     \}
-        " ]]]
-        " LanguageClient-neovim [[[3
-            " let g:LanguageClient_serverCommands = {
-            "     \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
-            "     \ 'javascript': ['javascript-typescript-stdio'],
-            "     \ 'javascript.jsx': ['tcp://127.0.0.1:2089'],
-            "     \ 'python': ['pyls'],
-            "     \ }
-
-            " nnoremap <F5> :call LanguageClient_contextMenu()<CR>
+            let g:ycm_key_list_select_completion=['<c-n>']
+            let g:ycm_key_list_previous_completion=['<c-p>']
+            let g:ycm_complete_in_comments = 1  "在注释输入中也能补全
+            let g:ycm_complete_in_strings = 1   "在字符串输入中也能补全
+            let g:ycm_use_ultisnips_completer = 1 "提示UltiSnips
+            let g:ycm_collect_identifiers_from_comments_and_strings = 1   "注释和字符串中的文字也会被收入补全
+            let g:ycm_collect_identifiers_from_tags_files = 1
+            " 开启语法关键字补全
+            let g:ycm_seed_identifiers_with_syntax=1
+            " 设置Python解释器的路径
+            if has('mac')
+                let g:ycm_server_python_interpreter = '/usr/local/bin/python'
+            else
+                let g:ycm_server_python_interpreter = '/usr/bin/python'
+            endif
+            " 设置补全时用到的Python解释器的路径
+            let g:ycm_python_binary_path = 'python'
+             if !empty(glob("~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py"))
+                let g:ycm_global_ycm_extra_conf = "~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py"
+            endif
+             let g:ycm_show_diagnostics_ui = 1
+             " 跳转到定义处, 水平分屏打开
+            let g:ycm_goto_buffer_command = 'horizontal-split'
+            nnoremap <leader>d :YcmCompleter GoToDefinition<CR>
+             " 黑名单,不启用
+            let g:ycm_filetype_blacklist = {
+                \ 'tagbar' : 1,
+                \ 'gitcommit' : 1,
+                \ 'nerdtree': 1,
+                \ 'zsh': 1,
+                \}
         " ]]]
         " delimitMate [[[3
             " for python docstring ",优化输入
@@ -244,16 +207,6 @@ call plug#end()
             let g:multi_cursor_prev_key='<C-p>'
             let g:multi_cursor_skip_key='<C-x>'
             let g:multi_cursor_quit_key='<Esc>'
-        " ]]]
-        " yapf [[[3
-            autocmd FileType python nnoremap <leader>= :0,$!yapf --style ~/.vim/config/style.yapf<Cr>
-            autocmd FileType python vnoremap <leader>= :!yapf --style ~/.vim/config/style.yapf<Cr>
-        " ]]]
-        " undotree [[[3
-            if has("persistent_undo")
-                set undodir=~/.undodir/
-                set undofile
-            endif
         " ]]]
     " ]]]
     " 快速定位插件[[[2
