@@ -590,7 +590,7 @@ nmap <silent> <leader>e :e $MYVIMRC<cr>
 " nmap <silent> <leader>s :so $MYVIMRC<CR>
 nmap <silent> <leader>u :e ~/.vim/vimrc.bundles<CR>
 
-if has("gui_macvim")
+if has("gui_running")
     " 前后切换tab
     " noremap <S-L> :tabnext<CR>
     " noremap <S-H> :tabprev<CR>
