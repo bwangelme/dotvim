@@ -11,7 +11,6 @@ if !exists('g:bundle_groups')  " inspired by spf13, 自定义需要的插件集�
     " \'latex',
     let g:bundle_groups=[
         \'python',
-        \'beta',
         \'markdown',
         \'nginx',
         \'go',
@@ -24,17 +23,6 @@ call plug#begin('~/.vim/bundle')
         Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
         " 自动补全单引号，双引号等
         Plug 'Raimondi/delimitMate'
-
-        " Python 自动补全插件
-        " Plug 'davidhalter/jedi-vim'
-
-        " 自动补全插件
-        function! BuildYCM(info)
-          if a:info.status == 'installed' || a:info.force
-            !./install.py --gocode-completer
-          endif
-        endfunction
-        Plug 'Valloric/YouCompleteMe', { 'for': ['c', 'cpp', 'python', 'go'], 'do': function('BuildYCM') }
     " ]]]
 
     " 编辑插件[[[2
@@ -59,8 +47,6 @@ call plug#begin('~/.vim/bundle')
 
     " 功能插件[[[2
         Plug 'tpope/vim-fugitive'
-        Plug 'w0rp/ale'
-        Plug 'tpope/vim-rhubarb'
     " ]]]
 
     " 显示插件[[[2
@@ -71,9 +57,6 @@ call plug#begin('~/.vim/bundle')
 
         " 显示Mark
         Plug 'kshenoy/vim-signature'
-
-        " 状态行增强
-        " Plug 'vim-airline/vim-airline'
     " ]]]
 
     " 导航插件[[[2
@@ -144,42 +127,6 @@ call plug#end()
             inoremap <c-j> <c-r>=g:JInYCM()<cr>
             au BufEnter,BufRead * exec "inoremap <silent> " . g:UltiSnipsJumpBackwordTrigger . " <C-R>=g:KInYCM()<cr>"
             let g:UltiSnipsJumpBackwordTrigger = "<c-k>"
-        " ]]]
-        " jedi-vim [[[3
-            " let g:jedi#goto_assignments_command = "-"
-        " ]]]
-        " YouCompleteme[[[3
-            let g:ycm_key_list_select_completion=['<c-n>']
-            let g:ycm_key_list_previous_completion=['<c-p>']
-            let g:ycm_complete_in_comments = 1  "在注释输入中也能补全
-            let g:ycm_complete_in_strings = 1   "在字符串输入中也能补全
-            let g:ycm_use_ultisnips_completer = 1 "提示UltiSnips
-            let g:ycm_collect_identifiers_from_comments_and_strings = 1   "注释和字符串中的文字也会被收入补全
-            let g:ycm_collect_identifiers_from_tags_files = 1
-            " 开启语法关键字补全
-            let g:ycm_seed_identifiers_with_syntax=1
-            " 设置Python解释器的路径
-            if has('mac')
-                let g:ycm_server_python_interpreter = '/usr/local/bin/python'
-            else
-                let g:ycm_server_python_interpreter = '/usr/bin/python'
-            endif
-            " 设置补全时用到的Python解释器的路径
-            let g:ycm_python_binary_path = 'python'
-             if !empty(glob("~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py"))
-                let g:ycm_global_ycm_extra_conf = "~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py"
-            endif
-             let g:ycm_show_diagnostics_ui = 1
-             " 跳转到定义处, 水平分屏打开
-            let g:ycm_goto_buffer_command = 'horizontal-split'
-            nnoremap <leader>d :YcmCompleter GoToDefinition<CR>
-             " 黑名单,不启用
-            let g:ycm_filetype_blacklist = {
-                \ 'tagbar' : 1,
-                \ 'gitcommit' : 1,
-                \ 'nerdtree': 1,
-                \ 'zsh': 1,
-                \}
         " ]]]
         " delimitMate [[[3
             " for python docstring ",优化输入
@@ -271,61 +218,6 @@ call plug#end()
         " ]]]
     " ]]]
     " 功能插件[[[2
-        " vim-fugitive [[[3
-            " :Gdiff  :Gstatus :Gvsplit
-            " nnoremap <leader>ge :Gdiff<CR>
-            " nmap     <Leader>g :Gstatus<CR>gg<c-n>
-        " ]]]
-        " ale [[[3
-            " pip install flake8 isort
-            " let g:ale_enabled = 0
-
-            let g:ale_linters = {
-            \   'python': ['flake8'],
-            \}
-
-            let g:ale_fixers = {
-            \   'python': ['isort'],
-            \}
-
-            " http://pep8.readthedocs.io/en/latest/intro.html#error-codes
-            " http://flake8.pycqa.org/en/latest/user/error-codes.html
-            let g:ale_python_flake8_options="--ignore=E114,E116,E131 --max-line-length=120"
-            let g:ale_lint_delay = 1000
-
-            let g:ale_sign_column_always = 1
-
-            nmap <silent> <C-p> <Plug>(ale_previous_wrap)
-            nmap <silent> <C-n> <Plug>(ale_next_wrap)
-            " nmap <silent> <Leader>y <Plug>(ale_fix)
-
-            let g:ale_sign_error = '>>'
-            let g:ale_sign_warning = '__'
-            let g:ale_deprecation_ale_statusline_status = 1
-            let g:ale_deprecation_ale_get_status_line = 1
-
-            let g:ale_statusline_format = ['⨉ %d', '⚠ %d', '⬥ ok']
-            let g:ale_echo_msg_error_str = 'E'
-            let g:ale_echo_msg_warning_str = 'W'
-            let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
-
-            nnoremap <silent> <Leader>ec :ALEToggle<CR>
-
-            " troggle quickfix list
-            function! ToggleErrors()
-                let old_last_winnr = winnr('$')
-                lclose
-                if old_last_winnr == winnr('$')
-                    " Nothing was closed, open syntastic_error location panel
-                    lopen
-                endif
-            endfunction
-            " nnoremap <Leader>s :call ToggleErrors()<cr>
-
-            let g:ale_set_highlights = 1
-            highlight clear ALEErrorSign
-            highlight clear ALEWarningSign
-        " ]]]
     " ]]]
 
     " 显示插件[[[2
@@ -361,28 +253,6 @@ call plug#end()
             let g:solarized_termtrans=1
             let g:solarized_contrast="normal"
             let g:solarized_visibility="normal"
-        " ]]]
-        " vim-airline [[[3
-            " let g:airline#extensions#default#section_truncate_width = {
-            "     \ 'a': 90,
-            "     \ 'b': 90,
-            "     \ 'x': 60,
-            "     \ 'y': 90,
-            "     \ 'z': 45,
-            "     \ 'warning': 90,
-            "     \ 'error': 90,
-            "     \ }
-            " if !exists('g:airline_symbols')
-            "     let g:airline_symbols = {}
-            " endif
-            " let g:airline_left_sep = '▶'
-            " let g:airline_left_alt_sep = '❯'
-            " let g:airline_right_sep = '◀'
-            " let g:airline_right_alt_sep = '❮'
-            " let g:airline_symbols.linenr = '¶'
-            " let g:airline_symbols.branch = '⎇'
-            " let g:airline_section_z = '[%n] %P %L :%c'
-            " let g:airline_section_y = '%{airline#util#wrap(airline#parts#ffenc(),0)} %B'
         " ]]]
     " ]]]
 

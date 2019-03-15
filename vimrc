@@ -186,9 +186,6 @@ set scrolloff=7
     set statusline+=\ \<%n\>
     " %B: 光标下字符的十六进制编码值
     set statusline+=\ %B
-    " %{ALEGetStatusLine()}: ALE代码检查状态
-    set statusline+=\ %{ale#engine#IsCheckingBuffer(bufnr('%'))?'[♫]':'[●]'}
-    " set statusline+=\ %{ALEGetStatusLine()}
 
     " %=: 左右对齐项目的分割点
     set statusline+=\ %=
